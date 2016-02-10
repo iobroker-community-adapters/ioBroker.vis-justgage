@@ -1,0 +1,34 @@
+{
+    "common": {
+        "name":                     "vis-justgage",
+        "version": "0.1.1",
+        "title":                    "ioBroker Visualisation - justGage Widgets",
+        "desc": {
+            "en":                   "justGage Widgets for ioBroker.vis",
+            "de":                   "justGage Widgets für ioBroker.vis",
+            "ru":                   "justGage Widgets для ioBroker.vis"
+        },
+        "platform":                 "Javascript/Node.js",
+        "icon":                     "justgage.png",
+        "enabled":                  true,
+        "mode":                     "once",
+        "extIcon":                  "https://raw.githubusercontent.com/Pmant/ioBroker.vis-justgage/master/admin/justgage.png",
+        "keywords":                 ["justgage", "vis", "GUI", "graphical", "scada"],
+        "readme":                   "https://github.com/Pmant/ioBroker.vis-justgage/blob/master/README.md",
+        "authors": [
+            "Pmant <patrickmo@gmx.de>"
+        ],
+        "localLink":                "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "license":                  "MIT",
+        "dependencies":             ["vis"],
+        "onlyWWW":                  true,
+        "singleton":                true,
+        "type":                     "vis",
+		"restartAdapters":          ["vis"]
+    },
+    "native": {
+        "dependencies":          []
+    },
+    "instanceObjects": [
+    ]
+}
