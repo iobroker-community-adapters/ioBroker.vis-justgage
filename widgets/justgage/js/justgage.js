@@ -299,7 +299,7 @@ vis.binds.justgage = {
         }
 
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
-        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var max = Math.max(min+1,parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100);
         var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
         var g = new JustGage({
             id: widgetID,
@@ -396,7 +396,8 @@ vis.binds.justgage = {
         // subscribe on updates of min
         if (isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
-                g.config.min = newVal;
+                g.config.min = Math.min(g.config.max-1,newVal);
+                g.config.mid = Math.min(g.config.max,Math.max(g.config.min,g.config.mid));
                 g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
                 g.refresh(g.config.value);
             });
@@ -404,7 +405,8 @@ vis.binds.justgage = {
         // subscribe on updates of max
         if (isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
-                g.config.max = newVal;
+                g.config.max = Math.max(g.config.min+1,newVal);
+                g.config.mid = Math.min(g.config.max,Math.max(g.config.min,g.config.mid));
                 g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
                 g.refresh(g.config.value);
             });
