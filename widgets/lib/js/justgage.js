@@ -842,7 +842,7 @@ JustGage = function(config) {
       } else {
         obj.txtValue.attr("text", (currentValue * 1).toFixed(obj.config.decimals) + obj.config.symbol);
       }
-      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
+      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY+obj.params.valueOffsetY);
       currentValue = null;
     });
     //on animation end
@@ -850,7 +850,7 @@ JustGage = function(config) {
       obj.txtValue.attr({
         "text": obj.originalValue
       });
-      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
+      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY+obj.params.valueOffsetY);
     });
   } else {
     //on animation start
@@ -858,7 +858,7 @@ JustGage = function(config) {
       obj.txtValue.attr({
         "text": obj.originalValue
       });
-      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
+      setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY+obj.params.valueOffsetY);
     });
   }
 
@@ -925,36 +925,45 @@ JustGage = function(config) {
 };
 
 /** Refresh gauge level */
-JustGage.prototype.refresh = function(val, max) {
-
+JustGage.prototype.refresh = function(val) {
   var obj = this;
-  var displayVal, color, max = max || null;
+  var displayVal, color, min, max, rvl, mid;
 
-  // set new max
-  if (max !== null) {
-    obj.config.max = max;
-    // TODO: update customSectors
-
-    obj.txtMaximum = obj.config.max;
-    if (obj.config.maxTxt) {
-      obj.txtMaximum = obj.config.maxTxt;
-    } else if (obj.config.humanFriendly) {
-      obj.txtMaximum = humanFriendlyNumber(obj.config.max, obj.config.humanFriendlyDecimal);
-    } else if (obj.config.formatNumber) {
-      obj.txtMaximum = formatNumber(obj.config.max);
-    }
-    if (!obj.config.reverse) {
-      obj.txtMax.attr({
-        "text": obj.txtMaximum
-      });
-      setDy(obj.txtMax, obj.params.maxFontSize, obj.params.maxY);
-    } else {
-      obj.txtMin.attr({
-        "text": obj.txtMaximum
-      });
-      setDy(obj.txtMin, obj.params.minFontSize, obj.params.minY);
-    }
+  // min
+  min = obj.config.min;
+  if (obj.config.reverse) {
+    min = obj.config.max;
   }
+  obj.txtMinimum = min;
+  if (obj.config.minTxt) {
+    obj.txtMinimum = obj.config.minTxt;
+  } else if (obj.config.humanFriendly) {
+    obj.txtMinimum = humanFriendlyNumber(min, obj.config.humanFriendlyDecimal);
+  } else if (obj.config.formatNumber) {
+    obj.txtMinimum = formatNumber(min);
+  }
+  obj.txtMin.attr({
+    "text": obj.txtMinimum
+  });
+  setDy(obj.txtMin, obj.params.minFontSize, obj.params.minY+obj.config.labelOffsetY);
+
+  // max
+  max = obj.config.max;
+  if (obj.config.reverse) {
+    max = obj.config.min;
+  }
+  obj.txtMaximum = max;
+  if (obj.config.maxTxt) {
+    obj.txtMaximum = obj.config.maxTxt;
+  } else if (obj.config.humanFriendly) {
+    obj.txtMaximum = humanFriendlyNumber(max, obj.config.humanFriendlyDecimal);
+  } else if (obj.config.formatNumber) {
+    obj.txtMaximum = formatNumber(max);
+  }
+  obj.txtMax.attr({
+    "text": obj.txtMaximum
+  });
+  setDy(obj.txtMax, obj.params.maxFontSize, obj.params.maxY+obj.config.labelOffsetY);
 
   // overflow values
   displayVal = val;
@@ -965,8 +974,10 @@ JustGage.prototype.refresh = function(val, max) {
     val = (obj.config.min * 1);
   }
 
+  //color
   color = getColor(val, (val - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors);
 
+  //value
   if (obj.config.valueTxt) {
     displayVal = obj.config.valueTxt;
   } else if (obj.config.textRenderer) {
@@ -985,11 +996,17 @@ JustGage.prototype.refresh = function(val, max) {
     obj.txtValue.attr({
       "text": displayVal
     });
-    setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
+    setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY+obj.config.valueOffsetY);
   }
 
-  var rvl = obj.config.value;
-  var mid = obj.config.mid;
+  obj.txtLabel.attr({
+    "text": obj.config.label
+  });
+  setDy(obj.txtLabel, obj.params.labelFontSize, obj.params.labelY+obj.config.labelOffsetY);
+
+
+  rvl = obj.config.value;
+  mid = obj.config.mid;
   if (obj.config.reverse) {
     rvl = (obj.config.max * 1) + (obj.config.min * 1) - (obj.config.value * 1);
     mid = (obj.config.max * 1) + (obj.config.min * 1) - (obj.config.mid * 1);
@@ -1010,6 +1027,7 @@ JustGage.prototype.refresh = function(val, max) {
     "fill": color
   }, obj.config.refreshAnimationTime, obj.config.refreshAnimationType);
 
+  //pointer
   if (obj.config.pointer) {
     obj.needle.animate({
       ndl: [
@@ -1026,6 +1044,7 @@ JustGage.prototype.refresh = function(val, max) {
     }, obj.config.refreshAnimationTime, obj.config.refreshAnimationType);
   }
 
+  //pointer mid
   if (obj.config.pointerMid) {
     obj.needleMid.animate({
       ndl: [
@@ -1043,7 +1062,7 @@ JustGage.prototype.refresh = function(val, max) {
   }
 
   // var clear
-  obj, displayVal, color, max = null;
+  obj, displayVal, color, min, max, rvl, mid = null;
 };
 
 /** Generate shadow */

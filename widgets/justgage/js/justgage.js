@@ -42,7 +42,9 @@ if (vis.editMode) {
         /**
          * tplJustgageJustGage
          */
-        "mid_oid":              {"en": "mid",                       "de": "mid",                        "ru": "mid"},
+        "min_oid":          {"en": "min",                       "de": "min",                        "ru": "min"},
+        "mid_oid":          {"en": "mid",                       "de": "mid",                        "ru": "mid"},
+        "max_oid":          {"en": "max",                       "de": "max",                        "ru": "max"},
         "group_value":      {"en": "value",                     "de": "Wert",                       "ru": "value"},
         "hideValue":        {"en": "hide value",                "de": "verstecke Wert",             "ru": "hide value"},
         "unit":             {"en": "unit",                      "de": "Einheit",                    "ru": "unit"},
@@ -55,7 +57,7 @@ if (vis.editMode) {
         "titleBelow":       {"en": "title below",               "de": "Titel unten",                "ru": "title below"},
         "titleOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Offset Y"},
         "group_label":      {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
-        "label":            {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
+        "label_oid":            {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
         "labelFontColor":   {"en": "color",                     "de": "Farbe",                      "ru": "color"},
         "labelFontFamily":  {"en": "font-family",               "de": "Schriftfamilie",             "ru": "font-family"},
         "labelOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Offset Y"},
@@ -103,6 +105,21 @@ vis.binds.justgage = {
             }, 100);
         }
 
+        function textRenderer(value){
+            var val = parseFloat(value);
+            if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
+            if (data.attr('is_comma')) {
+                val = '' + val;
+                val = val.replace('.', ',');
+            }
+            val += data.unit || "";
+            return val;
+        };
+
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
         var colors = [
             {
                 pct: 0,
@@ -110,7 +127,7 @@ vis.binds.justgage = {
                 pow: data.pow1 || 1
             },
             {
-                pct: ((parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid)-data.min) / (data.max - data.min)) || 0.5,
+                pct: (mid-min) / (max - min),
                 color: data.color2 || "#00aa00",
                 pow: data.pow2 || 1,
             },
@@ -120,32 +137,55 @@ vis.binds.justgage = {
                 pow: data.pow3 || 1,
             },
         ];
-        var color = getColorGrad(pctInterval(parseFloat(data.min),parseFloat(data.max),parseFloat(vis.states[data.oid + '.val'])), colors);
+
+        var color = getColorGrad(pctInterval(min,max,val), colors);
         var text = '<div class="justgage-valueColored" data-oid="'+data.oid+'" style="color:'+color+'">';
         text += data.html_prepend || "";
-        text += '<span>' + formatFloat(data) + '</span>';
-        text += parseFloat(formatFloat(data)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
+        text += '<span>' + textRenderer(val) + '</span>';
+        text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
         text += '</div>';
 
-        $('#' + widgetID).html(text);
+        $div.html(text);
+
 
         // subscribe on updates of value
         if (vis.states[data.oid + '.val']) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
+                val = parseFloat(newVal);
                 var text = data.html_prepend || "";
-                text += '<span>' + formatFloat(data) + '</span>';
-                text += parseFloat(formatFloat(data)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
-                $div.find('#'+widgetID+' .justgage-valueColored').html(text);
-                var color = getColorGrad(pctInterval(parseFloat(data.min),parseFloat(data.max),parseFloat(newVal)), colors);
-                $('#'+widgetID+' .justgage-valueColored').animate({color: color},500);
+                text += '<span>' + textRenderer(val) + '</span>';
+                text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-valueColored').html(text).animate({color: color},700);
             });
         }
         // subscribe on updates of mid
         if (isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                colors[1].pct = ((parseFloat(newVal)-data.min) / (data.max - data.min)) || 0.5;
-                var color = getColorGrad(pctInterval(parseFloat(data.min),parseFloat(data.max),parseFloat(vis.states[data.oid + '.val'])), colors);
-                $('#'+widgetID+' .justgage-valueColored').animate({color: color},500);
+                mid = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
+            });
+        }
+
+        // subscribe on updates of min
+        if (isNaN(parseFloat(data.min_oid))) {
+            vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
+                min = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
+            });
+        }
+
+        // subscribe on updates of max
+        if (isNaN(parseFloat(data.max_oid))) {
+            vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
+                max = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
             });
         }
     },
@@ -174,13 +214,25 @@ vis.binds.justgage = {
             };
         }
 
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
         var g = new JustGage({
             id: widgetID,
             value: parseFloat(vis.states[data.oid + '.val'] || 0),
-            textRenderer: function(){return formatFloat(data)+(data.unit||"");},
-            min: parseFloat(data.min || 0),
-            max: parseFloat(data.max || 100),
-            mid: Math.min(parseFloat(data.max || 100),Math.max(parseFloat(data.min || 0),parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50)),
+            textRenderer: function(value){
+                var val = parseFloat(value);
+                if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
+                if (data.attr('is_comma')) {
+                    val = '' + val;
+                    val = val.replace('.', ',');
+                }
+                val += data.unit || "";
+                return val;
+            },
+            min: min,
+            max: max,
+            mid: mid,
 
             hideValue: data.hideValue || false,
             valueFontColor: data.valueFontColor || "#010101",
@@ -194,7 +246,7 @@ vis.binds.justgage = {
             titlePosition: data.titleBelow ? "below" : "above",
             titleOffsetY: data.titleOffsetY || 0,
 
-            label: data.label || "",
+            label: vis.states[data.label_oid + '.val'] || data.label_oid || "",
             labelFontColor: data.labelFontColor || '#b3b3b3',
             labelFontFamily: data.labelFontFamily || "Arial",
             labelOffsetY: data.labelOffsetY || 0,
@@ -206,6 +258,8 @@ vis.binds.justgage = {
             pointerOptions: pointerOptions,
 
             startAnimationTime: 0,
+            refreshAnimationTime: 700,
+            counter: false,
 
             gaugeColor: data.gaugeColor || "#ebebeb",
             levelColors: [
@@ -215,7 +269,7 @@ vis.binds.justgage = {
                     pow: data.pow1 || 1
                 },
                 {
-                    pct: ((parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid)-data.min) / (data.max - data.min)) || 0.5,
+                    pct: (mid-min) / (max-min),
                     color: data.color2 || "#00aa00",
                     pow: data.pow2 || 1,
                 },
@@ -243,8 +297,31 @@ vis.binds.justgage = {
         // subscribe on updates of mid
         if (isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                g.config.levelColors[1].pct = (newVal-g.config.min) / (g.config.max-g.config.min);
                 g.config.mid = Math.min(g.config.max,Math.max(g.config.min,newVal));
+                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
+                g.refresh(g.config.value);
+            });
+        }
+        // subscribe on updates of label
+        if (isNaN(parseFloat(data.label_oid))) {
+            vis.states.bind(data.label_oid + '.val', function (e, newVal, oldVal) {
+                g.config.label = newVal;
+                g.refresh(g.config.value);
+            });
+        }
+        // subscribe on updates of min
+        if (isNaN(parseFloat(data.min_oid))) {
+            vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
+                g.config.min = newVal;
+                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
+                g.refresh(g.config.value);
+            });
+        }
+        // subscribe on updates of max
+        if (isNaN(parseFloat(data.max_oid))) {
+            vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
+                g.config.max = newVal;
+                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
                 g.refresh(g.config.value);
             });
         }
@@ -322,32 +399,4 @@ function clamp( x, min, max ) {
 function pctInterval(min,max,val){
     var valClamp = clamp(val,min,max);
     return (valClamp-min) / (max-min);
-}
-
-function formatFloat(data) {
-    var val;
-    if (vis.editMode && data.attr('test_html') !== undefined && data.attr('test_html') !== '') {
-        val = parseFloat(data.attr('test_html'));
-    } else {
-        val = parseFloat(vis.states.attr(data.oid + '.val'));
-    }
-    if (data.factor !== undefined && data.factor != '') val = val * parseFloat(data.factor);
-    if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
-    if (data.attr('is_tdp')) {
-        val = this.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
-    } else if (data.attr('is_comma')) {
-        val = '' + val;
-        val = val.replace('.', ',');
-    }
-    return val;
-}
-
-function formatValue(value, decimals, _format) {
-    if (typeof decimals !== 'number') {
-        decimals = 2;
-        _format = decimals;
-    }
-    var format = (_format === undefined) ? ".," : _format;
-    if (typeof value !== "number") value = parseFloat(value);
-    return isNaN(value) ? "" : value.toFixed(decimals || 0).replace(format[0], format[1]).replace(/\B(?=(\d{3})+(?!\d))/g, format[0]);
 }
