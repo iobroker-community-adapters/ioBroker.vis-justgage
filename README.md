@@ -8,6 +8,8 @@ ioBroker.vis-justgage
 
 ## Changelog
 
+### 0.2.0 (2016-02-11)
+- (Pmant) add indicator widget
 ### 0.1.1 (2016-02-10)
 - (Pmant) initial checkin
 
