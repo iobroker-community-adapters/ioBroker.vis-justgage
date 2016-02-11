@@ -75,7 +75,15 @@ if (vis.editMode) {
         "donut":            {"en": "donut",                     "de": "donut",                      "ru": "donut"},
         "donutStartAngle":  {"en": "donut start angle",         "de": "donut Startwinkel",          "ru": "donut start angle"},
         "gaugeColor":       {"en": "background color",          "de": "Hintergrundfarbe",           "ru": "background color"},
-        "gaugeWidthScale":  {"en": "gauge width %",             "de": "Gauge Breite %",             "ru": "gauge width %"}
+        "gaugeWidthScale":  {"en": "gauge width %",             "de": "Gauge Breite %",             "ru": "gauge width %"},
+
+        /**
+         * tplJustgageIndicatorColored
+         */
+        "equalAfter":       {"en": "equal after",               "de": "gleichbleibend nach",        "ru": "equal after"},
+        "up":               {"en": "up",                        "de": "hoch",                       "ru": "up"},
+        "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "equal"},
+        "down":             {"en": "down",                      "de": "runter",                     "ru": "down"},
 
 
 
