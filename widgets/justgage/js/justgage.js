@@ -243,8 +243,10 @@ vis.binds.justgage = {
                 val = parseFloat(newVal);
                 if (val>oldVal){
                     text = data.up || "↑";
+                    ts = Date.now();
                 }else if (oldVal>newVal){
                     text = data.down || "↓";
+                    ts = Date.now();
                 }else if (Date.now() - ts > eqA){
                     text = data.equal || "→";
                 }
