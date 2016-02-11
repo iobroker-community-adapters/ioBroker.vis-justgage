@@ -189,7 +189,91 @@ vis.binds.justgage = {
             });
         }
     },
+    createIndicatorColored: function (widgetID, view, data, style) {
+        var $div = $('#' + widgetID);
+        // if nothing found => wait
+        if (!$div.length) {
+            return setTimeout(function () {
+                vis.binds.justgage.createIndicatorColored(widgetID, view, data, style);
+            }, 100);
+        }
 
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
+        var colors = [
+            {
+                pct: 0,
+                color: data.color1 || "#0000aa",
+                pow: data.pow1 || 1
+            },
+            {
+                pct: (mid-min) / (max - min),
+                color: data.color2 || "#00aa00",
+                pow: data.pow2 || 1,
+            },
+            {
+                pct: 1.0,
+                color: data.color3 || "#aa0000",
+                pow: data.pow3 || 1,
+            },
+        ];
+
+        var color = getColorGrad(pctInterval(min,max,val), colors);
+        var text = '<div class="justgage-indicatorColored" data-oid="'+data.oid+'" style="color:'+color+'">';
+        text += data.equal || "→";
+        text += '</div>';
+
+        $div.html(text);
+        var ts = Date.now();
+        var eqA = parseFloat(data.equalAfter || 0)*1000;
+
+        // subscribe on updates of value
+        if (vis.states[data.oid + '.val']) {
+            vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
+                val = parseFloat(newVal);
+                if (val>oldVal){
+                    text = data.up || "↑";
+                }else if (oldVal>newVal){
+                    text = data.down || "↓";
+                }else if (Date.now() - ts > eqA){
+                    text = data.equal || "→";
+                }
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-indicatorColored').html(text).animate({color: color},700);
+            });
+        }
+        // subscribe on updates of mid
+        if (isNaN(parseFloat(data.mid_oid))) {
+            vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
+                mid = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+            });
+        }
+
+        // subscribe on updates of min
+        if (isNaN(parseFloat(data.min_oid))) {
+            vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
+                min = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+            });
+        }
+
+        // subscribe on updates of max
+        if (isNaN(parseFloat(data.max_oid))) {
+            vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
+                max = parseFloat(newVal);
+                colors[1].pct = (mid-min) / (max - min);
+                var color = getColorGrad(pctInterval(min,max,val), colors);
+                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+            });
+        }
+    },
     createJustGage: function (widgetID, view, data, style) {
         var $div = $('#' + widgetID);
         // if nothing found => wait

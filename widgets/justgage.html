@@ -143,6 +143,22 @@
     </div>
 </script>
 
+<script id="tplJustgageIndicatorColored"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-prev='<div><span style="color:blue">↓</span> <span style="color:green">→</span> <span style="color:red">↑</span></div>'
+        data-vis-attrs="oid/id;min_oid/id;mid_oid/id;max_oid/id;"
+        data-vis-attrs0="group.value;equalAfter[0]/number;up/html;equal/html;down/html;"
+        data-vis-attrs1="group.color;color1/color;color2/color;color3/color;pow1[1]/number,1,64,1;pow2[1]/number,1,64,1;pow3[1]/number,1,64,1;"
+        data-vis-set="justgage"
+        data-vis-type="val"
+        data-vis-update-style="true"
+        data-vis-name="Indicator">
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible;" id="<%= this.data.attr('wid') %>">
+            <% vis.binds.justgage.createIndicatorColored(this.data.wid, this.view, this.data, this.style); %>
+    </div>
+</script>
+
 
 
 
