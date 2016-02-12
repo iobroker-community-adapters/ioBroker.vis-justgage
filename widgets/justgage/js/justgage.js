@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.0.1"
+    version: "0.2.2"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -98,7 +98,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.2.1",
+    version: "0.2.2",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -128,7 +128,7 @@ vis.binds.justgage = {
         var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
         var colors = [
             {
                 pct: 0,
@@ -136,7 +136,7 @@ vis.binds.justgage = {
                 pow: data.pow1 || 1
             },
             {
-                pct: (mid-min) / (max - min),
+                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
                 pow: data.pow2 || 1,
             },
@@ -147,57 +147,49 @@ vis.binds.justgage = {
             },
         ];
 
-        var color = getColorGrad(pctInterval(min,max,val), colors);
-        var text = '<div class="justgage-valueColored" data-oid="'+data.oid+'" style="color:'+color+'">';
-        text += data.html_prepend || "";
-        text += '<span>' + textRenderer(val) + '</span>';
-        text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
-        text += '</div>';
-
-        $div.html(text);
-
+        var color,text;
+        $div.html('<div class="justgage-valueColored" data-oid="'+data.oid+'"></div>');
+        var $content = $('#'+widgetID+' .justgage-valueColored');
+        function refresh(){
+            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
+            color = getColorGrad(pctInterval(min,Math.max(min+1,max),clamp(val,min,max)), colors);
+            text = data.html_prepend || "";
+            text += '<span>' + textRenderer(val) + '</span>';
+            text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
+            $content.html(text).animate({color: color},700);
+        };
+        refresh();
 
         // subscribe on updates of value
         if (vis.states[data.oid + '.val']) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
-                var text = data.html_prepend || "";
-                text += '<span>' + textRenderer(val) + '</span>';
-                text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-valueColored').html(text).animate({color: color},700);
+                refresh();
             });
         }
         // subscribe on updates of mid
         if (isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
                 mid = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
+                refresh();
             });
         }
-
         // subscribe on updates of min
         if (isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
                 min = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
+                refresh();
             });
         }
-
         // subscribe on updates of max
         if (isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
                 max = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-valueColored').animate({color: color},700);
+                refresh();
             });
         }
     },
+
     createIndicatorColored: function (widgetID, view, data, style) {
         var $div = $('#' + widgetID);
         // if nothing found => wait
@@ -210,7 +202,7 @@ vis.binds.justgage = {
         var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
         var colors = [
             {
                 pct: 0,
@@ -218,7 +210,7 @@ vis.binds.justgage = {
                 pow: data.pow1 || 1
             },
             {
-                pct: (mid-min) / (max - min),
+                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
                 pow: data.pow2 || 1,
             },
@@ -229,62 +221,62 @@ vis.binds.justgage = {
             },
         ];
 
-        var color = getColorGrad(pctInterval(min,max,val), colors);
-        var text = '<div class="justgage-indicatorColored" data-oid="'+data.oid+'" style="color:'+color+'">';
-        text += data.equal || "→";
-        text += '</div>';
-
-        $div.html(text);
-        var ts = Date.now();
-        var eqA = parseFloat(data.equalAfter || 0)*1000;
+        var color,text,ts,eqA;
+        $div.html('<div class="justgage-indicatorColored" data-oid="'+data.oid+'" style="color:'+color+'"></div>');
+        var $content = $('#'+widgetID+' .justgage-indicatorColored');
+        ts = Date.now();
+        eqA = parseFloat(data.equalAfter || 0)*1000;
+        function refresh(refreshVal, direction){
+            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
+            color = getColorGrad(pctInterval(min,Math.max(min+1,max),clamp(val,min,max)), colors);
+            if(refreshVal){
+                if (direction > 0) {
+                    text = data.up || "↑";
+                    ts = Date.now();
+                }else if (direction < 0){
+                    text = data.equal || "→"
+                }else if (Date.now() - ts >= eqA){
+                    text = data.down || "↓";
+                }
+                text += '<span>' + textRenderer(val) + '</span>';
+                text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
+                $content.html(text).animate({color: color},700);
+            }else{
+                $content.animate({color: color},700);
+            }
+        };
+        refresh(true, 0);
 
         // subscribe on updates of value
         if (vis.states[data.oid + '.val']) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
-                if (val>oldVal){
-                    text = data.up || "↑";
-                    ts = Date.now();
-                }else if (oldVal>newVal){
-                    text = data.down || "↓";
-                    ts = Date.now();
-                }else if (Date.now() - ts > eqA){
-                    text = data.equal || "→";
-                }
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-indicatorColored').html(text).animate({color: color},700);
+                refresh(true, newVal-oldVal);
             });
         }
         // subscribe on updates of mid
         if (isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
                 mid = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+                refresh(false);
             });
         }
-
         // subscribe on updates of min
         if (isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
                 min = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+                refresh(false);
             });
         }
-
         // subscribe on updates of max
         if (isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
                 max = parseFloat(newVal);
-                colors[1].pct = (mid-min) / (max - min);
-                var color = getColorGrad(pctInterval(min,max,val), colors);
-                $('#'+widgetID+' .justgage-indicatorColored').animate({color: color},700);
+                refresh(false);
             });
         }
     },
+
     createJustGage: function (widgetID, view, data, style) {
         var $div = $('#' + widgetID);
         // if nothing found => wait
@@ -294,7 +286,41 @@ vis.binds.justgage = {
             }, 100);
         }
 
-        var pointerOptions;
+        function textRenderer(value){
+            var val = parseFloat(value);
+            if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
+            if (data.attr('is_comma')) {
+                val = '' + val;
+                val = val.replace('.', ',');
+            }
+            val += data.unit || "";
+            return val;
+        };
+
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
+        var colors = [
+            {
+                pct: 0,
+                color: data.color1 || "#0000aa",
+                pow: data.pow1 || 1
+            },
+            {
+                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                color: data.color2 || "#00aa00",
+                pow: data.pow2 || 1,
+            },
+            {
+                pct: 1.0,
+                color: data.color3 || "#aa0000",
+                pow: data.pow3 || 1,
+            },
+        ];
+
+        //justGage
+        var pointerOptions, g;
         try{
             pointerOptions =  JSON.parse(data.pointerOptions);
         } catch(e) {
@@ -308,26 +334,13 @@ vis.binds.justgage = {
                 stroke_linecap: 'round'
             };
         }
-
-        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
-        var max = Math.max(min+1,parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100);
-        var mid = Math.min(max,Math.max(min,parseFloat(parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50) || 50));
-        var g = new JustGage({
+        g = new JustGage({
             id: widgetID,
-            value: parseFloat(vis.states[data.oid + '.val'] || 0),
-            textRenderer: function(value){
-                var val = parseFloat(value);
-                if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
-                if (data.attr('is_comma')) {
-                    val = '' + val;
-                    val = val.replace('.', ',');
-                }
-                val += data.unit || "";
-                return val;
-            },
+            textRenderer: textRenderer,
+            value: val,
             min: min,
-            max: max,
-            mid: mid,
+            max: Math.max(min+1,max),
+            mid: clamp(mid,min,Math.max(min+1,max)),
 
             hideValue: data.hideValue || false,
             valueFontColor: data.valueFontColor || "#010101",
@@ -357,23 +370,7 @@ vis.binds.justgage = {
             counter: false,
 
             gaugeColor: data.gaugeColor || "#ebebeb",
-            levelColors: [
-                {
-                    pct: 0,
-                    color: data.color1 || "#0000aa",
-                    pow: data.pow1 || 1
-                },
-                {
-                    pct: (mid-min) / (max-min),
-                    color: data.color2 || "#00aa00",
-                    pow: data.pow2 || 1,
-                },
-                {
-                    pct: 1.0,
-                    color: data.color3 || "#aa0000",
-                    pow: data.pow3 || 1,
-                },
-            ],
+            levelColors: colors,
             gaugeWidthScale: data.gaugeWidthScale ? data.gaugeWidthScale/100 : 1.0,
             donutStartAngle: data.donutStartAngle || 90,
 
@@ -383,43 +380,49 @@ vis.binds.justgage = {
             hideInnerShadow: data.hideInnerShadow || false,
         });
 
+        function refresh(){
+            g.config.value = val;
+            g.config.min = min;
+            g.config.max = Math.max(min+1,max);
+            g.config.mid = clamp(mid,min,Math.max(min+1,max));
+            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
+            g.config.levelColors = colors;
+            g.refresh(val);
+        }
+
         // subscribe on updates of value
         if (vis.states[data.oid + '.val']) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-                g.refresh(newVal);
+                val = parseFloat(newVal);
+                refresh();
             });
         }
         // subscribe on updates of mid
         if (isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                g.config.mid = Math.min(g.config.max,Math.max(g.config.min,newVal));
-                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
-                g.refresh(g.config.value);
+                mid = parseFloat(newVal);
+                refresh();
+            });
+        }
+        // subscribe on updates of min
+        if (isNaN(parseFloat(data.min_oid))) {
+            vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
+                min = parseFloat(newVal);
+                refresh();
+            });
+        }
+        // subscribe on updates of max
+        if (isNaN(parseFloat(data.max_oid))) {
+            vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
+                max = parseFloat(newVal);
+                refresh();
             });
         }
         // subscribe on updates of label
         if (isNaN(parseFloat(data.label_oid))) {
             vis.states.bind(data.label_oid + '.val', function (e, newVal, oldVal) {
                 g.config.label = newVal;
-                g.refresh(g.config.value);
-            });
-        }
-        // subscribe on updates of min
-        if (isNaN(parseFloat(data.min_oid))) {
-            vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
-                g.config.min = Math.min(g.config.max-1,newVal);
-                g.config.mid = Math.min(g.config.max,Math.max(g.config.min,g.config.mid));
-                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
-                g.refresh(g.config.value);
-            });
-        }
-        // subscribe on updates of max
-        if (isNaN(parseFloat(data.max_oid))) {
-            vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
-                g.config.max = Math.max(g.config.min+1,newVal);
-                g.config.mid = Math.min(g.config.max,Math.max(g.config.min,g.config.mid));
-                g.config.levelColors[1].pct = (g.config.mid-g.config.min) / (g.config.max-g.config.min);
-                g.refresh(g.config.value);
+                refresh();
             });
         }
     },
