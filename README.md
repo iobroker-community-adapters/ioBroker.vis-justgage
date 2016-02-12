@@ -7,6 +7,8 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.2.2 (2016-02-12)
+- (Pmant) possible donut fix
 
 ### 0.2.0 (2016-02-11)
 - (Pmant) add indicator widget
