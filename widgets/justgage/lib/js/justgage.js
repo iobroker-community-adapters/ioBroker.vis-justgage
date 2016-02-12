@@ -360,11 +360,15 @@ JustGage = function(config) {
     // delta
     dx = (canvasW - widgetW) / 2;
     dy = (canvasH - widgetH) / 2;
+    if (obj.config.titlePosition === 'below') {
+      // shift whole thing down
+      dy -= (widgetH / 8);
+    }
 
     // title
-    titleFontSize = ((widgetH / 8) > 10) ? (widgetH / 10) : 10;
+    titleFontSize = ((widgetH / 8) > obj.config.titleMinFontSize) ? (widgetH / 10) : obj.config.titleMinFontSize;
     titleX = dx + widgetW / 2;
-    titleY = dy + widgetH / 11;
+    titleY = dy + (obj.config.titlePosition === 'below' ? (widgetH * 1.07) : (widgetH / 11));
 
     // value
     valueFontSize = ((widgetH / 6.4) > 16) ? (widgetH / 5.4) : 18;
@@ -378,7 +382,7 @@ JustGage = function(config) {
     // label
     labelFontSize = ((widgetH / 16) > 10) ? (widgetH / 16) : 10;
     labelX = dx + widgetW / 2;
-    labelY = valueY + labelFontSize;
+    labelY = valueY + valueFontSize / 2 + 5;
 
     // min
     minFontSize = ((widgetH / 16) > 10) ? (widgetH / 16) : 10;
@@ -403,7 +407,7 @@ JustGage = function(config) {
         widgetW = widgetW / aspect;
         widgetH = widgetH / aspect;
       }
-      // width less than height
+    // width less than height
     } else if (canvasW < canvasH) {
       widgetW = canvasW;
       widgetH = widgetW / 1.25;
