@@ -1,7 +1,7 @@
 <!--
     ioBroker.vis justgage Widget-Set
 
-    version: "0.2.0"
+    version: "0.2.1"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 -->
@@ -120,7 +120,7 @@
         data-vis-type="val"
         data-vis-update-style="true"
         data-vis-name="justGage">
-    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible;" id="<%= this.data.attr('wid') %>">
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible; width: 300px; height: 250px" id="<%= this.data.attr('wid') %>">
             <% vis.binds.justgage.createJustGage(this.data.wid, this.view, this.data, this.style); %>
     </div>
 </script>
@@ -138,7 +138,7 @@
         data-vis-type="val"
         data-vis-update-style="true"
         data-vis-name="Colored">
-    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible;" id="<%= this.data.attr('wid') %>">
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible; width: 100px; height: 50px" id="<%= this.data.attr('wid') %>">
             <% vis.binds.justgage.createValueColored(this.data.wid, this.view, this.data, this.style); %>
     </div>
 </script>
@@ -154,7 +154,7 @@
         data-vis-type="val"
         data-vis-update-style="true"
         data-vis-name="Indicator">
-    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible;" id="<%= this.data.attr('wid') %>">
+    <div class="vis-widget <%== this.data.attr('class') %>" style="overflow:visible; width: 50px; height: 50px" id="<%= this.data.attr('wid') %>">
             <% vis.binds.justgage.createIndicatorColored(this.data.wid, this.view, this.data, this.style); %>
     </div>
 </script>

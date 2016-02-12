@@ -57,7 +57,7 @@ if (vis.editMode) {
         "titleBelow":       {"en": "title below",               "de": "Titel unten",                "ru": "title below"},
         "titleOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Offset Y"},
         "group_label":      {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
-        "label_oid":            {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
+        "label_oid":        {"en": "label",                     "de": "Beschriftung",               "ru": "label"},
         "labelFontColor":   {"en": "color",                     "de": "Farbe",                      "ru": "color"},
         "labelFontFamily":  {"en": "font-family",               "de": "Schriftfamilie",             "ru": "font-family"},
         "labelOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Offset Y"},
@@ -81,6 +81,7 @@ if (vis.editMode) {
          * tplJustgageIndicatorColored
          */
         "equalAfter":       {"en": "equal after",               "de": "gleichbleibend nach",        "ru": "equal after"},
+        "group_text":       {"en": "text",                      "de": "Text",                       "ru": "text"},
         "up":               {"en": "up",                        "de": "hoch",                       "ru": "up"},
         "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "equal"},
         "down":             {"en": "down",                      "de": "runter",                     "ru": "down"},
@@ -97,7 +98,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.0.1",
+    version: "0.2.1",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
