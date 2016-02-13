@@ -74,7 +74,7 @@ if (vis.editMode) {
         "hideMinMax":       {"en": "hide min/max",              "de": "verstecke min/max",          "ru": "Скрыть min/max"},
         "donut":            {"en": "donut",                     "de": "donut",                      "ru": "Круг"},
         "donutStartAngle":  {"en": "donut start angle",         "de": "donut Startwinkel",          "ru": "Угол начала круга"},
-        "gaugeColor":       {"en": "background color",          "de": "Hintergrundfarbe",           "ru": Цвет фона"},
+        "gaugeColor":       {"en": "background color",          "de": "Hintergrundfarbe",           "ru": "Цвет фона"},
         "gaugeWidthScale":  {"en": "gauge width %",             "de": "Gauge Breite %",             "ru": "Ширина шкалы %"},
 
         /**
