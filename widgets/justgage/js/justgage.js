@@ -230,7 +230,6 @@ vis.binds.justgage = {
             colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
             color = getColorGrad(pctInterval(min,Math.max(min+1,max),clamp(val,min,max)), colors);
             if(refreshVal){
-                console.log('refresh');
                 if (direction > 0) {
                     text = data.up || "↑";
                     ts = Date.now();
