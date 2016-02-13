@@ -7,6 +7,11 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+
+### 0.2.5 (2016-02-13)
+- (Pmant) fix indicator
+- (bluefox) add russian translations
+
 ### 0.2.2 (2016-02-12)
 - (Pmant) possible donut fix
 
