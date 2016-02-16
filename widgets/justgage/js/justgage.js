@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.2.2"
+    version: "0.3.0"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -17,9 +17,9 @@ if (vis.editMode) {
         "color1":           {"en": "color 1",                   "de": "Farbe 1",                    "ru": "color 1"},
         "color2":           {"en": "color 2",                   "de": "Farbe 2",                    "ru": "color 2"},
         "color3":           {"en": "color 3",                   "de": "Farbe 3",                    "ru": "color 3"},
-        "pow1":             {"en": "weighting color 1",            "de": "Wichtung Farbe 1",        "ru": "weighting color 1"},
-        "pow2":             {"en": "weighting color 2",            "de": "Wichtung Farbe 2",        "ru": "weighting color 2"},
-        "pow3":             {"en": "weighting color 3",            "de": "Wichtung Farbe 3",        "ru": "weighting color 3"},
+        "pow1":             {"en": "weighting color 1",         "de": "Wichtung Farbe 1",        "ru": "weighting color 1"},
+        "pow2":             {"en": "weighting color 2",         "de": "Wichtung Farbe 2",        "ru": "weighting color 2"},
+        "pow3":             {"en": "weighting color 3",         "de": "Wichtung Farbe 3",        "ru": "weighting color 3"},
         "min":              {"en": "min",                       "de": "min",                        "ru": "min"},
         "mid":              {"en": "mid",                       "de": "mid",                        "ru": "mid"},
         "max":              {"en": "max",                       "de": "max",                        "ru": "max"},
@@ -81,10 +81,15 @@ if (vis.editMode) {
          * tplJustgageIndicatorColored
          */
         "equalAfter":       {"en": "equal after",               "de": "gleichbleibend nach",        "ru": "equal after"},
+        "equalAfter_tooltip": {
+            "en": "Time in seconds after that the\x0Avalue meant to be unchanged.",
+            "de": "Zeit in Sekunden, nach welcher\x0Adas Wert wird als unverädert gezählt.",
+            "ru": "Время в секундах, после которого\x0Aсчитается, что значение не изменяется."
+        },
         "group_text":       {"en": "text",                      "de": "Text",                       "ru": "text"},
         "up":               {"en": "up",                        "de": "hoch",                       "ru": "up"},
         "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "equal"},
-        "down":             {"en": "down",                      "de": "runter",                     "ru": "down"},
+        "down":             {"en": "down",                      "de": "runter",                     "ru": "down"}
 
 
 
@@ -98,24 +103,24 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.2.2",
+    version: "0.3.0",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
             vis.binds.justgage.version = null;
         }
     },
-    createValueColored: function (widgetID, view, data, style) {
+    createValueColored: function (widgetID, view, data, style, withIndicator) {
         var $div = $('#' + widgetID);
         // if nothing found => wait
         if (!$div.length) {
             return setTimeout(function () {
-                vis.binds.justgage.createValueColored(widgetID, view, data, style);
+                vis.binds.justgage.createValueColored(widgetID, view, data, style, withIndicator);
             }, 100);
         }
 
-        function textRenderer(value){
-            var val = parseFloat(value);
+        function textRenderer(value) {
+            var val = parseFloat(value) || 0;
             if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_comma')) {
                 val = '' + val;
@@ -123,12 +128,13 @@ vis.binds.justgage = {
             }
             val += data.unit || "";
             return val;
-        };
+        }
 
-        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
+
         var colors = [
             {
                 pct: 0,
@@ -138,54 +144,90 @@ vis.binds.justgage = {
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1,
+                pow: data.pow2 || 1
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1,
-            },
+                pow: data.pow3 || 1
+            }
         ];
 
-        var color,text;
-        $div.html('<div class="justgage-valueColored" data-oid="'+data.oid+'"></div>');
-        var $content = $('#'+widgetID+' .justgage-valueColored');
-        function refresh(){
-            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
-            color = getColorGrad(pctInterval(min,Math.max(min+1,max),clamp(val,min,max)), colors);
+        var color, text, ts, eqA, timeout, oldIndicator = '';
+        $div.html('<div class="justgage-valueColored" data-oid="' + data.oid + '"></div>');
+        var $content = $('#' + widgetID + ' .justgage-valueColored');
+
+        eqA = parseFloat(data.equalAfter || 0) * 1000;
+
+        function refresh(refreshVal, direction) {
+            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors);
             text = data.html_prepend || "";
-            text += '<span>' + textRenderer(val) + '</span>';
+            text += textRenderer(val);
             text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
-            $content.html(text).animate({color: color},700);
-        };
-        refresh();
+            if (withIndicator && refreshVal) {
+                var isStart;
+                if (direction > 0) {
+                    oldIndicator = data.up || "↑";
+                    text += oldIndicator;
+                    ts = Date.now();
+                    isStart = true;
+                } else if (direction < 0){
+                    oldIndicator = data.down || "↓";
+                    text += data.down || "↓";
+                    isStart = true;
+                } else if (Date.now() - ts >= eqA){
+                    oldIndicator = data.equal || "→";
+                    text += data.equal || "→";
+                } else {
+                    text += oldIndicator;
+                }
+                if (isStart && eqA) {
+                    if (timeout) clearTimeout(timeout);
+
+                    timeout = setTimeout(function () {
+                        timeout = null;
+                        refresh(true, 0);
+                    }, eqA);
+                }
+            }
+            text = '<span>' + text + '</span>';
+
+            if (refreshVal) {
+                $content.html(text).animate({color: color}, 700);
+            } else {
+                $content.animate({color: color}, 700);
+            }
+        }
+
+        refresh(true, 0);
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val']) {
+        if (vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
-                refresh();
+                refresh(true, newVal - oldVal);
             });
         }
         // subscribe on updates of mid
-        if (isNaN(parseFloat(data.mid_oid))) {
+        if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
                 mid = parseFloat(newVal);
-                refresh();
+                refresh(false);
             });
         }
         // subscribe on updates of min
-        if (isNaN(parseFloat(data.min_oid))) {
+        if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
                 min = parseFloat(newVal);
-                refresh();
+                refresh(false);
             });
         }
         // subscribe on updates of max
-        if (isNaN(parseFloat(data.max_oid))) {
+        if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
                 max = parseFloat(newVal);
-                refresh();
+                refresh(false);
             });
         }
     },
@@ -199,7 +241,7 @@ vis.binds.justgage = {
             }, 100);
         }
 
-        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
@@ -212,64 +254,80 @@ vis.binds.justgage = {
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1,
+                pow: data.pow2 || 1
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1,
-            },
+                pow: data.pow3 || 1
+            }
         ];
 
-        var color,text,ts,eqA;
-        $div.html('<div class="justgage-indicatorColored" data-oid="'+data.oid+'" style="color:'+color+'"></div>');
-        var $content = $('#'+widgetID+' .justgage-indicatorColored');
+        var color, text, ts, eqA, timeout, oldIndicator = '';
+        $div.html('<div class="justgage-indicatorColored" data-oid="' + data.oid + '" style="color:' + color + '"></div>');
+        var $content = $('#' + widgetID + ' .justgage-indicatorColored');
         ts = Date.now();
-        eqA = parseFloat(data.equalAfter || 0)*1000;
-        function refresh(refreshVal, direction){
-            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
-            color = getColorGrad(pctInterval(min,Math.max(min+1,max),clamp(val,min,max)), colors);
-            if(refreshVal){
+        eqA = parseFloat(data.equalAfter || 0) * 1000;
+
+        function refresh(refreshVal, direction) {
+            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1 ,max) - min);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1,max), clamp(val, min, max)), colors);
+            if (refreshVal) {
+                var isStart;
                 if (direction > 0) {
-                    text = data.up || "↑";
+                    oldIndicator = data.up || "↑";
+                    text = oldIndicator;
                     ts = Date.now();
-                }else if (direction < 0){
-                    text = data.equal || "→"
-                }else if (Date.now() - ts >= eqA){
+                    isStart = true;
+                } else if (direction < 0){
+                    oldIndicator = data.down || "↓";
                     text = data.down || "↓";
+                    isStart = true;
+                } else if (Date.now() - ts >= eqA){
+                    oldIndicator = data.equal || "→";
+                    text = data.equal || "→";
+                } else {
+                    text = oldIndicator;
                 }
-                text += '<span>' + textRenderer(val) + '</span>';
-                text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
-                $content.html(text).animate({color: color},700);
-            }else{
+                $content.html(text).animate({color: color}, 700);
+                if (isStart && eqA) {
+                    if (timeout) clearTimeout(timeout);
+
+                    timeout = setTimeout(function () {
+                        timeout = null;
+                        refresh(true, 0);
+                    }, eqA);
+                }
+            } else {
                 $content.animate({color: color},700);
             }
-        };
+        }
+
         refresh(true, 0);
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val']) {
+        if (vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
-                refresh(true, newVal-oldVal);
+                refresh(true, newVal - oldVal);
             });
         }
         // subscribe on updates of mid
-        if (isNaN(parseFloat(data.mid_oid))) {
+        if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
                 mid = parseFloat(newVal);
                 refresh(false);
             });
         }
         // subscribe on updates of min
-        if (isNaN(parseFloat(data.min_oid))) {
+        if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
                 min = parseFloat(newVal);
                 refresh(false);
             });
         }
         // subscribe on updates of max
-        if (isNaN(parseFloat(data.max_oid))) {
+        if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
                 max = parseFloat(newVal);
                 refresh(false);
@@ -295,9 +353,9 @@ vis.binds.justgage = {
             }
             val += data.unit || "";
             return val;
-        };
+        }
 
-        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
@@ -310,16 +368,16 @@ vis.binds.justgage = {
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1,
+                pow: data.pow2 || 1
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1,
-            },
+                pow: data.pow3 || 1
+            }
         ];
 
-        //justGage
+        // justGage
         var pointerOptions, g;
         try{
             pointerOptions =  JSON.parse(data.pointerOptions);
@@ -334,13 +392,16 @@ vis.binds.justgage = {
                 stroke_linecap: 'round'
             };
         }
+        // delete old object
+        if ($div.find('svg').length) $div.html('');
+
         g = new JustGage({
             id: widgetID,
             textRenderer: textRenderer,
             value: val,
             min: min,
-            max: Math.max(min+1,max),
-            mid: clamp(mid,min,Math.max(min+1,max)),
+            max: Math.max(min + 1, max),
+            mid: clamp(mid, min, Math.max(min + 1, max)),
 
             hideValue: data.hideValue || false,
             valueFontColor: data.valueFontColor || "#010101",
@@ -371,7 +432,7 @@ vis.binds.justgage = {
 
             gaugeColor: data.gaugeColor || "#ebebeb",
             levelColors: colors,
-            gaugeWidthScale: data.gaugeWidthScale ? data.gaugeWidthScale/100 : 1.0,
+            gaugeWidthScale: data.gaugeWidthScale ? data.gaugeWidthScale / 100 : 1.0,
             donutStartAngle: data.donutStartAngle || 90,
 
             shadowOpacity: parseFloat(data.shadowOpacity) || 0.2,
@@ -383,49 +444,73 @@ vis.binds.justgage = {
         function refresh(){
             g.config.value = val;
             g.config.min = min;
-            g.config.max = Math.max(min+1,max);
-            g.config.mid = clamp(mid,min,Math.max(min+1,max));
-            colors[1].pct = (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min);
+            g.config.max = Math.max(min + 1,max);
+            g.config.mid = clamp(mid, min, Math.max(min + 1, max));
+            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
             g.config.levelColors = colors;
             g.refresh(val);
         }
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val']) {
+        if (vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
                 refresh();
             });
         }
         // subscribe on updates of mid
-        if (isNaN(parseFloat(data.mid_oid))) {
+        if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
                 mid = parseFloat(newVal);
                 refresh();
             });
         }
         // subscribe on updates of min
-        if (isNaN(parseFloat(data.min_oid))) {
+        if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
                 min = parseFloat(newVal);
                 refresh();
             });
         }
         // subscribe on updates of max
-        if (isNaN(parseFloat(data.max_oid))) {
+        if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
                 max = parseFloat(newVal);
                 refresh();
             });
         }
         // subscribe on updates of label
-        if (isNaN(parseFloat(data.label_oid))) {
+        if (vis.states[data.label_oid + '.val'] !== undefined) {
             vis.states.bind(data.label_oid + '.val', function (e, newVal, oldVal) {
                 g.config.label = newVal;
                 refresh();
             });
         }
     },
+
+    changedId: function (widgetID, view, newId, fields) {
+        var obj = vis.objects[newId];
+        var changed = [];
+        // If it is real object and state
+        if (obj && obj.common && obj.type == 'state') {
+            if (obj.common.min !== undefined) {
+                changed.push('min_oid');
+                vis.views[view].widgets[widgetID].data.min_oid = obj.common.min;
+                vis.widgets[widgetID].data.min_oid = obj.common.min;
+            }
+            if (obj.common.max !== undefined) {
+                changed.push('max_oid');
+                vis.views[view].widgets[widgetID].data.max_oid = obj.common.max;
+                vis.widgets[widgetID].data.max_oid = obj.common.max;
+            }
+            if (obj.common.unit) {
+                changed.push('unit');
+                vis.views[view].widgets[widgetID].data.unit= obj.common.unit;
+                vis.widgets[widgetID].data.unit= obj.common.unit;
+            }
+        }
+        return changed.length ? changed : null;
+    }
 };
 
 vis.binds.justgage.showVersion();
