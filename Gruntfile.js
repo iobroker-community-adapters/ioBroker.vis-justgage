@@ -8,49 +8,16 @@
 module.exports = function (grunt) {
 
     var srcDir    = __dirname + '/';
+    var dstDir    = srcDir + '.build/';
     var pkg       = grunt.file.readJSON('package.json');
     var iopackage = grunt.file.readJSON('io-package.json');
     var version   = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
-    var newname   = grunt.option('name');
-    var author    = grunt.option('author') || '@@Author@@';
-    var email     = grunt.option('email')  || '@@email@@';
-    var fs        = require('fs');
-
-    // check arguments
-    if (process.argv[2] == 'rename') {
-		console.log('Try to rename to "' + newname + '"');
-        if (!newname) {
-            console.log('Please write the new template name, like: "grunt rename --name=mywidgetset" --author="Author Name"');
-            process.exit();
-        }
-        if (newname.indexOf(' ') != -1) {
-            console.log('Name may not have space in it.');
-            process.exit();
-        }
-        if (newname.toLowerCase() != newname) {
-            console.log('Name must be lower case.');
-            process.exit();
-        }
-        if (fs.existsSync(__dirname + '/admin/template.png')) {
-            fs.renameSync(__dirname + '/admin/template.png',              __dirname + '/admin/' + newname + '.png');
-        }
-        if (fs.existsSync(__dirname + '/widgets/template.html')) {
-            fs.renameSync(__dirname + '/widgets/template.html',           __dirname + '/widgets/' + newname + '.html');
-        }
-        if (fs.existsSync(__dirname + '/widgets/template/js/template.js')) {
-            fs.renameSync(__dirname + '/widgets/template/js/template.js', __dirname + '/widgets/template/js/' + newname + '.js');
-        }
-        if (fs.existsSync(__dirname + '/widgets/template')) {
-            fs.renameSync(__dirname + '/widgets/template',                __dirname + '/widgets/' + newname);
-        }
-    }
 
     // Project configuration.
     grunt.initConfig({
         pkg: pkg,
-
         replace: {
-            version: {
+            core: {
                 options: {
                     patterns: [
                         {
@@ -72,8 +39,8 @@ module.exports = function (grunt) {
                         expand:  true,
                         flatten: true,
                         src:     [
-                                srcDir + 'package.json',
-                                srcDir + 'io-package.json'
+                            srcDir + 'package.json',
+                            srcDir + 'io-package.json'
                         ],
                         dest:    srcDir
                     },
@@ -81,7 +48,7 @@ module.exports = function (grunt) {
                         expand:  true,
                         flatten: true,
                         src:     [
-                                srcDir + 'widgets/' + pkg.name.substring('iobroker.vis-'.length) + '.html'
+                            srcDir + 'widgets/' + pkg.name.substring('iobroker.vis-'.length) + '.html'
                         ],
                         dest:    srcDir + 'widgets'
                     },
@@ -89,77 +56,9 @@ module.exports = function (grunt) {
                         expand:  true,
                         flatten: true,
                         src:     [
-                            srcDir + 'widgets/js/' + pkg.name.substring('iobroker.vis-'.length) + '.js'
+                            srcDir + 'widgets/' + pkg.name.substring('iobroker.vis-'.length) + '/js/' + pkg.name.substring('iobroker.vis-'.length)  + '.js'
                         ],
-                        dest:    srcDir + 'widgets/js'
-                    }
-                ]
-            },
-            name: {
-                options: {
-                    patterns: [
-                        {
-                            match: /template/g,
-                            replacement: newname
-                        },
-                        {
-                            match: /Template/g,
-                            replacement: newname ? (newname[0].toUpperCase() + newname.substring(1)) : 'Template'
-                        },
-                        {
-                            match: /@@Author@@/g,
-                            replacement: author
-                        },
-                        {
-                            match: /@@email@@/g,
-                            replacement: email
-                        }
-                    ]
-                },
-                files: [
-                    {
-                        expand:  true,
-                        flatten: true,
-                        src:     [
-                                 srcDir + 'io-package.json',
-                                 srcDir + 'LICENSE',
-                                 srcDir + 'package.json',
-                                 srcDir + 'README.md',
-                                 srcDir + 'io-package.json'
-                        ],
-                        dest:    srcDir
-                    },
-                    {
-                        expand:  true,
-                        flatten: true,
-                        src:     [
-                                 srcDir + 'widgets/' + newname +'.html'
-                        ],
-                        dest:    srcDir + 'widgets'
-                    },
-                    {
-                        expand:  true,
-                        flatten: true,
-                        src:     [
-                                 srcDir + 'admin/index.html'
-                        ],
-                        dest:    srcDir + 'admin'
-                    },
-                    {
-                        expand:  true,
-                        flatten: true,
-                        src:     [
-                                 srcDir + 'widgets/' + newname + '/js/' + newname +'.js'
-                        ],
-                        dest:    srcDir + 'widgets/' + newname + '/js'
-                    },
-                    {
-                        expand:  true,
-                        flatten: true,
-                        src:     [
-                                 srcDir + 'widgets/' + newname + '/css/*.css'
-                        ],
-                        dest:    srcDir + 'widgets/' + newname + '/css'
+                        dest:    srcDir + 'widgets/' + pkg.name.substring('iobroker.vis-'.length) + '/js'
                     }
                 ]
             }
@@ -168,7 +67,6 @@ module.exports = function (grunt) {
         jscs:   require(__dirname + '/tasks/jscs.js'),
         // Lint
         jshint: require(__dirname + '/tasks/jshint.js'),
-
         http: {
             get_hjscs: {
                 options: {
@@ -181,12 +79,53 @@ module.exports = function (grunt) {
                     url: 'https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/tasks/jshint.js'
                 },
                 dest: 'tasks/jshint.js'
-            },
+            },/*
+             get_gruntfile: {
+             options: {
+             url: 'https://raw.githubusercontent.com/ioBroker/ioBroker.build/master/adapters/Gruntfile.js'
+             },
+             dest: 'Gruntfile.js'
+             },
+             get_utilsfile: {
+             options: {
+             url: 'https://raw.githubusercontent.com/ioBroker/ioBroker.build/master/adapters/utils.js'
+             },
+             dest: 'lib/utils.js'
+             },*/
             get_jscsRules: {
                 options: {
                     url: 'https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/tasks/jscsRules.js'
                 },
                 dest: 'tasks/jscsRules.js'
+            }
+        }
+    });
+
+    grunt.registerTask('updateReadme', function () {
+        var readme = grunt.file.read('README.md');
+        var pos = readme.indexOf('## Changelog');
+        if (pos != -1) {
+            var readmeStart = readme.substring(0, pos + '## Changelog\n'.length);
+            var readmeEnd   = readme.substring(pos + '## Changelog\n'.length);
+
+            if (readme.indexOf(version) == -1) {
+                var timestamp = new Date();
+                var date = timestamp.getFullYear() + '-' +
+                    ("0" + (timestamp.getMonth() + 1).toString(10)).slice(-2) + '-' +
+                    ("0" + (timestamp.getDate()).toString(10)).slice(-2);
+
+                var news = "";
+                if (iopackage.common.whatsNew) {
+                    for (var i = 0; i < iopackage.common.whatsNew.length; i++) {
+                        if (typeof iopackage.common.whatsNew[i] == 'string') {
+                            news += '* ' + iopackage.common.whatsNew[i] + '\n';
+                        } else {
+                            news += '* ' + iopackage.common.whatsNew[i].en + '\n';
+                        }
+                    }
+                }
+
+                grunt.file.write('README.md', readmeStart + '### ' + version + ' (' + date + ')\n' + (news ? news + '\n\n' : '\n') + readmeEnd);
             }
         }
     });
@@ -197,23 +136,22 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-http');
 
     grunt.registerTask('default', [
+        'exec',
         'http',
-        'replace:version',
+        'clean',
+        'replace',
+        'updateReadme',
+        'compress',
+        'copy',
         'jshint',
         'jscs'
     ]);
-
     grunt.registerTask('prepublish', [
         'http',
-        'replace:version'
+        'replace',
+        'updateReadme'
     ]);
-
     grunt.registerTask('p', [
-        'http',
-        'replace:version'
-    ]);
-
-    grunt.registerTask('rename', [
-        'replace:name'
+        'prepublish'
     ]);
 };

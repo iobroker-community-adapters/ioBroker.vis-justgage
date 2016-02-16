@@ -204,7 +204,7 @@ vis.binds.justgage = {
         refresh(true, 0);
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val'] !== undefined) {
+        if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
                 refresh(true, newVal - oldVal);
@@ -253,7 +253,7 @@ vis.binds.justgage = {
                 pow: data.pow1 || 1
             },
             {
-                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
                 color: data.color2 || "#00aa00",
                 pow: data.pow2 || 1
             },
@@ -300,14 +300,14 @@ vis.binds.justgage = {
                     }, eqA);
                 }
             } else {
-                $content.animate({color: color},700);
+                $content.animate({color: color}, 700);
             }
         }
 
         refresh(true, 0);
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val'] !== undefined) {
+        if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
                 refresh(true, newVal - oldVal);
@@ -453,7 +453,7 @@ vis.binds.justgage = {
         }
 
         // subscribe on updates of value
-        if (vis.states[data.oid + '.val'] !== undefined) {
+        if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
                 val = parseFloat(newVal);
                 refresh();
