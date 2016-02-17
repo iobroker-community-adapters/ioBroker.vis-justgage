@@ -7,6 +7,12 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.3.0 (2016-02-16)
+- (bluefox) fix error with two gauges at creation
+- (bluefox) fix small errors
+- (bluefox) add new widget: value & indication
+- (bluefox) fill automatically max, min, unit
+
 
 ### 0.2.5 (2016-02-13)
 - (Pmant) fix indicator
