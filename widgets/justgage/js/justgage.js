@@ -89,10 +89,6 @@ if (vis.editMode) {
         "up":               {"en": "up",                        "de": "hoch",                       "ru": "вверх"},
         "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "равно"},
         "down":             {"en": "down",                      "de": "runter",                     "ru": "вниз"}
-
-
-
-
     });
 }
 
@@ -140,7 +136,7 @@ vis.binds.justgage = {
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(0.5)/Math.log(balance1/100)
+                pow: Math.log(balance1/100)/Math.log(0.5)
             },
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
@@ -252,7 +248,7 @@ vis.binds.justgage = {
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(0.5)/Math.log(balance1/100)
+                pow: Math.log(balance1/100)/Math.log(0.5)
             },
             {
                 pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
@@ -364,12 +360,11 @@ vis.binds.justgage = {
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
         var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
         var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
-        console.log(balance1+";"+balance2);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(0.5)/Math.log(balance1/100)
+                pow: Math.log(balance1/100)/Math.log(0.5)
             },
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
