@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.3.0"
+    version: "0.4.0"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -17,12 +17,11 @@ if (vis.editMode) {
         "color1":           {"en": "color 1",                   "de": "Farbe 1",                    "ru": "Цвет 1"},
         "color2":           {"en": "color 2",                   "de": "Farbe 2",                    "ru": "Цвет 2"},
         "color3":           {"en": "color 3",                   "de": "Farbe 3",                    "ru": "Цвет 3"},
-        "pow1":             {"en": "weighting color 1",            "de": "Wichtung Farbe 1",        "ru": "Вес цвета 1"},
-        "pow2":             {"en": "weighting color 2",            "de": "Wichtung Farbe 2",        "ru": "Вес цвета 2"},
-        "pow3":             {"en": "weighting color 3",            "de": "Wichtung Farbe 3",        "ru": "Вес цвета3"},
         "min":              {"en": "min",                       "de": "min",                        "ru": "мин"},
         "mid":              {"en": "mid",                       "de": "mid",                        "ru": "середина"},
         "max":              {"en": "max",                       "de": "max",                        "ru": "макс"},
+        "balance1":         {"en": "mid color 1+2 at",         "de": "Mitte Farbe 1+2 bei",          "ru": "mid color 1+2 at"},
+        "balance2":         {"en": "mid color 2+3 at",         "de": "Mitte Farbe 2+3 bei",          "ru": "mid color 2+3 at"},
         "digits":           {"en": "Digits after comma",        "de": "Zeichen nach Komma",         "ru": "Знаков после запятой"},
         "is_comma":         {"en": "Divider comma",             "de": "Komma als Trennung",         "ru": "Запятая-разделитель"},
         "html_prepend":     {"en": "Prepend value",             "de": "Voranstellen HTML",          "ru": "Префикс значения"},
@@ -104,7 +103,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.3.0",
+    version: "0.4.0",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -135,22 +134,23 @@ vis.binds.justgage = {
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-
+        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: data.pow1 || 1
+                pow: Math.log(0.5)/Math.log(balance1/100)
             },
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1
+                pow: 1.0
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1
+                pow: Math.log(0.5)/Math.log(balance2/100)
             }
         ];
 
@@ -246,21 +246,23 @@ vis.binds.justgage = {
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
+        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: data.pow1 || 1
+                pow: Math.log(0.5)/Math.log(balance1/100)
             },
             {
                 pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1
+                pow: 1.0
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1
+                pow: Math.log(0.5)/Math.log(balance2/100)
             }
         ];
 
@@ -360,21 +362,24 @@ vis.binds.justgage = {
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
+        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        console.log(balance1+";"+balance2);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: data.pow1 || 1
+                pow: Math.log(0.5)/Math.log(balance1/100)
             },
             {
                 pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
                 color: data.color2 || "#00aa00",
-                pow: data.pow2 || 1
+                pow: 1.0
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: data.pow3 || 1
+                pow: Math.log(0.5)/Math.log(balance2/100)
             }
         ];
 
