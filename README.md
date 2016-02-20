@@ -10,6 +10,7 @@ ioBroker.vis-justgage
 
 ### 0.4.0 (2016-02-19)
 - (Pmant) replace pow with sliders
+- (bluefox) fix resize
 
 ### 0.3.0 (2016-02-16)
 - (bluefox) fix error with two gauges at creation
