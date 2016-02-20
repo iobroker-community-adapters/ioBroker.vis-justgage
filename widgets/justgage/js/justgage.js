@@ -20,8 +20,8 @@ if (vis.editMode) {
         "min":              {"en": "min",                       "de": "min",                        "ru": "мин"},
         "mid":              {"en": "mid",                       "de": "mid",                        "ru": "середина"},
         "max":              {"en": "max",                       "de": "max",                        "ru": "макс"},
-        "balance1":         {"en": "mid color 1+2 at",         "de": "Mitte Farbe 1+2 bei",          "ru": "mid color 1+2 at"},
-        "balance2":         {"en": "mid color 2+3 at",         "de": "Mitte Farbe 2+3 bei",          "ru": "mid color 2+3 at"},
+        "balance1":         {"en": "mid color 1+2 at",          "de": "Mitte Farbe 1+2 bei",        "ru": "средний цвет 1+2 при"},
+        "balance2":         {"en": "mid color 2+3 at",          "de": "Mitte Farbe 2+3 bei",        "ru": "средний цвет 2+3 при"},
         "digits":           {"en": "Digits after comma",        "de": "Zeichen nach Komma",         "ru": "Знаков после запятой"},
         "is_comma":         {"en": "Divider comma",             "de": "Komma als Trennung",         "ru": "Запятая-разделитель"},
         "html_prepend":     {"en": "Prepend value",             "de": "Voranstellen HTML",          "ru": "Префикс значения"},
@@ -106,6 +106,7 @@ vis.binds.justgage = {
             vis.binds.justgage.version = null;
         }
     },
+
     createValueColored: function (widgetID, view, data, style, withIndicator) {
         var $div = $('#' + widgetID);
         // if nothing found => wait
@@ -202,30 +203,35 @@ vis.binds.justgage = {
         // subscribe on updates of value
         if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-                val = parseFloat(newVal);
+                val = parseFloat(newVal) || 0;
                 refresh(true, newVal - oldVal);
             });
         }
         // subscribe on updates of mid
         if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                mid = parseFloat(newVal);
+                mid = parseFloat(newVal) || 0;
                 refresh(false);
             });
         }
         // subscribe on updates of min
         if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
-                min = parseFloat(newVal);
+                min = parseFloat(newVal) || 0;
                 refresh(false);
             });
         }
         // subscribe on updates of max
         if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
-                max = parseFloat(newVal);
+                max = parseFloat(newVal) || 0;
                 refresh(false);
             });
+        }
+
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+            $div.resizable('destroy');
+            vis.resizable($div);
         }
     },
 
@@ -307,30 +313,35 @@ vis.binds.justgage = {
         // subscribe on updates of value
         if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-                val = parseFloat(newVal);
+                val = parseFloat(newVal) || 0;
                 refresh(true, newVal - oldVal);
             });
         }
         // subscribe on updates of mid
         if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                mid = parseFloat(newVal);
+                mid = parseFloat(newVal) || 0;
                 refresh(false);
             });
         }
         // subscribe on updates of min
         if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
-                min = parseFloat(newVal);
+                min = parseFloat(newVal) || 0;
                 refresh(false);
             });
         }
         // subscribe on updates of max
         if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
-                max = parseFloat(newVal);
+                max = parseFloat(newVal) || 0;
                 refresh(false);
             });
+        }
+
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+            $div.resizable('destroy');
+            vis.resizable($div);
         }
     },
 
@@ -354,49 +365,49 @@ vis.binds.justgage = {
             return val;
         }
 
-        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
-        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
-        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
+        var val      = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
+        var min      = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max      = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid      = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
         var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
         var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
-        var colors = [
+        var colors  = [
             {
-                pct: 0,
-                color: data.color1 || "#0000aa",
-                pow: Math.log(balance1/100)/Math.log(0.5)
+                pct:    0,
+                color:  data.color1 || "#0000aa",
+                pow:    Math.log(balance1/100)/Math.log(0.5)
             },
             {
-                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
-                color: data.color2 || "#00aa00",
-                pow: 1.0
+                pct:    (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                color:  data.color2 || "#00aa00",
+                pow:    1.0
             },
             {
-                pct: 1.0,
-                color: data.color3 || "#aa0000",
-                pow: Math.log(0.5)/Math.log(balance2/100)
+                pct:    1.0,
+                color:  data.color3 || "#aa0000",
+                pow:    Math.log(0.5)/Math.log(balance2/100)
             }
         ];
 
         // justGage
-        var pointerOptions, g;
-        try{
-            pointerOptions =  JSON.parse(data.pointerOptions);
-        } catch(e) {
+        var pointerOptions;
+        try {
+            pointerOptions = JSON.parse(data.pointerOptions);
+        } catch (e) {
             pointerOptions = {
-                toplength: -15,
-                bottomlength: 10,
-                bottomwidth: 12,
-                color: data.pointerColor || '#8e8e93',
-                stroke: data.gaugeColor || '#edebeb',
-                stroke_width: 3,
+                toplength:      -15,
+                bottomlength:   10,
+                bottomwidth:    12,
+                color:          data.pointerColor   || '#8e8e93',
+                stroke:         data.gaugeColor     || '#edebeb',
+                stroke_width:   3,
                 stroke_linecap: 'round'
             };
         }
         // delete old object
         if ($div.find('svg').length) $div.html('');
 
-        g = new JustGage({
+        var g = new JustGage({
             id: widgetID,
             textRenderer: textRenderer,
             value: val,
@@ -455,28 +466,28 @@ vis.binds.justgage = {
         // subscribe on updates of value
         if (data.oid && vis.states[data.oid + '.val'] !== undefined) {
             vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-                val = parseFloat(newVal);
+                val = parseFloat(newVal) || 0;
                 refresh();
             });
         }
         // subscribe on updates of mid
         if (data.mid_oid && isNaN(parseFloat(data.mid_oid))) {
             vis.states.bind(data.mid_oid + '.val', function (e, newVal, oldVal) {
-                mid = parseFloat(newVal);
+                mid = parseFloat(newVal) || 0;
                 refresh();
             });
         }
         // subscribe on updates of min
         if (data.min_oid && isNaN(parseFloat(data.min_oid))) {
             vis.states.bind(data.min_oid + '.val', function (e, newVal, oldVal) {
-                min = parseFloat(newVal);
+                min = parseFloat(newVal) || 0;
                 refresh();
             });
         }
         // subscribe on updates of max
         if (data.max_oid && isNaN(parseFloat(data.max_oid))) {
             vis.states.bind(data.max_oid + '.val', function (e, newVal, oldVal) {
-                max = parseFloat(newVal);
+                max = parseFloat(newVal) || 0;
                 refresh();
             });
         }
@@ -486,6 +497,11 @@ vis.binds.justgage = {
                 g.config.label = newVal;
                 refresh();
             });
+        }
+
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+            $div.resizable('destroy');
+            vis.resizable($div);
         }
     },
 
