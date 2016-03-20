@@ -24,7 +24,8 @@
         "onlyWWW":                  true,
         "singleton":                true,
         "type":                     "vis",
-		"restartAdapters":          ["vis"]
+	"noConfig":     true,
+	"restartAdapters":          ["vis"]
     },
     "native": {
         "dependencies":          []
