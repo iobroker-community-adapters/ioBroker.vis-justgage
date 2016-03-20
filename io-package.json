@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "vis-justgage",
-        "version": "0.4.0",
+        "version": "0.4.1",
         "title":                    "ioBroker Visualisation - justGage Widgets",
         "desc": {
             "en":                   "justGage Widgets for ioBroker.vis",
@@ -24,8 +24,8 @@
         "onlyWWW":                  true,
         "singleton":                true,
         "type":                     "vis",
-	"noConfig":     true,
-	"restartAdapters":          ["vis"]
+	    "noConfig":                 true,
+	    "restartAdapters":          ["vis"]
     },
     "native": {
         "dependencies":          []

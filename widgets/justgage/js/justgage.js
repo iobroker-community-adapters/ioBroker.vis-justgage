@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.4.0"
+    version: "0.4.1"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -99,7 +99,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.4.0",
+    version: "0.4.1",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);

@@ -8,6 +8,9 @@ ioBroker.vis-justgage
 
 ## Changelog
 
+### 0.4.1 (2016-03-20)
+- (bluefox) remove config
+
 ### 0.4.0 (2016-02-19)
 - (Pmant) replace pow with sliders
 - (bluefox) fix resize
