@@ -1,11 +1,11 @@
 /*
-    ioBroker.vis justgage Widget-Set
+ ioBroker.vis justgage Widget-Set
 
-    version: "0.4.1"
+ version: "0.4.2"
 
-    Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
+ Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
-*/
+ */
 "use strict";
 
 // add translations for edit mode
@@ -14,92 +14,92 @@ if (vis.editMode) {
         /**
          * tplJustgageValueColored
          */
-        "color1":           {"en": "color 1",                   "de": "Farbe 1",                    "ru": "Цвет 1"},
-        "color2":           {"en": "color 2",                   "de": "Farbe 2",                    "ru": "Цвет 2"},
-        "color3":           {"en": "color 3",                   "de": "Farbe 3",                    "ru": "Цвет 3"},
-        "min":              {"en": "min",                       "de": "min",                        "ru": "мин"},
-        "mid":              {"en": "mid",                       "de": "mid",                        "ru": "середина"},
-        "max":              {"en": "max",                       "de": "max",                        "ru": "макс"},
-        "balance1":         {"en": "mid color 1+2 at",          "de": "Mitte Farbe 1+2 bei",        "ru": "средний цвет 1+2 при"},
-        "balance2":         {"en": "mid color 2+3 at",          "de": "Mitte Farbe 2+3 bei",        "ru": "средний цвет 2+3 при"},
-        "digits":           {"en": "Digits after comma",        "de": "Zeichen nach Komma",         "ru": "Знаков после запятой"},
-        "is_comma":         {"en": "Divider comma",             "de": "Komma als Trennung",         "ru": "Запятая-разделитель"},
-        "html_prepend":     {"en": "Prepend value",             "de": "Voranstellen HTML",          "ru": "Префикс значения"},
+        "color1": {"en": "color 1", "de": "Farbe 1", "ru": "Цвет 1"},
+        "color2": {"en": "color 2", "de": "Farbe 2", "ru": "Цвет 2"},
+        "color3": {"en": "color 3", "de": "Farbe 3", "ru": "Цвет 3"},
+        "min": {"en": "min", "de": "min", "ru": "мин"},
+        "mid": {"en": "mid", "de": "mid", "ru": "середина"},
+        "max": {"en": "max", "de": "max", "ru": "макс"},
+        "balance1": {"en": "mid color 1+2 at", "de": "Mitte Farbe 1+2 bei", "ru": "средний цвет 1+2 при"},
+        "balance2": {"en": "mid color 2+3 at", "de": "Mitte Farbe 2+3 bei", "ru": "средний цвет 2+3 при"},
+        "digits": {"en": "Digits after comma", "de": "Zeichen nach Komma", "ru": "Знаков после запятой"},
+        "is_comma": {"en": "Divider comma", "de": "Komma als Trennung", "ru": "Запятая-разделитель"},
+        "html_prepend": {"en": "Prepend value", "de": "Voranstellen HTML", "ru": "Префикс значения"},
         "html_append_singular": {
-            "en" : "Append to value (Singular)",
+            "en": "Append to value (Singular)",
             "de": "HTML anhängen (Singular)",
             "ru": "Суффикс значения(един.ч.)"
         },
         "html_append_plural": {
-            "en" : "Append to value (Plural)",
+            "en": "Append to value (Plural)",
             "de": "HTML anhängen(Plural)",
             "ru": "Суффикс значения(множ.ч.)"
         },
-        "group_html":       {"en": "html",                      "de": "Html",                       "ru": "HTML"},
-        "group_color":      {"en": "color",                     "de": "Farbe",                      "ru": "Цвет"},
+        "group_html": {"en": "html", "de": "Html", "ru": "HTML"},
+        "group_color": {"en": "color", "de": "Farbe", "ru": "Цвет"},
 
         /**
          * tplJustgageJustGage
          */
-        "min_oid":          {"en": "min",                       "de": "min",                        "ru": "мин"},
-        "mid_oid":          {"en": "mid",                       "de": "mid",                        "ru": "середина"},
-        "max_oid":          {"en": "max",                       "de": "max",                        "ru": "макс"},
-        "group_value":      {"en": "value",                     "de": "Wert",                       "ru": "Значение"},
-        "hideValue":        {"en": "hide value",                "de": "verstecke Wert",             "ru": "Скрыть значение"},
-        "unit":             {"en": "unit",                      "de": "Einheit",                    "ru": "Единицы"},
-        "valueFontColor":   {"en": "color",                     "de": "Farbe",                      "ru": "Цвет"},
-        "valueFontFamily":  {"en": "font-family",               "de": "Schriftfamilie",             "ru": "font-family"},
-        "valueOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Сдвиг по Y"},
-        "group_title1":     {"en": "title",                     "de": "Titel",                      "ru": "Название"},
-        "titleFontColor":   {"en": "color",                     "de": "Farbe",                      "ru": "Цвет"},
-        "titleFontFamily":  {"en": "font-family",               "de": "Schriftfamilie",             "ru": "font-family"},
-        "titleBelow":       {"en": "title below",               "de": "Titel unten",                "ru": "Название знизу"},
-        "titleOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Сдвиг по Y"},
-        "group_label":      {"en": "label",                     "de": "Beschriftung",               "ru": "Подпись"},
-        "label_oid":        {"en": "label",                     "de": "Beschriftung",               "ru": "Подпись"},
-        "labelFontColor":   {"en": "color",                     "de": "Farbe",                      "ru": "Цвет"},
-        "labelFontFamily":  {"en": "font-family",               "de": "Schriftfamilie",             "ru": "font-family"},
-        "labelOffsetY":     {"en": "Offset Y",                  "de": "Versatz Y",                  "ru": "Сдвиг по Y"},
-        "group_pointer":    {"en": "pointer",                   "de": "Zeiger",                     "ru": "Стрелка"},
-        "pointer":          {"en": "show pointer",              "de": "zeige Zeiger",               "ru": "Показать стрелку"},
-        "pointerMid":       {"en": "show mid",                  "de": "zeige Mitte",                "ru": "Показать середину"},
-        "pointerColor":     {"en": "color",                     "de": "Farbe",                      "ru": "Цвет"},
-        "pointerOptions":   {"en": "pointerOptions",            "de": "pointerOptions",             "ru": "pointerOptions"},
-        "hideInnerShadow":  {"en": "hide shadow",               "de": "verstecke Schatten",         "ru": "Скрыть тень"},
-        "shadowOpacity":    {"en": "shadowOpacity",             "de": "shadowOpacity",              "ru": "Прозрачность тени"},
-        "shadowSize":       {"en": "shadowSize",                "de": "shadowSize",                 "ru": "Размер тени"},
-        "shadowVerticalOffset": {"en": "shadowVerticalOffset",  "de": "shadowVerticalOffset",       "ru": "Сдвиг тени"},
-        "group_layout":     {"en": "layout",                    "de": "Layout",                     "ru": "Расположение"},
-        "hideMinMax":       {"en": "hide min/max",              "de": "verstecke min/max",          "ru": "Скрыть min/max"},
-        "donut":            {"en": "donut",                     "de": "donut",                      "ru": "Круг"},
-        "donutStartAngle":  {"en": "donut start angle",         "de": "donut Startwinkel",          "ru": "Угол начала круга"},
-        "gaugeColor":       {"en": "background color",          "de": "Hintergrundfarbe",           "ru": "Цвет фона"},
-        "gaugeWidthScale":  {"en": "gauge width %",             "de": "Gauge Breite %",             "ru": "Ширина шкалы %"},
+        "min_oid": {"en": "min", "de": "min", "ru": "мин"},
+        "mid_oid": {"en": "mid", "de": "mid", "ru": "середина"},
+        "max_oid": {"en": "max", "de": "max", "ru": "макс"},
+        "group_value": {"en": "value", "de": "Wert", "ru": "Значение"},
+        "hideValue": {"en": "hide value", "de": "verstecke Wert", "ru": "Скрыть значение"},
+        "unit": {"en": "unit", "de": "Einheit", "ru": "Единицы"},
+        "valueFontColor": {"en": "color", "de": "Farbe", "ru": "Цвет"},
+        "valueFontFamily": {"en": "font-family", "de": "Schriftfamilie", "ru": "font-family"},
+        "valueOffsetY": {"en": "Offset Y", "de": "Versatz Y", "ru": "Сдвиг по Y"},
+        "group_title1": {"en": "title", "de": "Titel", "ru": "Название"},
+        "titleFontColor": {"en": "color", "de": "Farbe", "ru": "Цвет"},
+        "titleFontFamily": {"en": "font-family", "de": "Schriftfamilie", "ru": "font-family"},
+        "titleBelow": {"en": "title below", "de": "Titel unten", "ru": "Название знизу"},
+        "titleOffsetY": {"en": "Offset Y", "de": "Versatz Y", "ru": "Сдвиг по Y"},
+        "group_label": {"en": "label", "de": "Beschriftung", "ru": "Подпись"},
+        "label_oid": {"en": "label", "de": "Beschriftung", "ru": "Подпись"},
+        "labelFontColor": {"en": "color", "de": "Farbe", "ru": "Цвет"},
+        "labelFontFamily": {"en": "font-family", "de": "Schriftfamilie", "ru": "font-family"},
+        "labelOffsetY": {"en": "Offset Y", "de": "Versatz Y", "ru": "Сдвиг по Y"},
+        "group_pointer": {"en": "pointer", "de": "Zeiger", "ru": "Стрелка"},
+        "pointer": {"en": "show pointer", "de": "zeige Zeiger", "ru": "Показать стрелку"},
+        "pointerMid": {"en": "show mid", "de": "zeige Mitte", "ru": "Показать середину"},
+        "pointerColor": {"en": "color", "de": "Farbe", "ru": "Цвет"},
+        "pointerOptions": {"en": "pointerOptions", "de": "pointerOptions", "ru": "pointerOptions"},
+        "hideInnerShadow": {"en": "hide shadow", "de": "verstecke Schatten", "ru": "Скрыть тень"},
+        "shadowOpacity": {"en": "shadowOpacity", "de": "shadowOpacity", "ru": "Прозрачность тени"},
+        "shadowSize": {"en": "shadowSize", "de": "shadowSize", "ru": "Размер тени"},
+        "shadowVerticalOffset": {"en": "shadowVerticalOffset", "de": "shadowVerticalOffset", "ru": "Сдвиг тени"},
+        "group_layout": {"en": "layout", "de": "Layout", "ru": "Расположение"},
+        "hideMinMax": {"en": "hide min/max", "de": "verstecke min/max", "ru": "Скрыть min/max"},
+        "donut": {"en": "donut", "de": "donut", "ru": "Круг"},
+        "donutStartAngle": {"en": "donut start angle", "de": "donut Startwinkel", "ru": "Угол начала круга"},
+        "gaugeColor": {"en": "background color", "de": "Hintergrundfarbe", "ru": "Цвет фона"},
+        "gaugeWidthScale": {"en": "gauge width %", "de": "Gauge Breite %", "ru": "Ширина шкалы %"},
 
         /**
          * tplJustgageIndicatorColored
          */
-        "equalAfter":       {"en": "equal after",               "de": "gleichbleibend nach",        "ru": "не изменяемое после"},
+        "equalAfter": {"en": "equal after", "de": "gleichbleibend nach", "ru": "не изменяемое после"},
         "equalAfter_tooltip": {
             "en": "Time in seconds after that the\x0Avalue meant to be unchanged.",
             "de": "Zeit in Sekunden, nach welcher\x0Adas Wert wird als unverädert gezählt.",
             "ru": "Время в секундах, после которого\x0Aсчитается, что значение не изменяется."
         },
-        "group_text":       {"en": "text",                      "de": "Text",                       "ru": "Текст"},
-        "up":               {"en": "up",                        "de": "hoch",                       "ru": "вверх"},
-        "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "равно"},
-        "down":             {"en": "down",                      "de": "runter",                     "ru": "вниз"}
+        "group_text": {"en": "text", "de": "Text", "ru": "Текст"},
+        "up": {"en": "up", "de": "hoch", "ru": "вверх"},
+        "equal": {"en": "equal", "de": "gleich", "ru": "равно"},
+        "down": {"en": "down", "de": "runter", "ru": "вниз"}
     });
 }
 
 // add translations for non-edit mode
 $.extend(true, systemDictionary, {
-    "Instance":  {"en": "Instance", "de": "Instanz", "ru": "Инстанция"}
+    "Instance": {"en": "Instance", "de": "Instanz", "ru": "Инстанция"}
 });
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.4.1",
+    version: "0.4.2",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -127,27 +127,30 @@ vis.binds.justgage = {
             return val;
         }
 
-        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
+
+        console.log(min, max, mid);
+
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(balance1/100)/Math.log(0.5)
+                pow: Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
-                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
                 color: data.color2 || "#00aa00",
                 pow: 1.0
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: Math.log(0.5)/Math.log(balance2/100)
+                pow: Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -170,11 +173,11 @@ vis.binds.justgage = {
                     text += oldIndicator;
                     ts = Date.now();
                     isStart = true;
-                } else if (direction < 0){
+                } else if (direction < 0) {
                     oldIndicator = data.down || "↓";
                     text += data.down || "↓";
                     isStart = true;
-                } else if (Date.now() - ts >= eqA){
+                } else if (Date.now() - ts >= eqA) {
                     oldIndicator = data.equal || "→";
                     text += data.equal || "→";
                 } else {
@@ -244,17 +247,17 @@ vis.binds.justgage = {
             }, 100);
         }
 
-        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(balance1/100)/Math.log(0.5)
+                pow: Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
                 pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
@@ -264,7 +267,7 @@ vis.binds.justgage = {
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: Math.log(0.5)/Math.log(balance2/100)
+                pow: Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -275,8 +278,8 @@ vis.binds.justgage = {
         eqA = parseFloat(data.equalAfter || 0) * 1000;
 
         function refresh(refreshVal, direction) {
-            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1 ,max) - min);
-            color = getColorGrad(pctInterval(min, Math.max(min + 1,max), clamp(val, min, max)), colors);
+            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors);
             if (refreshVal) {
                 var isStart;
                 if (direction > 0) {
@@ -284,11 +287,11 @@ vis.binds.justgage = {
                     text = oldIndicator;
                     ts = Date.now();
                     isStart = true;
-                } else if (direction < 0){
+                } else if (direction < 0) {
                     oldIndicator = data.down || "↓";
                     text = data.down || "↓";
                     isStart = true;
-                } else if (Date.now() - ts >= eqA){
+                } else if (Date.now() - ts >= eqA) {
                     oldIndicator = data.equal || "→";
                     text = data.equal || "→";
                 } else {
@@ -354,7 +357,7 @@ vis.binds.justgage = {
             }, 100);
         }
 
-        function textRenderer(value){
+        function textRenderer(value) {
             var val = parseFloat(value);
             if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_comma')) {
@@ -365,27 +368,27 @@ vis.binds.justgage = {
             return val;
         }
 
-        var val      = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
-        var min      = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
-        var max      = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid      = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
-        var colors  = [
+        var val = parseFloat(vis.states[data.oid + '.val'] || data.oid) || 0;
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
+        var colors = [
             {
-                pct:    0,
-                color:  data.color1 || "#0000aa",
-                pow:    Math.log(balance1/100)/Math.log(0.5)
+                pct: 0,
+                color: data.color1 || "#0000aa",
+                pow: Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
-                pct:    (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
-                color:  data.color2 || "#00aa00",
-                pow:    1.0
+                pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
+                color: data.color2 || "#00aa00",
+                pow: 1.0
             },
             {
-                pct:    1.0,
-                color:  data.color3 || "#aa0000",
-                pow:    Math.log(0.5)/Math.log(balance2/100)
+                pct: 1.0,
+                color: data.color3 || "#aa0000",
+                pow: Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -395,12 +398,12 @@ vis.binds.justgage = {
             pointerOptions = JSON.parse(data.pointerOptions);
         } catch (e) {
             pointerOptions = {
-                toplength:      -15,
-                bottomlength:   10,
-                bottomwidth:    12,
-                color:          data.pointerColor   || '#8e8e93',
-                stroke:         data.gaugeColor     || '#edebeb',
-                stroke_width:   3,
+                toplength: -15,
+                bottomlength: 10,
+                bottomwidth: 12,
+                color: data.pointerColor || '#8e8e93',
+                stroke: data.gaugeColor || '#edebeb',
+                stroke_width: 3,
                 stroke_linecap: 'round'
             };
         }
@@ -453,10 +456,10 @@ vis.binds.justgage = {
             hideInnerShadow: data.hideInnerShadow || false,
         });
 
-        function refresh(){
+        function refresh() {
             g.config.value = val;
             g.config.min = min;
-            g.config.max = Math.max(min + 1,max);
+            g.config.max = Math.max(min + 1, max);
             g.config.mid = clamp(mid, min, Math.max(min + 1, max));
             colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
             g.config.levelColors = colors;
@@ -522,8 +525,8 @@ vis.binds.justgage = {
             }
             if (obj.common.unit) {
                 changed.push('unit');
-                vis.views[view].widgets[widgetID].data.unit= obj.common.unit;
-                vis.widgets[widgetID].data.unit= obj.common.unit;
+                vis.views[view].widgets[widgetID].data.unit = obj.common.unit;
+                vis.widgets[widgetID].data.unit = obj.common.unit;
             }
         }
         return changed.length ? changed : null;
@@ -541,14 +544,14 @@ function getColorGrad(pct, col) {
     inc = 1 / (no - 1);
     colors = [];
     for (var i = 0; i < col.length; i++) {
-        if (typeof col[i] === 'object'){
+        if (typeof col[i] === 'object') {
             percentage = col[i].pct ? col[i].pct : inc * i;
             pow = col[i].pow || 1;
             rval = parseInt((cutHex(col[i].color)).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i].color)).substring(2, 4), 16);
             bval = parseInt((cutHex(col[i].color)).substring(4, 6), 16);
-        }else{
-            percentage =inc * i;
+        } else {
+            percentage = inc * i;
             pow = 1;
             rval = parseInt((cutHex(col[i])).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i])).substring(2, 4), 16);
@@ -574,7 +577,7 @@ function getColorGrad(pct, col) {
             lower = colors[j - 1];
             upper = colors[j];
             range = upper.pct - lower.pct;
-            rangePct = Math.pow((pct - lower.pct) / range,colors[j].pow/colors[j-1].pow);
+            rangePct = Math.pow((pct - lower.pct) / range, colors[j].pow / colors[j - 1].pow);
             pctLower = 1 - rangePct;
             pctUpper = rangePct;
             color = {
@@ -592,13 +595,17 @@ function cutHex(str) {
 }
 
 //Helper Functions
-function clamp( x, min, max ) {
-    if(x<min){ return min; }
-    if(x>max){ return max; }
+function clamp(x, min, max) {
+    if (x < min) {
+        return min;
+    }
+    if (x > max) {
+        return max;
+    }
     return x;
 }
 
-function pctInterval(min,max,val){
-    var valClamp = clamp(val,min,max);
-    return (valClamp-min) / (max-min);
+function pctInterval(min, max, val) {
+    var valClamp = clamp(val, min, max);
+    return (valClamp - min) / (max - min);
 }

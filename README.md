@@ -8,6 +8,9 @@ ioBroker.vis-justgage
 
 ## Changelog
 
+### 0.4.2 (2016-06-05)
+- (PArns) fix mid default vaule if max != 100 & min != 0
+
 ### 0.4.1 (2016-03-20)
 - (bluefox) remove config
 
