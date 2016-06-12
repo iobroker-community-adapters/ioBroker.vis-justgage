@@ -1,12 +1,14 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.4.1"
+    version: "0.4.2"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
 */
-"use strict";
+'use strict';
+
+/* globals vis, $, systemDictionary, JustGage */
 
 // add translations for edit mode
 if (vis.editMode) {
@@ -26,12 +28,12 @@ if (vis.editMode) {
         "is_comma":         {"en": "Divider comma",             "de": "Komma als Trennung",         "ru": "Запятая-разделитель"},
         "html_prepend":     {"en": "Prepend value",             "de": "Voranstellen HTML",          "ru": "Префикс значения"},
         "html_append_singular": {
-            "en" : "Append to value (Singular)",
+            "en": "Append to value (Singular)",
             "de": "HTML anhängen (Singular)",
             "ru": "Суффикс значения(един.ч.)"
         },
         "html_append_plural": {
-            "en" : "Append to value (Plural)",
+            "en": "Append to value (Plural)",
             "de": "HTML anhängen(Plural)",
             "ru": "Суффикс значения(множ.ч.)"
         },
@@ -99,7 +101,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.4.1",
+    version: "0.4.2",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -118,7 +120,7 @@ vis.binds.justgage = {
 
         function textRenderer(value) {
             var val = parseFloat(value) || 0;
-            if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
+            if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
@@ -130,24 +132,24 @@ vis.binds.justgage = {
         var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(balance1/100)/Math.log(0.5)
+                pow: Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
-                pct: (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
                 color: data.color2 || "#00aa00",
                 pow: 1.0
             },
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: Math.log(0.5)/Math.log(balance2/100)
+                pow: Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -170,11 +172,11 @@ vis.binds.justgage = {
                     text += oldIndicator;
                     ts = Date.now();
                     isStart = true;
-                } else if (direction < 0){
+                } else if (direction < 0) {
                     oldIndicator = data.down || "↓";
                     text += data.down || "↓";
                     isStart = true;
-                } else if (Date.now() - ts >= eqA){
+                } else if (Date.now() - ts >= eqA) {
                     oldIndicator = data.equal || "→";
                     text += data.equal || "→";
                 } else {
@@ -229,7 +231,7 @@ vis.binds.justgage = {
             });
         }
 
-        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
             $div.resizable('destroy');
             vis.resizable($div);
         }
@@ -247,14 +249,14 @@ vis.binds.justgage = {
         var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
         var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
         var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
         var colors = [
             {
                 pct: 0,
                 color: data.color1 || "#0000aa",
-                pow: Math.log(balance1/100)/Math.log(0.5)
+                pow: Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
                 pct: (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
@@ -264,7 +266,7 @@ vis.binds.justgage = {
             {
                 pct: 1.0,
                 color: data.color3 || "#aa0000",
-                pow: Math.log(0.5)/Math.log(balance2/100)
+                pow: Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -275,8 +277,8 @@ vis.binds.justgage = {
         eqA = parseFloat(data.equalAfter || 0) * 1000;
 
         function refresh(refreshVal, direction) {
-            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1 ,max) - min);
-            color = getColorGrad(pctInterval(min, Math.max(min + 1,max), clamp(val, min, max)), colors);
+            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors);
             if (refreshVal) {
                 var isStart;
                 if (direction > 0) {
@@ -284,11 +286,11 @@ vis.binds.justgage = {
                     text = oldIndicator;
                     ts = Date.now();
                     isStart = true;
-                } else if (direction < 0){
+                } else if (direction < 0) {
                     oldIndicator = data.down || "↓";
                     text = data.down || "↓";
                     isStart = true;
-                } else if (Date.now() - ts >= eqA){
+                } else if (Date.now() - ts >= eqA) {
                     oldIndicator = data.equal || "→";
                     text = data.equal || "→";
                 } else {
@@ -339,7 +341,7 @@ vis.binds.justgage = {
             });
         }
 
-        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
             $div.resizable('destroy');
             vis.resizable($div);
         }
@@ -354,9 +356,9 @@ vis.binds.justgage = {
             }, 100);
         }
 
-        function textRenderer(value){
+        function textRenderer(value) {
             var val = parseFloat(value);
-            if (data.digits !== undefined && data.digits != '') val = val.toFixed(parseFloat(data.digits, 10));
+            if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
@@ -365,27 +367,27 @@ vis.binds.justgage = {
             return val;
         }
 
-        var val      = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
-        var min      = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
-        var max      = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
-        var mid      = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || 50;
-        var balance1 = clamp(parseFloat(data.balance1) || 50,0.01,99.99);
-        var balance2 = clamp(parseFloat(data.balance2) || 50,0.01,99.99);
+        var val = parseFloat(vis.states[data.oid + '.val']     || data.oid)     || 0;
+        var min = parseFloat(vis.states[data.min_oid + '.val'] || data.min_oid) || 0;
+        var max = parseFloat(vis.states[data.max_oid + '.val'] || data.max_oid) || 100;
+        var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
+        var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+        var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
         var colors  = [
             {
                 pct:    0,
                 color:  data.color1 || "#0000aa",
-                pow:    Math.log(balance1/100)/Math.log(0.5)
+                pow:    Math.log(balance1 / 100) / Math.log(0.5)
             },
             {
-                pct:    (clamp(mid,min,Math.max(min+1,max))-min) / (Math.max(min+1,max) - min),
+                pct:    (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
                 color:  data.color2 || "#00aa00",
                 pow:    1.0
             },
             {
                 pct:    1.0,
                 color:  data.color3 || "#aa0000",
-                pow:    Math.log(0.5)/Math.log(balance2/100)
+                pow:    Math.log(0.5) / Math.log(balance2 / 100)
             }
         ];
 
@@ -453,10 +455,10 @@ vis.binds.justgage = {
             hideInnerShadow: data.hideInnerShadow || false,
         });
 
-        function refresh(){
+        function refresh() {
             g.config.value = val;
             g.config.min = min;
-            g.config.max = Math.max(min + 1,max);
+            g.config.max = Math.max(min + 1, max);
             g.config.mid = clamp(mid, min, Math.max(min + 1, max));
             colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
             g.config.levelColors = colors;
@@ -499,7 +501,7 @@ vis.binds.justgage = {
             });
         }
 
-        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) != -1) {
+        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
             $div.resizable('destroy');
             vis.resizable($div);
         }
@@ -522,8 +524,8 @@ vis.binds.justgage = {
             }
             if (obj.common.unit) {
                 changed.push('unit');
-                vis.views[view].widgets[widgetID].data.unit= obj.common.unit;
-                vis.widgets[widgetID].data.unit= obj.common.unit;
+                vis.views[view].widgets[widgetID].data.unit = obj.common.unit;
+                vis.widgets[widgetID].data.unit = obj.common.unit;
             }
         }
         return changed.length ? changed : null;
@@ -541,14 +543,14 @@ function getColorGrad(pct, col) {
     inc = 1 / (no - 1);
     colors = [];
     for (var i = 0; i < col.length; i++) {
-        if (typeof col[i] === 'object'){
+        if (typeof col[i] === 'object') {
             percentage = col[i].pct ? col[i].pct : inc * i;
             pow = col[i].pow || 1;
             rval = parseInt((cutHex(col[i].color)).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i].color)).substring(2, 4), 16);
             bval = parseInt((cutHex(col[i].color)).substring(4, 6), 16);
-        }else{
-            percentage =inc * i;
+        } else {
+            percentage = inc * i;
             pow = 1;
             rval = parseInt((cutHex(col[i])).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i])).substring(2, 4), 16);
@@ -574,7 +576,7 @@ function getColorGrad(pct, col) {
             lower = colors[j - 1];
             upper = colors[j];
             range = upper.pct - lower.pct;
-            rangePct = Math.pow((pct - lower.pct) / range,colors[j].pow/colors[j-1].pow);
+            rangePct = Math.pow((pct - lower.pct) / range, colors[j].pow / colors[j - 1].pow);
             pctLower = 1 - rangePct;
             pctUpper = rangePct;
             color = {
@@ -592,13 +594,17 @@ function cutHex(str) {
 }
 
 //Helper Functions
-function clamp( x, min, max ) {
-    if(x<min){ return min; }
-    if(x>max){ return max; }
+function clamp(x, min, max) {
+    if (x < min) {
+        return min;
+    }
+    if (x > max) {
+        return max;
+    }
     return x;
 }
 
-function pctInterval(min,max,val){
-    var valClamp = clamp(val,min,max);
-    return (valClamp-min) / (max-min);
+function pctInterval(min, max, val) {
+    var valClamp = clamp(val, min, max);
+    return (valClamp - min) / (max - min);
 }
