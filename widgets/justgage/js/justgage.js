@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.4.2"
+    version: "0.4.3"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -90,6 +90,8 @@ if (vis.editMode) {
         "group_text":       {"en": "text",                      "de": "Text",                       "ru": "Текст"},
         "up":               {"en": "up",                        "de": "hoch",                       "ru": "вверх"},
         "equal":            {"en": "equal",                     "de": "gleich",                     "ru": "равно"},
+        "changeBgColor":    {"en": "change background",         "de": "ändere Hintergrund",         "ru": "change background"},
+        "fullBri":          {"en": "max brightness",            "de": "maximale Helligkeit",        "ru": "max brightness"},
         "down":             {"en": "down",                      "de": "runter",                     "ru": "вниз"}
     });
 }
@@ -101,7 +103,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.4.2",
+    version: "0.4.3",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -135,6 +137,7 @@ vis.binds.justgage = {
         var mid = parseFloat(vis.states[data.mid_oid + '.val'] || data.mid_oid) || ((min + max) / 2);
         var balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
         var balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
+
         var colors = [
             {
                 pct: 0,
@@ -159,9 +162,10 @@ vis.binds.justgage = {
 
         eqA = parseFloat(data.equalAfter || 0) * 1000;
 
+        oldIndicator = data.equal || "→";
         function refresh(refreshVal, direction) {
             colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
-            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors, data.fullBri);
             text = data.html_prepend || "";
             text += textRenderer(val);
             text += parseFloat(textRenderer(val)) == 1 ? data.html_append_singular || "" : data.html_append_plural || "";
@@ -194,9 +198,17 @@ vis.binds.justgage = {
             text = '<span>' + text + '</span>';
 
             if (refreshVal) {
-                $content.html(text).animate({color: color}, 700);
+                if (data.changeBgColor) {
+                    $content.html(text).animate({"background-color": color}, 700);
+                } else {
+                    $content.html(text).animate({color: color}, 700);
+                }
             } else {
-                $content.animate({color: color}, 700);
+                if (data.changeBgColor) {
+                    $content.animate({"background-color": color}, 700);
+                } else {
+                    $content.animate({color: color}, 700);
+                }
             }
         }
 
@@ -535,7 +547,7 @@ vis.binds.justgage = {
 vis.binds.justgage.showVersion();
 
 /** Get color for value */
-function getColorGrad(pct, col) {
+function getColorGrad(pct, col, maxBri) {
     var no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color, pow;
 
     no = col.length;
@@ -566,9 +578,14 @@ function getColorGrad(pct, col) {
             }
         };
     }
-
+    var colorMax = 0;
     if (pct === 0) {
-        return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
+        if (maxBri) {
+            colorMax = Math.max(colors[0].color.r, colors[0].color.g, colors[0].color.b);
+            return 'rgb(' + [Math.floor(colors[0].color.r / colorMax * 255), Math.floor(colors[0].color.g / colorMax * 255), Math.floor(colors[0].color.b / colorMax * 255)].join(',') + ')';
+        } else {
+            return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
+        }
     }
 
     for (var j = 0; j < colors.length; j++) {
@@ -584,7 +601,14 @@ function getColorGrad(pct, col) {
                 g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
                 b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
             };
-            return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+
+            if (maxBri) {
+                colorMax = Math.max(color.r, color.g, color.b);
+                return 'rgb(' + [Math.floor(color.r/colorMax*255), Math.floor(color.g/colorMax*255), Math.floor(color.b/colorMax*255)].join(',') + ')';
+            } else {
+                return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+            }
+
         }
     }
 
