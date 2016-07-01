@@ -84,7 +84,7 @@ if (vis.editMode) {
         "equalAfter":       {"en": "equal after",               "de": "gleichbleibend nach",        "ru": "не изменяемое после"},
         "equalAfter_tooltip": {
             "en": "Time in seconds after that the\x0Avalue meant to be unchanged.",
-            "de": "Zeit in Sekunden, nach welcher\x0Adas Wert wird als unverädert gezählt.",
+            "de": "Zeit in Sekunden, nach welcher\x0Ader Wert als unverädert gilt.",
             "ru": "Время в секундах, после которого\x0Aсчитается, что значение не изменяется."
         },
         "group_text":       {"en": "text",                      "de": "Text",                       "ru": "Текст"},
@@ -283,14 +283,15 @@ vis.binds.justgage = {
         ];
 
         var color, text, ts, eqA, timeout, oldIndicator = '';
-        $div.html('<div class="justgage-indicatorColored" data-oid="' + data.oid + '" style="color:' + color + '"></div>');
+        $div.html('<div class="justgage-indicatorColored" data-oid="' + data.oid + '"></div>');
         var $content = $('#' + widgetID + ' .justgage-indicatorColored');
         ts = Date.now();
         eqA = parseFloat(data.equalAfter || 0) * 1000;
 
+        oldIndicator = data.equal || "→";
         function refresh(refreshVal, direction) {
             colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
-            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors);
+            color = getColorGrad(pctInterval(min, Math.max(min + 1, max), clamp(val, min, max)), colors, data.fullBri);
             if (refreshVal) {
                 var isStart;
                 if (direction > 0) {
@@ -308,7 +309,12 @@ vis.binds.justgage = {
                 } else {
                     text = oldIndicator;
                 }
-                $content.html(text).animate({color: color}, 700);
+
+                if (data.changeBgColor) {
+                    $content.html(text).animate({"background-color": color}, 700);
+                } else {
+                    $content.html(text).animate({color: color}, 700);
+                }
                 if (isStart && eqA) {
                     if (timeout) clearTimeout(timeout);
 
@@ -318,7 +324,11 @@ vis.binds.justgage = {
                     }, eqA);
                 }
             } else {
-                $content.animate({color: color}, 700);
+                if (data.changeBgColor) {
+                    $content.animate({"background-color": color}, 700);
+                } else {
+                    $content.animate({color: color}, 700);
+                }
             }
         }
 
@@ -464,7 +474,7 @@ vis.binds.justgage = {
             shadowOpacity: parseFloat(data.shadowOpacity) || 0.2,
             shadowSize: parseInt(data.shadowSize) || 5,
             shadowVerticalOffset: parseInt(data.shadowVerticalOffset) || 3,
-            hideInnerShadow: data.hideInnerShadow || false,
+            hideInnerShadow: data.hideInnerShadow || false
         });
 
         function refresh() {
@@ -604,7 +614,7 @@ function getColorGrad(pct, col, maxBri) {
 
             if (maxBri) {
                 colorMax = Math.max(color.r, color.g, color.b);
-                return 'rgb(' + [Math.floor(color.r/colorMax*255), Math.floor(color.g/colorMax*255), Math.floor(color.b/colorMax*255)].join(',') + ')';
+                return 'rgb(' + [Math.floor(color.r / colorMax * 255), Math.floor(color.g / colorMax * 255), Math.floor(color.b / colorMax * 255)].join(',') + ')';
             } else {
                 return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
             }
