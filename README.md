@@ -8,7 +8,7 @@ ioBroker.vis-justgage
 
 ## Changelog
 
-### 0.4.3 (2016-06-24)
+### 0.5.0 (2016-07-01)
 - (Pmant) fix default indicator
 - (Pmant) add option to change background-color instead of text-color
 - (Pmant) add option to always set full brightness colors

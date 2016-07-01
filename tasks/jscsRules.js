@@ -10,7 +10,7 @@ module.exports = {
     "requireSpacesInAnonymousFunctionExpression": {"beforeOpeningRoundBrace": true, "beforeOpeningCurlyBrace": true},
     "requireSpacesInNamedFunctionExpression": {"beforeOpeningCurlyBrace": true},
     "requireSpacesInFunctionDeclaration": {"beforeOpeningCurlyBrace": true},
-    "disallowMultipleVarDecl": false,
+    "disallowMultipleVarDecl": true,
     "requireBlocksOnNewline": true,
     "disallowEmptyBlocks": true,
     "disallowSpacesInsideObjectBrackets": true,

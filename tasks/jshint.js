@@ -2,8 +2,7 @@ var srcDir   = __dirname + "/../";
 
 module.exports = {
     options: {
-        force: true,
-        node: true
+        force: true
     },
     all: [
         srcDir + "*.js",
@@ -11,10 +10,8 @@ module.exports = {
         srcDir + "adapter/example/*.js",
         srcDir + "tasks/**/*.js",
         srcDir + "www/**/*.js",
-        srcDir + "widgets/justgage/js/*.js",
         '!' + srcDir + "www/lib/**/*.js",
         '!' + srcDir + 'node_modules/**/*.js',
-        '!' + srcDir + 'adapter/*/node_modules/**/*.js',
-        '!' + srcDir + "widgets/justgage/lib/**/*.js"
+        '!' + srcDir + 'adapter/*/node_modules/**/*.js'
     ]
 };
