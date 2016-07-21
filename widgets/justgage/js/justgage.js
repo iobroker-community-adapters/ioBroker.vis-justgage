@@ -534,17 +534,17 @@ vis.binds.justgage = {
         var changed = [];
         // If it is real object and state
         if (obj && obj.common && obj.type == 'state') {
-            if (obj.common.min !== undefined) {
+            if (obj.common.min !== undefined && !vis.views[view].widgets[widgetID].data.min_oid) {
                 changed.push('min_oid');
                 vis.views[view].widgets[widgetID].data.min_oid = obj.common.min;
                 vis.widgets[widgetID].data.min_oid = obj.common.min;
             }
-            if (obj.common.max !== undefined) {
+            if (obj.common.max !== undefined && !vis.views[view].widgets[widgetID].data.max_oid) {
                 changed.push('max_oid');
                 vis.views[view].widgets[widgetID].data.max_oid = obj.common.max;
                 vis.widgets[widgetID].data.max_oid = obj.common.max;
             }
-            if (obj.common.unit) {
+            if (obj.common.unit && !vis.views[view].widgets[widgetID].data.unit) {
                 changed.push('unit');
                 vis.views[view].widgets[widgetID].data.unit = obj.common.unit;
                 vis.widgets[widgetID].data.unit = obj.common.unit;
