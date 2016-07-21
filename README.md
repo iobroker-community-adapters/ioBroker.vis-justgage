@@ -8,6 +8,9 @@ ioBroker.vis-justgage
 
 ## Changelog
 
+### 0.5.1 (2016-07-21)
+- (jens-maus) fix auto fill max, min, unit
+
 ### 0.5.0 (2016-07-01)
 - (Pmant) fix default indicator
 - (Pmant) add option to change background-color instead of text-color
