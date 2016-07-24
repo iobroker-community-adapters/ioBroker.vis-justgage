@@ -127,8 +127,7 @@ vis.binds.justgage = {
                 val = '' + val;
                 val = val.replace('.', ',');
             }
-            if (data.unit)
-              val += " " + data.unit;
+            val += data.unit || "";
             return val;
         }
 
@@ -386,8 +385,7 @@ vis.binds.justgage = {
                 val = '' + val;
                 val = val.replace('.', ',');
             }
-            if (data.unit)
-              val += " " + data.unit;
+            val += data.unit || "";
             return val;
         }
 
