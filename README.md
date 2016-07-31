@@ -7,6 +7,10 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.6.0 (2016-07-31)
+- (Pmant) add no-gradient-option to Justgage widget
+- (Pmant) add full brightness option to Justgage widget
+- (jens-maus) add missing unit fields
 
 ### 0.5.1 (2016-07-21)
 - (jens-maus) fix auto fill max, min, unit

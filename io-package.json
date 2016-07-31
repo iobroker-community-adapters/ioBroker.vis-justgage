@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "vis-justgage",
-        "version": "0.5.1",
+        "version": "0.6.0",
         "title":                    "ioBroker Visualisation - justGage Widgets",
         "news": {
             "0.5.0": {
