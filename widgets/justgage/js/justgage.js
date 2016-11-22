@@ -247,7 +247,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
@@ -367,7 +367,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
@@ -545,7 +545,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
