@@ -1,13 +1,13 @@
 {
     "common": {
         "name":                     "vis-justgage",
-        "version": "0.6.0",
+        "version": "0.6.1",
         "title":                    "ioBroker Visualisation - justGage Widgets",
         "news": {
             "0.5.0": {
-                "en": "fix default indicator\nadd background-color option\nadd full brightness color option",
-                "de": "fix default Indikator\nOption für Hintergrundfarbe hinuzgefügt\nOption für volle Helligkeit hinzugefügt",
-                "ru": "fix default indicator\nadd background-color option\nadd full brightness color option"
+                "en": "Update justgage.js",
+                "de": "Update justgage.js",
+                "ru": "Update justgage.js"
             }
         },
         "desc": {

@@ -7,6 +7,9 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.6.1 (2016-11-25)
+- (blufox) Update justgage.js
+
 ### 0.6.0 (2016-07-31)
 - (Pmant) add no-gradient-option to Justgage widget
 - (Pmant) add full brightness option to Justgage widget
