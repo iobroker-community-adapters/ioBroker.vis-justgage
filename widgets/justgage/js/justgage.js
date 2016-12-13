@@ -140,7 +140,7 @@ vis.binds.justgage = {
             if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
             if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_tdp')) {
-                val = this.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
+                val = vis.binds.justgage.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
             } else if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
@@ -401,7 +401,7 @@ vis.binds.justgage = {
             if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
             if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
             if (data.attr('is_tdp')) {
-                val = this.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
+                val = vis.binds.justgage.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
             } else if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
