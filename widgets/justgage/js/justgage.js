@@ -26,6 +26,8 @@ if (vis.editMode) {
         "balance2":         {"en": "mid color 2+3 at",          "de": "Mitte Farbe 2+3 bei",        "ru": "средний цвет 2+3 при"},
         "digits":           {"en": "Digits after comma",        "de": "Zeichen nach Komma",         "ru": "Знаков после запятой"},
         "is_comma":         {"en": "Divider comma",             "de": "Komma als Trennung",         "ru": "Запятая-разделитель"},
+        "is_tdp":           {"en": "Use thousands separator",   "de": "Tausender Trennzeichen",     "ru": "Use thousands separator"},
+        "factor":           {"en": "Multiply factor",           "de": "Wert multiplizieren",        "ru": "Фактор-множитель"},
         "html_prepend":     {"en": "Prepend value",             "de": "Voranstellen HTML",          "ru": "Префикс значения"},
         "html_append_singular": {
             "en": "Append to value (Singular)",
@@ -114,6 +116,16 @@ vis.binds.justgage = {
         }
     },
 
+    formatValue: function formatValue(value, decimals, _format) {
+        if (typeof decimals !== 'number') {
+            decimals = 2;
+            _format = decimals;
+        }
+        var format = (_format === undefined) ? ".," : _format;
+        if (typeof value !== "number") value = parseFloat(value);
+        return isNaN(value) ? "" : value.toFixed(decimals || 0).replace(format[0], format[1]).replace(/\B(?=(\d{3})+(?!\d))/g, format[0]);
+    },
+
     createValueColored: function (widgetID, view, data, style, withIndicator) {
         var $div = $('#' + widgetID);
         // if nothing found => wait
@@ -125,8 +137,11 @@ vis.binds.justgage = {
 
         function textRenderer(value) {
             var val = parseFloat(value) || 0;
+            if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
             if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
-            if (data.attr('is_comma')) {
+            if (data.attr('is_tdp')) {
+                val = this.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
+            } else if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
             }
@@ -383,8 +398,11 @@ vis.binds.justgage = {
 
         function textRenderer(value) {
             var val = parseFloat(value);
+            if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
             if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
-            if (data.attr('is_comma')) {
+            if (data.attr('is_tdp')) {
+                val = this.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? ".," : ",.");
+            } else if (data.attr('is_comma')) {
                 val = '' + val;
                 val = val.replace('.', ',');
             }
