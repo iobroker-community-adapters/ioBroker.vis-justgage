@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.5.1"
+    version: "0.6.1"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -75,6 +75,9 @@ if (vis.editMode) {
         "hideMinMax":       {"en": "hide min/max",              "de": "verstecke min/max",          "ru": "Скрыть min/max"},
         "donut":            {"en": "donut",                     "de": "donut",                      "ru": "Круг"},
         "donutStartAngle":  {"en": "donut start angle",         "de": "donut Startwinkel",          "ru": "Угол начала круга"},
+        "noGradient":       {"en": "no gradient",               "de": "kein Farbverlauf",           "ru": "no gradient"},
+        "sector1":          {"en": "End Sector 1",              "de": "Ende Sektor 1",              "ru": "End Sector 1"},
+        "sector2":          {"en": "End Sector 2",              "de": "Ende Sektor 2",              "ru": "End Sector 2"},
         "gaugeColor":       {"en": "background color",          "de": "Hintergrundfarbe",           "ru": "Цвет фона"},
         "gaugeWidthScale":  {"en": "gauge width %",             "de": "Gauge Breite %",             "ru": "Ширина шкалы %"},
 
@@ -103,7 +106,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.5.1",
+    version: "0.6.1",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -244,7 +247,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
@@ -364,7 +367,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
@@ -467,6 +470,24 @@ vis.binds.justgage = {
             counter: false,
 
             gaugeColor: data.gaugeColor || "#ebebeb",
+            fullBrightness: data.fullBri ? true : false,
+            customSectors: data.noGradient ? [
+                {
+                color: colors[0].color,
+                lo: min,
+                hi: data.sector1 || mid
+                },
+                {
+                color: colors[1].color,
+                lo: data.sector1 || mid,
+                hi: data.sector2 || mid
+                },
+                {
+                color: colors[2].color,
+                lo: data.sector2 || mid,
+                hi: max
+                }
+            ] : [],
             levelColors: colors,
             gaugeWidthScale: data.gaugeWidthScale ? data.gaugeWidthScale / 100 : 1.0,
             donutStartAngle: data.donutStartAngle || 90,
@@ -524,7 +545,7 @@ vis.binds.justgage = {
         }
 
         if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.resizable('destroy');
+            if ($div.hasClass('ui-resizable')) $div.resizable('destroy');
             vis.resizable($div);
         }
     },
@@ -618,7 +639,6 @@ function getColorGrad(pct, col, maxBri) {
             } else {
                 return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
             }
-
         }
     }
 

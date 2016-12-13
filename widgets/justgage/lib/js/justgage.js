@@ -178,6 +178,10 @@ JustGage = function(config) {
     // colors of indicator, from lower to upper, in RGB format
     levelColors: kvLookup('levelColors', config, dataset, ["#a9d70b", "#f9c802", "#ff0000"], 'array', ','),
 
+    // fullBrightness : bool
+    // transform color to full brightness
+    fullBrightness: kvLookup('fullBrightness', config, dataset, false),
+
     // startAnimationTime : int
     // length of initial animation
     startAnimationTime: kvLookup('startAnimationTime', config, dataset, 700),
@@ -653,7 +657,7 @@ JustGage = function(config) {
   // level
   obj.level = obj.canvas.path().attr({
     "stroke": "none",
-    "fill": getColor(obj.config.value, (obj.config.value - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors),
+    "fill": getColor(obj.config.value, (obj.config.value - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors, obj.config.fullBrightness),
     pki: [
       obj.config.min,
       obj.config.min,
@@ -979,7 +983,7 @@ JustGage.prototype.refresh = function(val) {
   }
 
   //color
-  color = getColor(val, (val - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors);
+  color = getColor(val, (val - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors, obj.config.fullBrightness);
 
   //value
   if (obj.config.valueTxt) {
@@ -1176,7 +1180,7 @@ function kvLookup(key, tablea, tableb, defval, datatype, delimiter) {
 };
 
 /** Get color for value */
-function getColor(val, pct, col, noGradient, custSec) {
+function getColor(val, pct, col, noGradient, custSec, fullBri) {
 
   var no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color, pow;
   var noGradient = noGradient || custSec.length > 0;
@@ -1217,15 +1221,25 @@ function getColor(val, pct, col, noGradient, custSec) {
       }
     };
   }
-
+  var colorMax = 0;
   if (pct === 0) {
-    return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
+    if (fullBri) {
+      colorMax = Math.max(colors[0].color.r, colors[0].color.g, colors[0].color.b);
+      return 'rgb(' + [Math.floor(colors[0].color.r / colorMax * 255), Math.floor(colors[0].color.g / colorMax * 255), Math.floor(colors[0].color.b / colorMax * 255)].join(',') + ')';
+    } else {
+      return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
+    }
   }
 
   for (var j = 0; j < colors.length; j++) {
     if (pct <= colors[j].pct) {
       if (noGradient) {
-        return 'rgb(' + [colors[j].color.r, colors[j].color.g, colors[j].color.b].join(',') + ')';
+        if (fullBri) {
+          colorMax = Math.max(colors[j].color.r, colors[j].color.g, colors[j].color.b);
+          return 'rgb(' + [Math.floor(colors[j].color.r / colorMax * 255), Math.floor(colors[j].color.g / colorMax * 255), Math.floor(colors[j].color.b / colorMax * 255)].join(',') + ')';
+        } else {
+          return 'rgb(' + [colors[j].color.r, colors[j].color.g, colors[j].color.b].join(',') + ')';
+        }
       } else {
         lower = colors[j - 1];
         upper = colors[j];
@@ -1238,7 +1252,12 @@ function getColor(val, pct, col, noGradient, custSec) {
           g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
           b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
         };
-        return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+        if (fullBri) {
+          colorMax = Math.max(color.r, color.g, color.b);
+          return 'rgb(' + [Math.floor(color.r / colorMax * 255), Math.floor(color.g / colorMax * 255), Math.floor(color.b / colorMax * 255)].join(',') + ')';
+        } else {
+          return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+        }
       }
     }
   }
