@@ -1,13 +1,13 @@
 {
     "common": {
         "name":                     "vis-justgage",
-        "version": "0.6.1",
+        "version": "0.7.0",
         "title":                    "ioBroker Visualisation - justGage Widgets",
         "news": {
-            "0.5.0": {
-                "en": "Update justgage.js",
-                "de": "Update justgage.js",
-                "ru": "Update justgage.js"
+            "0.7.0": {
+                "en": "value formatting",
+                "de": "Wertformatierung",
+                "ru": "value formatting"
             }
         },
         "desc": {

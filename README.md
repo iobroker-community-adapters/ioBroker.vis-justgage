@@ -7,6 +7,10 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.7.0 (2016-12-14)
+- (jens-maus) add value formatting
+- (jens-maus) add value multiplier
+
 ### 0.6.1 (2016-11-25)
 - (blufox) Update justgage.js
 
