@@ -7,6 +7,9 @@ ioBroker.vis-justgage
 ![Screenshot](img/widgets.png)
 
 ## Changelog
+### 0.7.1 (2016-12-14)
+- (Pmant) change max brightness to max brightness of initial color
+
 ### 0.7.0 (2016-12-14)
 - (jens-maus) add value formatting
 - (jens-maus) add value multiplier
