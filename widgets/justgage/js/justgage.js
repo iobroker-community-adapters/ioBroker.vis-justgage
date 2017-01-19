@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "0.7.1"
+    version: "0.7.0"
 
     Copyright 10.2015-2016 Pmant<patrickmo@gmx.de>
 
@@ -108,7 +108,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: "0.7.1",
+    version: "0.7.0",
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
@@ -596,32 +596,22 @@ vis.binds.justgage = {
 vis.binds.justgage.showVersion();
 
 /** Get color for value */
-function getColor(val, pct, col, noGradient, custSec, fullBri) {
-
+function getColorGrad(pct, col, maxBri) {
     var no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color, pow;
-    var noGradient = noGradient || custSec.length > 0;
-
-    if (custSec.length > 0) {
-        for (var i = 0; i < custSec.length; i++) {
-            if (val >= custSec[i].lo && val <= custSec[i].hi) {
-                return custSec[i].color;
-            }
-        }
-    }
 
     no = col.length;
     if (no === 1) return col[0];
-    inc = (noGradient) ? (1 / no) : (1 / (no - 1));
+    inc = 1 / (no - 1);
     colors = [];
-    for (i = 0; i < col.length; i++) {
-        if (typeof col[i] === 'object'){
-            percentage = col[i].pct ? col[i].pct : ((noGradient) ? (inc * (i + 1)) : (inc * i));
+    for (var i = 0; i < col.length; i++) {
+        if (typeof col[i] === 'object') {
+            percentage = col[i].pct ? col[i].pct : inc * i;
             pow = col[i].pow || 1;
             rval = parseInt((cutHex(col[i].color)).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i].color)).substring(2, 4), 16);
             bval = parseInt((cutHex(col[i].color)).substring(4, 6), 16);
-        }else{
-            percentage = (noGradient) ? (inc * (i + 1)) : (inc * i);
+        } else {
+            percentage = inc * i;
             pow = 1;
             rval = parseInt((cutHex(col[i])).substring(0, 2), 16);
             gval = parseInt((cutHex(col[i])).substring(2, 4), 16);
@@ -637,24 +627,18 @@ function getColor(val, pct, col, noGradient, custSec, fullBri) {
             }
         };
     }
-    var colorMax = 0;
+
     if (pct === 0) {
-        if (fullBri) {
-            return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
-        }
+        return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
     }
 
     for (var j = 0; j < colors.length; j++) {
         if (pct <= colors[j].pct) {
-            colorMax = Math.max(colors[j].color.r, colors[j].color.g, colors[j].color.b);
-            if (noGradient) {
-                return 'rgb(' + [colors[j].color.r, colors[j].color.g, colors[j].color.b].join(',') + ')';
-            }
-        } else {
+            var colorMax = Math.max(colors[j].color.r, colors[j].color.g, colors[j].color.b);
             lower = colors[j - 1];
             upper = colors[j];
             range = upper.pct - lower.pct;
-            rangePct = Math.pow((pct - lower.pct) / range,colors[j].pow/colors[j-1].pow);
+            rangePct = Math.pow((pct - lower.pct) / range, colors[j].pow / colors[j - 1].pow);
             pctLower = 1 - rangePct;
             pctUpper = rangePct;
             color = {
@@ -662,7 +646,8 @@ function getColor(val, pct, col, noGradient, custSec, fullBri) {
                 g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
                 b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
             };
-            if (fullBri) {
+
+            if (maxBri) {
                 var colorMax2 = Math.max(color.r, color.g, color.b);
                 return 'rgb(' + [Math.floor(color.r / colorMax2 * colorMax), Math.floor(color.g / colorMax2 * colorMax), Math.floor(color.b / colorMax2 * colorMax)].join(',') + ')';
             } else {
@@ -671,7 +656,6 @@ function getColor(val, pct, col, noGradient, custSec, fullBri) {
         }
     }
 }
-
 
 function cutHex(str) {
     return (str.charAt(0) == "#") ? str.substring(1, 7) : str;
