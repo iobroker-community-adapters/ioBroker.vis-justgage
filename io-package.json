@@ -30,7 +30,7 @@
         "dependencies":             ["vis"],
         "onlyWWW":                  true,
         "singleton":                true,
-        "type":                     "vis",
+        "type":                     "visualization-widgets",
 	    "noConfig":                 true,
 	    "restartAdapters":          ["vis"]
     },
