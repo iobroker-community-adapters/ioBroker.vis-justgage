@@ -23,21 +23,24 @@
   "keywords": [
     "ioBroker",
     "GUI",
-	"justgage vis"
+    "justgage vis"
   ],
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-replace": "^0.9.3",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-jscs": "^2.0.0",
-    "grunt-http": "^1.6.0"
+    "grunt": "^1.0.1",
+    "grunt-replace": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-jscs": "^3.0.1",
+    "grunt-http": "^2.2.0",
+    "mocha": "^6.0.2",
+    "chai": "^4.2.0",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "bugs": {
     "url": "https://github.com/Pmant/ioBroker.vis-justgage/issues"
   },
   "main": "widgets/justgage.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/mocha/bin/mocha --exit"
   },
   "license": "MIT"
 }
