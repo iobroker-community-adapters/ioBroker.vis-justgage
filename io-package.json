@@ -5,10 +5,17 @@
         "title":                    "justGage Widgets",
         "news": {
             "1.0.1": {
-                "en": "value formatting",
-                "de": "Wertformatierung",
-                "ru": "value formatting"
-            },
+				  "en": "Min/Max values were fixed",
+				  "de": "Min / Max-Werte wurden festgelegt",
+				  "ru": "Мин / Макс значения были исправлены",
+				  "pt": "Os valores mínimo / máximo foram corrigidos",
+				  "nl": "Min / Max-waarden zijn vastgesteld",
+				  "fr": "Les valeurs Min / Max ont été fixées",
+				  "it": "I valori Min / Max sono stati corretti",
+				  "es": "Min / Max valores fueron fijos",
+				  "pl": "Wartości min / maks zostały ustalone",
+				  "zh-cn": "最小/最大值是固定的"
+			},
             "0.7.0": {
                 "en": "value formatting",
                 "de": "Wertformatierung",
