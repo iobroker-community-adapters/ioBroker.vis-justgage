@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "vis-justgage",
-        "version": "1.0.0",
-        "title":                    "ioBroker Visualisation - justGage Widgets",
+        "version": "1.0.1",
+        "title":                    "justGage Widgets",
         "news": {
+            "1.0.1": {
+                "en": "value formatting",
+                "de": "Wertformatierung",
+                "ru": "value formatting"
+            },
             "0.7.0": {
                 "en": "value formatting",
                 "de": "Wertformatierung",
@@ -11,9 +16,16 @@
             }
         },
         "desc": {
-            "en":                   "justGage Widgets for ioBroker.vis",
-            "de":                   "justGage Widgets für ioBroker.vis",
-            "ru":                   "justGage Widgets для ioBroker.vis"
+            "en": "justGage Widgets for ioBroker.vis",
+            "de": "justGage Widgets für ioBroker.vis",
+            "ru": "Виджеты justGage для ioBroker.vis",
+            "pt": "Widgets justGage para ioBroker.vis",
+            "nl": "justGage Widgets voor ioBroker.vis",
+            "fr": "justGage Widgets pour ioBroker.vis",
+            "it": "Widget di justGage per ioBroker.vis",
+            "es": "JustGage Widgets para ioBroker.vis",
+            "pl": "Widżety justGage dla ioBroker.vis",
+            "zh-cn": "ioBroker.vis的justGage小部件"
         },
         "platform":                 "Javascript/Node.js",
         "icon":                     "justgage.png",
@@ -32,6 +44,7 @@
         "singleton":                true,
         "type":                     "visualization-widgets",
 	    "noConfig":                 true,
+        "materialize":              true,
 	    "restartAdapters":          ["vis"]
     },
     "native": {
