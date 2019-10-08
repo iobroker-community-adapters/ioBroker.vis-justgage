@@ -1,2 +1,4 @@
 /node_modules
 .idea
+/iob_npm.done
+/package-lock.json
