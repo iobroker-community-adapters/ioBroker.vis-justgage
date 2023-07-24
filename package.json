@@ -9,10 +9,10 @@
   "contributors": [
     "Pmant <patrickmo@gmx.de>"
   ],
-  "homepage": "https://github.com/Pmant/ioBroker.vis-justgage",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pmant/ioBroker.vis-justgage"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage"
   },
   "license": "MIT",
   "keywords": [
@@ -26,7 +26,7 @@
     "@iobroker/testing": "^1.2.5"
   },
   "bugs": {
-    "url": "https://github.com/Pmant/ioBroker.vis-justgage/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/issues"
   },
   "main": "widgets/justgage.html",
   "scripts": {

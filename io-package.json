@@ -38,9 +38,9 @@
         "icon":                     "justgage.png",
         "enabled":                  true,
         "mode":                     "once",
-        "extIcon":                  "https://raw.githubusercontent.com/Pmant/ioBroker.vis-justgage/master/admin/justgage.png",
+        "extIcon":                  "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.vis-justgage/master/admin/justgage.png",
         "keywords":                 ["justgage", "vis", "GUI", "graphical", "scada"],
-        "readme":                   "https://github.com/Pmant/ioBroker.vis-justgage/blob/master/README.md",
+        "readme":                   "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/README.md",
         "authors": [
             "Pmant <patrickmo@gmx.de>"
         ],
