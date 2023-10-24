@@ -1,23 +1,23 @@
 ![Logo](admin/justgage.png)
 ioBroker.vis-justgage
 
-![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.justgage)](https://github.com/iobroker-community-adapters/ioBroker.justgage/blob/master/LICENSE)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.justgage.svg)](https://www.npmjs.com/package/iobroker.justgage)
-![GitHub repo size](https://img.shields.io/github/repo-size/iobroker-community-adapters/ioBroker.justgage)
-[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)</br>
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/iobroker-community-adapters/ioBroker.justgage)
-![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/iobroker-community-adapters/ioBroker.justgage/latest)
-![GitHub last commit](https://img.shields.io/github/last-commit/iobroker-community-adapters/ioBroker.justgage)
-![GitHub issues](https://img.shields.io/github/issues/iobroker-community-adapters/ioBroker.justgage)
+![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.vis-justgage)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/LICENSE)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.vis-justgage.svg)](https://www.npmjs.com/package/iobroker.vis-justgage)
+![GitHub repo size](https://img.shields.io/github/repo-size/iobroker-community-adapters/ioBroker.vis-justgage)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/vis-justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)</br>
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/iobroker-community-adapters/ioBroker.vis-justgage)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/iobroker-community-adapters/ioBroker.vis-justgage/latest)
+![GitHub last commit](https://img.shields.io/github/last-commit/iobroker-community-adapters/ioBroker.vis-justgage)
+![GitHub issues](https://img.shields.io/github/issues/iobroker-community-adapters/ioBroker.vis-justgage)
 </br>
 **Version:** </br>
-[![NPM version](http://img.shields.io/npm/v/iobroker.justgage.svg)](https://www.npmjs.com/package/iobroker.justgage)
-![Current version in stable repository](https://iobroker.live/badges/justgage-stable.svg)
-![Number of Installations](https://iobroker.live/badges/justgage-installed.svg)
+[![NPM version](http://img.shields.io/npm/v/iobroker.vis-justgage.svg)](https://www.npmjs.com/package/iobroker.vis-justgage)
+![Current version in stable repository](https://iobroker.live/badges/vis-justgage-stable.svg)
+![Number of Installations](https://iobroker.live/badges/vis-justgage-installed.svg)
 </br>
 **Tests:** </br>
-[![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/test-and-release.yml)
-[![CodeQL](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/codeql.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/codeql.yml)
+[![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/test-and-release.yml)
+[![CodeQL](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/codeql.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/codeql.yml)
 
 
 [justGage](http://justgage.com/) Widget for ioBroker.
