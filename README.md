@@ -45,7 +45,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.0-alpha.0 (2023-10-24)
 
 - (mcm1957) Adapter has been moved to iobroker-community-adapters organization
 - (mcm1957) Dependencies have been updated
@@ -92,7 +92,6 @@ More about pointer options could be found here: https://github.com/toorshia/just
 - (bluefox) add new widget: value & indication
 - (bluefox) fill automatically max, min, unit
 
-
 ### 0.2.5 (2016-02-13)
 - (Pmant) fix indicator
 - (bluefox) add russian translations
@@ -130,5 +129,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-

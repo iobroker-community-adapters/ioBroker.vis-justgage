@@ -1,87 +1,99 @@
 {
-    "common": {
-        "name": "vis-justgage",
-        "version": "1.0.1",
-        "news": {
-            "1.0.1": {
-				  "en": "Min/Max values were fixed",
-				  "de": "Min / Max-Werte wurden festgelegt",
-				  "ru": "Мин / Макс значения были исправлены",
-				  "pt": "Os valores mínimo / máximo foram corrigidos",
-				  "nl": "Min / Max-waarden zijn vastgesteld",
-				  "fr": "Les valeurs Min / Max ont été fixées",
-				  "it": "I valori Min / Max sono stati corretti",
-				  "es": "Min / Max valores fueron fijos",
-				  "pl": "Wartości min / maks zostały ustalone",
-				  "zh-cn": "最小/最大值是固定的"
-			},
-            "0.7.0": {
-                "en": "value formatting",
-                "de": "Wertformatierung",
-                "ru": "value formatting"
-            }
-        },
-        "titleLang": {
-            "en": "justGage Widgets\n",
-            "de": "justGage Widgets\n",
-            "ru": "justGage Виджеты\n",
-            "pt": "apenas gerar Widgets\n",
-            "nl": "gage Widgets\n",
-            "fr": "justeGage Widgets\n",
-            "it": "justGage Widgets\n",
-            "es": "justGage Widgets\n",
-            "pl": "gage Widget\n",
-            "uk": "justGage Віджети\n",
-            "zh-cn": "公正的Gage Widget\n"
-        },        
-        "desc": {
-            "en": "justGage Widgets for ioBroker.vis",
-            "de": "justGage Widgets für ioBroker.vis",
-            "ru": "Виджеты justGage для ioBroker.vis",
-            "pt": "Widgets justGage para ioBroker.vis",
-            "nl": "justGage Widgets voor ioBroker.vis",
-            "fr": "justGage Widgets pour ioBroker.vis",
-            "it": "Widget di justGage per ioBroker.vis",
-            "es": "JustGage Widgets para ioBroker.vis",
-            "pl": "Widżety justGage dla ioBroker.vis",
-            "uk": "justGage Віджети для ioBroker.vis\n",
-            "zh-cn": "ioBroker.vis的justGage小部件"
-        },
-        "authors": [
-            "Pmant <patrickmo@gmx.de>",
-            "iobroker-community-adapters <mcm57@gmx.at>"
-        ],
-        "keywords": [
-            "justgage", 
-            "vis", 
-            "GUI", 
-            "graphical", 
-            "scada"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "icon": "justgage.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.vis-justgage/master/admin/justgage.png",
-        "readme": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "none",
-        "type": "visualization-widgets",
-        "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-        "dependencies": [
-            "vis"
-        ],
-        "onlyWWW": true,
-        "singleton": true,
-	    "noConfig": true,
-        "materialize": true,
-	    "restartAdapters": [
-            "vis"
-        ]
+  "common": {
+    "name": "vis-justgage",
+    "version": "2.0.0-alpha.0",
+    "news": {
+      "2.0.0-alpha.0": {
+        "en": "Adapter has been moved to iobroker-community-adapters organization\nDependencies have been updated",
+        "de": "Adapter wurde auf iobroker-community-Adapter Organisation verschoben\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Адаптер переехал в организацию iobroker-community-adapters\nВ зависимости были обновлены",
+        "pt": "Adapter foi movido para iobroker-community-adapters organização\nAs dependências foram atualizadas",
+        "nl": "Adapter is verplaatst naar iobroker-community-papters organisatie\nAfhankelijkheid",
+        "fr": "L'adaptateur a été déplacé à l'organisation iobroker-community-adapters\nLes dépendances ont été mises à jour",
+        "it": "L'adattatore è stato spostato nell'organizzazione di iobroker-community-adapters\nLe dipendenze sono state aggiornate",
+        "es": "Adaptador ha sido trasladado a la organización de ibroker-community-adapters\nSe han actualizado las dependencias",
+        "pl": "Adapter został przeniesiony do organizacji iobroker-kommunity-profit\nZależności zostały zaktualizowane",
+        "uk": "Переміщено перехід на організацію iobroker-community-adapters\nОновлено залежність",
+        "zh-cn": "已经向加勒比采掘公司-社区组织道歉。\n已更新了属地"
+      },
+      "1.0.1": {
+        "en": "Min/Max values were fixed",
+        "de": "Min / Max-Werte wurden festgelegt",
+        "ru": "Мин / Макс значения были исправлены",
+        "pt": "Os valores mínimo / máximo foram corrigidos",
+        "nl": "Min / Max-waarden zijn vastgesteld",
+        "fr": "Les valeurs Min / Max ont été fixées",
+        "it": "I valori Min / Max sono stati corretti",
+        "es": "Min / Max valores fueron fijos",
+        "pl": "Wartości min / maks zostały ustalone",
+        "zh-cn": "最小/最大值是固定的"
+      },
+      "0.7.0": {
+        "en": "value formatting",
+        "de": "Wertformatierung",
+        "ru": "value formatting"
+      }
     },
-    "native": {
-        "dependencies": []
+    "titleLang": {
+      "en": "justGage Widgets\n",
+      "de": "justGage Widgets\n",
+      "ru": "justGage Виджеты\n",
+      "pt": "apenas gerar Widgets\n",
+      "nl": "gage Widgets\n",
+      "fr": "justeGage Widgets\n",
+      "it": "justGage Widgets\n",
+      "es": "justGage Widgets\n",
+      "pl": "gage Widget\n",
+      "uk": "justGage Віджети\n",
+      "zh-cn": "公正的Gage Widget\n"
     },
-    "instanceObjects": [
+    "desc": {
+      "en": "justGage Widgets for ioBroker.vis",
+      "de": "justGage Widgets für ioBroker.vis",
+      "ru": "Виджеты justGage для ioBroker.vis",
+      "pt": "Widgets justGage para ioBroker.vis",
+      "nl": "justGage Widgets voor ioBroker.vis",
+      "fr": "justGage Widgets pour ioBroker.vis",
+      "it": "Widget di justGage per ioBroker.vis",
+      "es": "JustGage Widgets para ioBroker.vis",
+      "pl": "Widżety justGage dla ioBroker.vis",
+      "uk": "justGage Віджети для ioBroker.vis\n",
+      "zh-cn": "ioBroker.vis的justGage小部件"
+    },
+    "authors": [
+      "Pmant <patrickmo@gmx.de>",
+      "iobroker-community-adapters <mcm57@gmx.at>"
+    ],
+    "keywords": [
+      "justgage",
+      "vis",
+      "GUI",
+      "graphical",
+      "scada"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "icon": "justgage.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.vis-justgage/master/admin/justgage.png",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "none",
+    "type": "visualization-widgets",
+    "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+    "dependencies": [
+      "vis"
+    ],
+    "onlyWWW": true,
+    "singleton": true,
+    "noConfig": true,
+    "materialize": true,
+    "restartAdapters": [
+      "vis"
     ]
+  },
+  "native": {
+    "dependencies": []
+  },
+  "instanceObjects": []
 }
