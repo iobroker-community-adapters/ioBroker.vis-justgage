@@ -1,7 +1,7 @@
 ![Logo](admin/justgage.png)
 ioBroker.vis-justgage
 
-![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.justgage)](https://github.com/iobroker-community-adapters/ioBroker.justgage/blob/main/LICENSE)
+![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.justgage)](https://github.com/iobroker-community-adapters/ioBroker.justgage/blob/master/LICENSE)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.justgage.svg)](https://www.npmjs.com/package/iobroker.justgage)
 ![GitHub repo size](https://img.shields.io/github/repo-size/iobroker-community-adapters/ioBroker.justgage)
 [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)</br>
