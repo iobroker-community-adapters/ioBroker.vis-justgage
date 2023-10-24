@@ -1,8 +1,7 @@
 {
     "common": {
-        "name":                     "vis-justgage",
+        "name": "vis-justgage",
         "version": "1.0.1",
-        "title":                    "justGage Widgets",
         "news": {
             "1.0.1": {
 				  "en": "Min/Max values were fixed",
@@ -22,6 +21,19 @@
                 "ru": "value formatting"
             }
         },
+        "titleLang": {
+            "en": "justGage Widgets\n",
+            "de": "justGage Widgets\n",
+            "ru": "justGage Виджеты\n",
+            "pt": "apenas gerar Widgets\n",
+            "nl": "gage Widgets\n",
+            "fr": "justeGage Widgets\n",
+            "it": "justGage Widgets\n",
+            "es": "justGage Widgets\n",
+            "pl": "gage Widget\n",
+            "uk": "justGage Віджети\n",
+            "zh-cn": "公正的Gage Widget\n"
+        },        
         "desc": {
             "en": "justGage Widgets for ioBroker.vis",
             "de": "justGage Widgets für ioBroker.vis",
@@ -32,30 +44,43 @@
             "it": "Widget di justGage per ioBroker.vis",
             "es": "JustGage Widgets para ioBroker.vis",
             "pl": "Widżety justGage dla ioBroker.vis",
+            "uk": "justGage Віджети для ioBroker.vis\n",
             "zh-cn": "ioBroker.vis的justGage小部件"
         },
-        "platform":                 "Javascript/Node.js",
+        "authors": [
+            "Pmant <patrickmo@gmx.de>",
+            "iobroker-community-adapters <mcm57@gmx.at>"
+        ],
+        "keywords": [
+            "justgage", 
+            "vis", 
+            "GUI", 
+            "graphical", 
+            "scada"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
         "icon":                     "justgage.png",
         "enabled":                  true,
-        "mode":                     "once",
         "extIcon":                  "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.vis-justgage/master/admin/justgage.png",
-        "keywords":                 ["justgage", "vis", "GUI", "graphical", "scada"],
         "readme":                   "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/README.md",
-        "authors": [
-            "Pmant <patrickmo@gmx.de>"
+        "loglevel": "info",
+        "mode": "once",
+        "type": "visualization-widgets",
+        "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "dependencies": [
+            "vis"
         ],
-        "localLink":                "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-        "license":                  "MIT",
-        "dependencies":             ["vis"],
-        "onlyWWW":                  true,
-        "singleton":                true,
-        "type":                     "visualization-widgets",
-	    "noConfig":                 true,
-        "materialize":              true,
-	    "restartAdapters":          ["vis"]
+        "onlyWWW": true,
+        "singleton": true,
+	    "noConfig": true,
+        "materialize": true,
+	    "restartAdapters": [
+            "vis"
+        ]
     },
     "native": {
-        "dependencies":          []
+        "dependencies": []
     },
     "instanceObjects": [
     ]

@@ -7,7 +7,8 @@
     "email": "patrickmo@gmx.de"
   },
   "contributors": [
-    "Pmant <patrickmo@gmx.de>"
+    "Pmant <patrickmo@gmx.de>",
+    "iobroker-community-adapters <mcm57@gmx.at>"
   ],
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage",
   "repository": {
