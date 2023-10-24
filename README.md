@@ -1,6 +1,24 @@
 ![Logo](admin/justgage.png)
 ioBroker.vis-justgage
-============
+
+![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.justgage)](https://github.com/iobroker-community-adapters/ioBroker.justgage/blob/main/LICENSE)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.justgage.svg)](https://www.npmjs.com/package/iobroker.justgage)
+![GitHub repo size](https://img.shields.io/github/repo-size/iobroker-community-adapters/ioBroker.justgage)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)</br>
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/iobroker-community-adapters/ioBroker.justgage)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/iobroker-community-adapters/ioBroker.justgage/latest)
+![GitHub last commit](https://img.shields.io/github/last-commit/iobroker-community-adapters/ioBroker.justgage)
+![GitHub issues](https://img.shields.io/github/issues/iobroker-community-adapters/ioBroker.justgage)
+</br>
+**Version:** </br>
+[![NPM version](http://img.shields.io/npm/v/iobroker.justgage.svg)](https://www.npmjs.com/package/iobroker.justgage)
+![Current version in stable repository](https://iobroker.live/badges/justgage-stable.svg)
+![Number of Installations](https://iobroker.live/badges/justgage-installed.svg)
+</br>
+**Tests:** </br>
+[![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/test-and-release.yml)
+[![CodeQL](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/codeql.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.justgage/actions/workflows/codeql.yml)
+
 
 [justGage](http://justgage.com/) Widget for ioBroker.
 
@@ -23,7 +41,15 @@ It must be valid JSON object. Single quotas are not allowed!
 More about pointer options could be found here: https://github.com/toorshia/justgage#pointer-options
 
 ## Changelog
-![Number of Installations](http://iobroker.live/badges/vis-justgage-installed.svg) ![Number of Installations](http://iobroker.live/badges/vis-justgage-stable.svg)
+<!--
+    Placeholder for the next version (at the beginning of the line):
+    ### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+
+- (mcm1957) Adapter has been moved to iobroker-community-adapters organization
+- (mcm1957) Dependencies have been updated
+
 ### 1.0.1 (2019-10-07)
 - (bluefox) fixed min max
 
