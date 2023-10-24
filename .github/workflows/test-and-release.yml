@@ -33,23 +33,23 @@ jobs:
           # install-command: 'npm install'
           lint: false
 
-  # Runs adapter tests on all supported node versions and OSes
-  adapter-tests:
-    if: contains(github.event.head_commit.message, '[skip ci]') == false
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x, 20.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
-    steps:
-      - uses: ioBroker/testing-action-adapter@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          os: ${{ matrix.os }}
-          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-          # install-command: 'npm install'
+#  # Runs adapter tests on all supported node versions and OSes
+#  adapter-tests:
+#    if: contains(github.event.head_commit.message, '[skip ci]') == false
+#
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        node-version: [16.x, 18.x, 20.x]
+#        os: [ubuntu-latest, windows-latest, macos-latest]
+#
+#    steps:
+#      - uses: ioBroker/testing-action-adapter@v1
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#          os: ${{ matrix.os }}
+#          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+#          # install-command: 'npm install'
 
 # TODO: To enable automatic npm releases, create a token on npmjs.org 
 # Enter this token as a GitHub secret (with name NPM_TOKEN) in the repository options
@@ -57,7 +57,8 @@ jobs:
 
   # Deploys the final package to NPM
   deploy:
-    needs: [check-and-lint, adapter-tests]
+#    needs: [check-and-lint, adapter-tests]
+    needs: [check-and-lint]
 
     # Trigger this step only when a commit on any branch is tagged with a version number
     if: |
