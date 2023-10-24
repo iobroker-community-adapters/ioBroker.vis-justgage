@@ -45,7 +45,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.0 (2023-10-24)
 
 - (mcm1957) Adapter has been moved to iobroker-community-adapters organization
 - (mcm1957) Dependencies have been updated

@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.0.0-alpha.0",
+    "version": "2.0.0",
     "news": {
-      "2.0.0-alpha.0": {
+      "2.0.0": {
         "en": "Adapter has been moved to iobroker-community-adapters organization\nDependencies have been updated",
         "de": "Adapter wurde auf iobroker-community-Adapter Organisation verschoben\nAbhängigkeiten wurden aktualisiert",
         "ru": "Адаптер переехал в организацию iobroker-community-adapters\nВ зависимости были обновлены",
