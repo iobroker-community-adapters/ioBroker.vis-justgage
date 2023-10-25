@@ -7,12 +7,12 @@
  **/
 
 (function (root, factory) {
-    if (typeof define === "function" && define.amd) {
-        define(["raphael"], function (raphael) { // AMD
+    if (typeof define === 'function' && define.amd) {
+        define(['raphael'], function (raphael) { // AMD
             return (root.JustGage = factory(raphael));
         });
-    } else if (typeof module === "object" && module.exports) { // Nodejs
-        module.exports = (root.JustGage = factory(require("raphael")));
+    } else if (typeof module === 'object' && module.exports) { // Nodejs
+        module.exports = (root.JustGage = factory(require('raphael')));
     }
     else {   // browser
         root.JustGage = factory(Raphael);
@@ -21,7 +21,7 @@
 
     JustGage = function (config) {
 
-        var obj = this;
+        const obj = this;
 
         obj.events = {};
 
@@ -44,10 +44,10 @@
             return false;
         }
 
-        var dataset = obj.node.dataset ? obj.node.dataset : {};
+        const dataset = obj.node.dataset ? obj.node.dataset : {};
 
         // check for defaults
-        var defaults = (config.defaults !== null && config.defaults !== undefined) ? config.defaults : false;
+        const defaults = (config.defaults !== null && config.defaults !== undefined) ? config.defaults : false;
         if (defaults !== false) {
             config = extend({}, config, defaults);
             delete config.defaults;
@@ -81,11 +81,11 @@
 
             // valueFontColor : string
             // color of label showing current value
-            valueFontColor: kvLookup('valueFontColor', config, dataset, "#010101"),
+            valueFontColor: kvLookup('valueFontColor', config, dataset, '#010101'),
 
             // valueFontFamily : string
             // color of label showing current value
-            valueFontFamily: kvLookup('valueFontFamily', config, dataset, "Arial"),
+            valueFontFamily: kvLookup('valueFontFamily', config, dataset, 'Arial'),
 
             // symbol : string
             // special symbol to show next to value
@@ -130,7 +130,7 @@
 
             // gaugeColor : string
             // background color of gauge element
-            gaugeColor: kvLookup('gaugeColor', config, dataset, "#edebeb"),
+            gaugeColor: kvLookup('gaugeColor', config, dataset, '#edebeb'),
 
             // label : string
             // text to show below value
@@ -138,7 +138,7 @@
 
             // labelFontColor : string
             // color of label showing label under value
-            labelFontColor: kvLookup('labelFontColor', config, dataset, "#b3b3b3"),
+            labelFontColor: kvLookup('labelFontColor', config, dataset, '#b3b3b3'),
 
             // shadowOpacity : int
             // 0 ~ 1
@@ -154,7 +154,7 @@
 
             // levelColors : string[]
             // colors of indicator, from lower to upper, in RGB format
-            levelColors: kvLookup('levelColors', config, dataset, ["#a9d70b", "#f9c802", "#ff0000"], 'array', ','),
+            levelColors: kvLookup('levelColors', config, dataset, ['#a9d70b', '#f9c802', '#ff0000'], 'array', ','),
 
             // startAnimationTime : int
             // length of initial animation
@@ -252,7 +252,7 @@
         };
 
         // variables
-        var
+        let
             canvasW,
             canvasH,
             widgetW,
@@ -280,9 +280,9 @@
 
         // create canvas
         if (obj.config.id !== null && (document.getElementById(obj.config.id)) !== null) {
-            obj.canvas = Raphael(obj.config.id, "100%", "100%");
+            obj.canvas = Raphael(obj.config.id, '100%', '100%');
         } else if (obj.config.parentNode !== null) {
-            obj.canvas = Raphael(obj.config.parentNode, "100%", "100%");
+            obj.canvas = Raphael(obj.config.parentNode, '100%', '100%');
         }
 
         // canvas dimensions
@@ -304,8 +304,8 @@
             canvasW = 200;
             canvasH = 100;
         } else {
-            canvasW = getStyle(document.getElementById(obj.config.id), "width").slice(0, -2) * 1;
-            canvasH = getStyle(document.getElementById(obj.config.id), "height").slice(0, -2) * 1;
+            canvasW = getStyle(document.getElementById(obj.config.id), 'width').slice(0, -2) * 1;
+            canvasH = getStyle(document.getElementById(obj.config.id), 'height').slice(0, -2) * 1;
         }
 
         // widget dimensions
@@ -419,7 +419,7 @@
         // pki - custom attribute for generating gauge paths
         obj.canvas.customAttributes.pki = function (value, min, max, w, h, dx, dy, gws, donut, reverse) {
 
-            var alpha, Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi, path;
+            let alpha, Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi, path;
 
             if (min < 0) {
                 max -= min;
@@ -440,18 +440,18 @@
                 Xi = Cx + Ri * Math.cos(alpha);
                 Yi = Cy - Ri * Math.sin(alpha);
 
-                path = "M" + (Cx - Ri) + "," + Cy + " ";
-                path += "L" + (Cx - Ro) + "," + Cy + " ";
+                path = 'M' + (Cx - Ri) + ',' + Cy + ' ';
+                path += 'L' + (Cx - Ro) + ',' + Cy + ' ';
                 if (value > ((max - min) / 2)) {
-                    path += "A" + Ro + "," + Ro + " 0 0 1 " + (Cx + Ro) + "," + Cy + " ";
+                    path += 'A' + Ro + ',' + Ro + ' 0 0 1 ' + (Cx + Ro) + ',' + Cy + ' ';
                 }
-                path += "A" + Ro + "," + Ro + " 0 0 1 " + Xo + "," + Yo + " ";
-                path += "L" + Xi + "," + Yi + " ";
+                path += 'A' + Ro + ',' + Ro + ' 0 0 1 ' + Xo + ',' + Yo + ' ';
+                path += 'L' + Xi + ',' + Yi + ' ';
                 if (value > ((max - min) / 2)) {
-                    path += "A" + Ri + "," + Ri + " 0 0 0 " + (Cx + Ri) + "," + Cy + " ";
+                    path += 'A' + Ri + ',' + Ri + ' 0 0 0 ' + (Cx + Ri) + ',' + Cy + ' ';
                 }
-                path += "A" + Ri + "," + Ri + " 0 0 0 " + (Cx - Ri) + "," + Cy + " ";
-                path += "Z ";
+                path += 'A' + Ri + ',' + Ri + ' 0 0 0 ' + (Cx - Ri) + ',' + Cy + ' ';
+                path += 'Z ';
 
                 return {
                     path: path
@@ -474,12 +474,12 @@
                 Xi = Cx + Ri * Math.cos(alpha);
                 Yi = Cy - Ri * Math.sin(alpha);
 
-                path = "M" + (Cx - Ri) + "," + Cy + " ";
-                path += "L" + (Cx - Ro) + "," + Cy + " ";
-                path += "A" + Ro + "," + Ro + " 0 0 1 " + Xo + "," + Yo + " ";
-                path += "L" + Xi + "," + Yi + " ";
-                path += "A" + Ri + "," + Ri + " 0 0 0 " + (Cx - Ri) + "," + Cy + " ";
-                path += "Z ";
+                path = 'M' + (Cx - Ri) + ',' + Cy + ' ';
+                path += 'L' + (Cx - Ro) + ',' + Cy + ' ';
+                path += 'A' + Ro + ',' + Ro + ' 0 0 1 ' + Xo + ',' + Yo + ' ';
+                path += 'L' + Xi + ',' + Yi + ' ';
+                path += 'A' + Ri + ',' + Ri + ' 0 0 0 ' + (Cx - Ri) + ',' + Cy + ' ';
+                path += 'Z ';
 
                 return {
                     path: path
@@ -493,15 +493,15 @@
         // ndl - custom attribute for generating needle path
         obj.canvas.customAttributes.ndl = function (value, min, max, w, h, dx, dy, gws, donut) {
 
-            var dlt = w * 3.5 / 100;
-            var dlb = w / 15;
-            var dw = w / 100;
+            let dlt = w * 3.5 / 100;
+            let dlb = w / 15;
+            let dw = w / 100;
 
             if (obj.config.pointerOptions.toplength != null && obj.config.pointerOptions.toplength != undefined) dlt = obj.config.pointerOptions.toplength;
             if (obj.config.pointerOptions.bottomlength != null && obj.config.pointerOptions.bottomlength != undefined) dlb = obj.config.pointerOptions.bottomlength;
             if (obj.config.pointerOptions.bottomwidth != null && obj.config.pointerOptions.bottomwidth != undefined) dw = obj.config.pointerOptions.bottomwidth;
 
-            var alpha, Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi, Xc, Yc, Xz, Yz, Xa, Ya, Xb, Yb, path;
+            let alpha, Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi, Xc, Yc, Xz, Yz, Xa, Ya, Xb, Yb, path;
 
             if (donut) {
 
@@ -575,8 +575,8 @@
 
         // gauge
         obj.gauge = obj.canvas.path().attr({
-            "stroke": "none",
-            "fill": obj.config.gaugeColor,
+            'stroke': 'none',
+            'fill': obj.config.gaugeColor,
             pki: [
                 obj.config.max,
                 obj.config.min,
@@ -593,8 +593,8 @@
 
         // level
         obj.level = obj.canvas.path().attr({
-            "stroke": "none",
-            "fill": getColor(obj.config.value, (obj.config.value - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors),
+            'stroke': 'none',
+            'fill': getColor(obj.config.value, (obj.config.value - obj.config.min) / (obj.config.max - obj.config.min), obj.config.levelColors, obj.config.noGradient, obj.config.customSectors),
             pki: [
                 obj.config.min,
                 obj.config.min,
@@ -609,16 +609,16 @@
             ]
         });
         if (obj.config.donut) {
-            obj.level.transform("r" + obj.config.donutStartAngle + ", " + (obj.params.widgetW / 2 + obj.params.dx) + ", " + (obj.params.widgetH / 2 + obj.params.dy));
+            obj.level.transform('r' + obj.config.donutStartAngle + ', ' + (obj.params.widgetW / 2 + obj.params.dx) + ', ' + (obj.params.widgetH / 2 + obj.params.dy));
         }
 
         if (obj.config.pointer) {
             // needle
             obj.needle = obj.canvas.path().attr({
-                "stroke": (obj.config.pointerOptions.stroke !== null && obj.config.pointerOptions.stroke !== undefined) ? obj.config.pointerOptions.stroke : "none",
-                "stroke-width": (obj.config.pointerOptions.stroke_width !== null && obj.config.pointerOptions.stroke_width !== undefined) ? obj.config.pointerOptions.stroke_width : 0,
-                "stroke-linecap": (obj.config.pointerOptions.stroke_linecap !== null && obj.config.pointerOptions.stroke_linecap !== undefined) ? obj.config.pointerOptions.stroke_linecap : "square",
-                "fill": (obj.config.pointerOptions.color !== null && obj.config.pointerOptions.color !== undefined) ? obj.config.pointerOptions.color : "#000000",
+                'stroke': (obj.config.pointerOptions.stroke !== null && obj.config.pointerOptions.stroke !== undefined) ? obj.config.pointerOptions.stroke : 'none',
+                'stroke-width': (obj.config.pointerOptions.stroke_width !== null && obj.config.pointerOptions.stroke_width !== undefined) ? obj.config.pointerOptions.stroke_width : 0,
+                'stroke-linecap': (obj.config.pointerOptions.stroke_linecap !== null && obj.config.pointerOptions.stroke_linecap !== undefined) ? obj.config.pointerOptions.stroke_linecap : 'square',
+                'fill': (obj.config.pointerOptions.color !== null && obj.config.pointerOptions.color !== undefined) ? obj.config.pointerOptions.color : '#000000',
                 ndl: [
                     obj.config.min,
                     obj.config.min,
@@ -633,34 +633,34 @@
             });
 
             if (obj.config.donut) {
-                obj.needle.transform("r" + obj.config.donutStartAngle + ", " + (obj.params.widgetW / 2 + obj.params.dx) + ", " + (obj.params.widgetH / 2 + obj.params.dy));
+                obj.needle.transform('r' + obj.config.donutStartAngle + ', ' + (obj.params.widgetW / 2 + obj.params.dx) + ', ' + (obj.params.widgetH / 2 + obj.params.dy));
             }
         }
 
         // value
         obj.txtValue = obj.canvas.text(obj.params.valueX, obj.params.valueY, 0);
         obj.txtValue.attr({
-            "font-size": obj.params.valueFontSize,
-            "font-weight": "bold",
-            "font-family": obj.config.valueFontFamily,
-            "fill": obj.config.valueFontColor,
-            "fill-opacity": "0"
+            'font-size': obj.params.valueFontSize,
+            'font-weight': 'bold',
+            'font-family': obj.config.valueFontFamily,
+            'fill': obj.config.valueFontColor,
+            'fill-opacity': '0'
         });
         setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
 
         // label
         obj.txtLabel = obj.canvas.text(obj.params.labelX, obj.params.labelY, obj.config.label);
         obj.txtLabel.attr({
-            "font-size": obj.params.labelFontSize,
-            "font-weight": "normal",
-            "font-family": "Arial",
-            "fill": obj.config.labelFontColor,
-            "fill-opacity": "0"
+            'font-size': obj.params.labelFontSize,
+            'font-weight': 'normal',
+            'font-family': 'Arial',
+            'fill': obj.config.labelFontColor,
+            'fill-opacity': '0'
         });
         setDy(obj.txtLabel, obj.params.labelFontSize, obj.params.labelY);
 
         // min
-        var min = obj.config.min;
+        let min = obj.config.min;
         if (obj.config.reverse) {
             min = obj.config.max;
         }
@@ -675,16 +675,16 @@
         }
         obj.txtMin = obj.canvas.text(obj.params.minX, obj.params.minY, obj.txtMinimum);
         obj.txtMin.attr({
-            "font-size": obj.params.minFontSize,
-            "font-weight": "normal",
-            "font-family": "Arial",
-            "fill": obj.config.labelFontColor,
-            "fill-opacity": (obj.config.hideMinMax || obj.config.donut) ? "0" : "1"
+            'font-size': obj.params.minFontSize,
+            'font-weight': 'normal',
+            'font-family': 'Arial',
+            'fill': obj.config.labelFontColor,
+            'fill-opacity': (obj.config.hideMinMax || obj.config.donut) ? '0' : '1'
         });
         setDy(obj.txtMin, obj.params.minFontSize, obj.params.minY);
 
         // max
-        var max = obj.config.max;
+        let max = obj.config.max;
         if (obj.config.reverse) {
             max = obj.config.min;
         }
@@ -698,16 +698,16 @@
         }
         obj.txtMax = obj.canvas.text(obj.params.maxX, obj.params.maxY, obj.txtMaximum);
         obj.txtMax.attr({
-            "font-size": obj.params.maxFontSize,
-            "font-weight": "normal",
-            "font-family": "Arial",
-            "fill": obj.config.labelFontColor,
-            "fill-opacity": (obj.config.hideMinMax || obj.config.donut) ? "0" : "1"
+            'font-size': obj.params.maxFontSize,
+            'font-weight': 'normal',
+            'font-family': 'Arial',
+            'fill': obj.config.labelFontColor,
+            'fill-opacity': (obj.config.hideMinMax || obj.config.donut) ? '0' : '1'
         });
         setDy(obj.txtMax, obj.params.maxFontSize, obj.params.maxY);
 
-        var defs = obj.canvas.canvas.childNodes[1];
-        var svg = "http://www.w3.org/2000/svg";
+        const defs = obj.canvas.canvas.childNodes[1];
+        let svg = 'http://www.w3.org/2000/svg';
 
         if (ie !== 'undefined' && ie < 9) {
             // VML mode - no SVG & SVG filter support
@@ -737,53 +737,53 @@
 
         if (obj.config.counter === true) {
             //on each animation frame
-            Raphael.eve.on("raphael.anim.frame." + (obj.level.id), function () {
+            Raphael.eve.on('raphael.anim.frame.' + (obj.level.id), function () {
 
-                if(!obj.events["raphael.anim.frame." + (obj.level.id)]) obj.events["raphael.anim.frame." + (obj.level.id)] = this
+                if(!obj.events['raphael.anim.frame.' + (obj.level.id)]) obj.events['raphael.anim.frame.' + (obj.level.id)] = this;
 
-                var currentValue = obj.level.attr("pki")[0];
+                let currentValue = obj.level.attr('pki')[0];
                 if (obj.config.reverse) {
-                    currentValue = (obj.config.max * 1) + (obj.config.min * 1) - (obj.level.attr("pki")[0] * 1);
+                    currentValue = (obj.config.max * 1) + (obj.config.min * 1) - (obj.level.attr('pki')[0] * 1);
                 }
                 if (obj.config.textRenderer) {
-                    obj.txtValue.attr("text", obj.config.textRenderer(Math.floor(currentValue)));
+                    obj.txtValue.attr('text', obj.config.textRenderer(Math.floor(currentValue)));
                 } else if (obj.config.humanFriendly) {
-                    obj.txtValue.attr("text", humanFriendlyNumber(Math.floor(currentValue), obj.config.humanFriendlyDecimal) + obj.config.symbol);
+                    obj.txtValue.attr('text', humanFriendlyNumber(Math.floor(currentValue), obj.config.humanFriendlyDecimal) + obj.config.symbol);
                 } else if (obj.config.formatNumber) {
-                    obj.txtValue.attr("text", formatNumber(Math.floor(currentValue)) + obj.config.symbol);
+                    obj.txtValue.attr('text', formatNumber(Math.floor(currentValue)) + obj.config.symbol);
                 } else if (obj.config.displayRemaining) {
-                    obj.txtValue.attr("text", ((obj.config.max - currentValue) * 1).toFixed(obj.config.decimals) + obj.config.symbol);
+                    obj.txtValue.attr('text', ((obj.config.max - currentValue) * 1).toFixed(obj.config.decimals) + obj.config.symbol);
                 } else {
-                    obj.txtValue.attr("text", (currentValue * 1).toFixed(obj.config.decimals) + obj.config.symbol);
+                    obj.txtValue.attr('text', (currentValue * 1).toFixed(obj.config.decimals) + obj.config.symbol);
                 }
                 setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
                 currentValue = null;
             });
             //on animation end
-            Raphael.eve.on("raphael.anim.finish." + (obj.level.id), function () {
+            Raphael.eve.on('raphael.anim.finish.' + (obj.level.id), function () {
 
-                if(!obj.events["raphael.anim.finish." + (obj.level.id)]) obj.events["raphael.anim.finish." + (obj.level.id)] = this
+                if(!obj.events['raphael.anim.finish.' + (obj.level.id)]) obj.events['raphael.anim.finish.' + (obj.level.id)] = this;
 
                 obj.txtValue.attr({
-                    "text": obj.originalValue
+                    'text': obj.originalValue
                 });
                 setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
             });
         } else {
             //on animation start
-            Raphael.eve.on("raphael.anim.start." + (obj.level.id), function () {
+            Raphael.eve.on('raphael.anim.start.' + (obj.level.id), function () {
 
-                if(!obj.events["raphael.anim.start." + (obj.level.id)]) obj.events["raphael.anim.start." + (obj.level.id)] = this
+                if(!obj.events['raphael.anim.start.' + (obj.level.id)]) obj.events['raphael.anim.start.' + (obj.level.id)] = this;
 
                 obj.txtValue.attr({
-                    "text": obj.originalValue
+                    'text': obj.originalValue
                 });
                 setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
             });
         }
 
         // animate gauge level, value & label
-        var rvl = obj.config.value;
+        let rvl = obj.config.value;
         if (obj.config.reverse) {
             rvl = (obj.config.max * 1) + (obj.config.min * 1) - (obj.config.value * 1);
         }
@@ -819,18 +819,18 @@
         }
 
         obj.txtValue.animate({
-            "fill-opacity": (obj.config.hideValue) ? "0" : "1"
+            'fill-opacity': (obj.config.hideValue) ? '0' : '1'
         }, obj.config.startAnimationTime, obj.config.startAnimationType);
         obj.txtLabel.animate({
-            "fill-opacity": "1"
+            'fill-opacity': '1'
         }, obj.config.startAnimationTime, obj.config.startAnimationType);
     };
 
     /** Refresh gauge level */
     JustGage.prototype.refresh = function (val, max, min, label) {
 
-        var obj = this;
-        var displayVal, color;
+        const obj = this;
+        let displayVal, color;
 
         max = max || null;
         min = min || null;
@@ -841,7 +841,7 @@
             obj.config.label = label;
 
             obj.txtLabel.attr({
-                "text": obj.config.label
+                'text': obj.config.label
             });
             setDy(obj.txtLabel, obj.params.labelFontSize, obj.params.labelY);
         }
@@ -861,12 +861,12 @@
             }
             if (!obj.config.reverse) {
                 obj.txtMin.attr({
-                    "text": obj.txtMinimum
+                    'text': obj.txtMinimum
                 });
                 setDy(obj.txtMin, obj.params.minFontSize, obj.params.minY);
             } else {
                 obj.txtMax.attr({
-                    "text": obj.txtMinimum
+                    'text': obj.txtMinimum
                 });
                 setDy(obj.txtMax, obj.params.minFontSize, obj.params.minY);
             }
@@ -886,12 +886,12 @@
             }
             if (!obj.config.reverse) {
                 obj.txtMax.attr({
-                    "text": obj.txtMaximum
+                    'text': obj.txtMaximum
                 });
                 setDy(obj.txtMax, obj.params.maxFontSize, obj.params.maxY);
             } else {
                 obj.txtMin.attr({
-                    "text": obj.txtMaximum
+                    'text': obj.txtMaximum
                 });
                 setDy(obj.txtMin, obj.params.maxFontSize, obj.params.maxY);
             }
@@ -924,12 +924,12 @@
 
         if (!obj.config.counter) {
             obj.txtValue.attr({
-                "text": displayVal
+                'text': displayVal
             });
             setDy(obj.txtValue, obj.params.valueFontSize, obj.params.valueY);
         }
 
-        var rvl = obj.config.value;
+        let rvl = obj.config.value;
         if (obj.config.reverse) {
             rvl = (obj.config.max * 1) + (obj.config.min * 1) - (obj.config.value * 1);
         }
@@ -947,7 +947,7 @@
                 obj.config.donut,
                 obj.config.reverse
             ],
-            "fill": color
+            'fill': color
         }, obj.config.refreshAnimationTime, obj.config.refreshAnimationType, obj.config.onAnimationEnd);
 
         if (obj.config.pointer) {
@@ -974,68 +974,68 @@
     JustGage.prototype.destroy = function () {
         if (this.node && this.node.parentNode) this.node.innerHTML = '';
 
-        for(var event in this.events)
-            Raphael.eve.off(event, this.events[event])
+        for(const event in this.events)
+            Raphael.eve.off(event, this.events[event]);
     };
 
     /** Generate shadow */
     JustGage.prototype.generateShadow = function (svg, defs) {
 
-        var obj = this;
-        var sid = "inner-shadow-" + obj.config.id;
-        var gaussFilter, feOffset, feGaussianBlur, feComposite1, feFlood, feComposite2, feComposite3;
+        const obj = this;
+        const sid = 'inner-shadow-' + obj.config.id;
+        let gaussFilter, feOffset, feGaussianBlur, feComposite1, feFlood, feComposite2, feComposite3;
 
         // FILTER
-        gaussFilter = document.createElementNS(svg, "filter");
-        gaussFilter.setAttribute("id", sid);
+        gaussFilter = document.createElementNS(svg, 'filter');
+        gaussFilter.setAttribute('id', sid);
         defs.appendChild(gaussFilter);
 
         // offset
-        feOffset = document.createElementNS(svg, "feOffset");
-        feOffset.setAttribute("dx", 0);
-        feOffset.setAttribute("dy", obj.config.shadowVerticalOffset);
+        feOffset = document.createElementNS(svg, 'feOffset');
+        feOffset.setAttribute('dx', 0);
+        feOffset.setAttribute('dy', obj.config.shadowVerticalOffset);
         gaussFilter.appendChild(feOffset);
 
         // blur
-        feGaussianBlur = document.createElementNS(svg, "feGaussianBlur");
-        feGaussianBlur.setAttribute("result", "offset-blur");
-        feGaussianBlur.setAttribute("stdDeviation", obj.config.shadowSize);
+        feGaussianBlur = document.createElementNS(svg, 'feGaussianBlur');
+        feGaussianBlur.setAttribute('result', 'offset-blur');
+        feGaussianBlur.setAttribute('stdDeviation', obj.config.shadowSize);
         gaussFilter.appendChild(feGaussianBlur);
 
         // composite 1
-        feComposite1 = document.createElementNS(svg, "feComposite");
-        feComposite1.setAttribute("operator", "out");
-        feComposite1.setAttribute("in", "SourceGraphic");
-        feComposite1.setAttribute("in2", "offset-blur");
-        feComposite1.setAttribute("result", "inverse");
+        feComposite1 = document.createElementNS(svg, 'feComposite');
+        feComposite1.setAttribute('operator', 'out');
+        feComposite1.setAttribute('in', 'SourceGraphic');
+        feComposite1.setAttribute('in2', 'offset-blur');
+        feComposite1.setAttribute('result', 'inverse');
         gaussFilter.appendChild(feComposite1);
 
         // flood
-        feFlood = document.createElementNS(svg, "feFlood");
-        feFlood.setAttribute("flood-color", "black");
-        feFlood.setAttribute("flood-opacity", obj.config.shadowOpacity);
-        feFlood.setAttribute("result", "color");
+        feFlood = document.createElementNS(svg, 'feFlood');
+        feFlood.setAttribute('flood-color', 'black');
+        feFlood.setAttribute('flood-opacity', obj.config.shadowOpacity);
+        feFlood.setAttribute('result', 'color');
         gaussFilter.appendChild(feFlood);
 
         // composite 2
-        feComposite2 = document.createElementNS(svg, "feComposite");
-        feComposite2.setAttribute("operator", "in");
-        feComposite2.setAttribute("in", "color");
-        feComposite2.setAttribute("in2", "inverse");
-        feComposite2.setAttribute("result", "shadow");
+        feComposite2 = document.createElementNS(svg, 'feComposite');
+        feComposite2.setAttribute('operator', 'in');
+        feComposite2.setAttribute('in', 'color');
+        feComposite2.setAttribute('in2', 'inverse');
+        feComposite2.setAttribute('result', 'shadow');
         gaussFilter.appendChild(feComposite2);
 
         // composite 3
-        feComposite3 = document.createElementNS(svg, "feComposite");
-        feComposite3.setAttribute("operator", "over");
-        feComposite3.setAttribute("in", "shadow");
-        feComposite3.setAttribute("in2", "SourceGraphic");
+        feComposite3 = document.createElementNS(svg, 'feComposite');
+        feComposite3.setAttribute('operator', 'over');
+        feComposite3.setAttribute('in', 'shadow');
+        feComposite3.setAttribute('in2', 'SourceGraphic');
         gaussFilter.appendChild(feComposite3);
 
         // set shadow
         if (obj.config.showInnerShadow) {
-            obj.canvas.canvas.childNodes[2].setAttribute("filter", "url(" + window.location.pathname + "#" + sid + ")");
-            obj.canvas.canvas.childNodes[3].setAttribute("filter", "url(" + window.location.pathname + "#" + sid + ")");
+            obj.canvas.canvas.childNodes[2].setAttribute('filter', 'url(' + window.location.pathname + '#' + sid + ')');
+            obj.canvas.canvas.childNodes[3].setAttribute('filter', 'url(' + window.location.pathname + '#' + sid + ')');
         }
 
         // var clear
@@ -1054,13 +1054,13 @@
     // delimiter: delimiter to be used in conjunction with datatype formatting
     //
     function kvLookup(key, tablea, tableb, defval, datatype, delimiter) {
-        var val = defval;
-        var canConvert = false;
+        let val = defval;
+        let canConvert = false;
         if (!(key === null || key === undefined)) {
-            if (tableb !== null && tableb !== undefined && typeof tableb === "object" && key in tableb) {
+            if (tableb !== null && tableb !== undefined && typeof tableb === 'object' && key in tableb) {
                 val = tableb[key];
                 canConvert = true;
-            } else if (tablea !== null && tablea !== undefined && typeof tablea === "object" && key in tablea) {
+            } else if (tablea !== null && tablea !== undefined && typeof tablea === 'object' && key in tablea) {
                 val = tablea[key];
                 canConvert = true;
             } else {
@@ -1087,8 +1087,8 @@
     /** Get color for value */
     function getColor(val, pct, col, noGradient, custSec) {
 
-        var no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color;
-        var cust = custSec && custSec.ranges && custSec.ranges.length > 0;
+        let no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color;
+        const cust = custSec && custSec.ranges && custSec.ranges.length > 0;
         var noGradient = noGradient || cust;
 
         if (cust) {
@@ -1135,7 +1135,7 @@
             return 'rgb(' + [colors[0].color.r, colors[0].color.g, colors[0].color.b].join(',') + ')';
         }
 
-        for (var j = 0; j < colors.length; j++) {
+        for (let j = 0; j < colors.length; j++) {
             if (pct <= colors[j].pct) {
                 if (noGradient) {
                     return 'rgb(' + [colors[j].color.r, colors[j].color.g, colors[j].color.b].join(',') + ')';
@@ -1167,15 +1167,15 @@
 
     /**  Cut hex  */
     function cutHex(str) {
-        return (str.charAt(0) === "#") ? str.substring(1, 7) : str;
+        return (str.charAt(0) === '#') ? str.substring(1, 7) : str;
     }
 
     /**  Human friendly number suffix - @robertsLando */
     function humanFriendlyNumber(n, d) {
-        var d2, i, s, c;
+        let d2, i, s, c;
 
         d2 = Math.pow(10, d);
-        s = " KMGTPE";
+        s = ' KMGTPE';
         i = 0;
         c = 1000;
 
@@ -1188,16 +1188,16 @@
 
     /** Format numbers with commas - From: http://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript */
     function formatNumber(x) {
-        var parts = x.toString().split(".");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return parts.join(".");
+        const parts = x.toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return parts.join('.');
     }
 
     /**  Get style  */
     function getStyle(oElm, strCssRule) {
-        var strValue = "";
+        let strValue = '';
         if (document.defaultView && document.defaultView.getComputedStyle) {
-            strValue = document.defaultView.getComputedStyle(oElm, "").getPropertyValue(strCssRule);
+            strValue = document.defaultView.getComputedStyle(oElm, '').getPropertyValue(strCssRule);
         } else if (oElm.currentStyle) {
             strCssRule = strCssRule.replace(/\-(\w)/g, function (strMatch, p1) {
                 return p1.toUpperCase();
@@ -1219,54 +1219,54 @@
     }
 
     /**  Get IE version  */
-        // ----------------------------------------------------------
-        // A short snippet for detecting versions of IE in JavaScript
-        // without resorting to user-agent sniffing
-        // ----------------------------------------------------------
-        // If you're not in IE (or IE version is less than 5) then:
-        // ie === undefined
-        // If you're in IE (>=5) then you can determine which version:
-        // ie === 7; // IE7
-        // Thus, to detect IE:
-        // if (ie) {}
-        // And to detect the version:
-        // ie === 6 // IE6
-        // ie > 7 // IE8, IE9 ...
-        // ie < 9 // Anything less than IE9
-        // ----------------------------------------------------------
-        // UPDATE: Now using Live NodeList idea from @jdalton
+    // ----------------------------------------------------------
+    // A short snippet for detecting versions of IE in JavaScript
+    // without resorting to user-agent sniffing
+    // ----------------------------------------------------------
+    // If you're not in IE (or IE version is less than 5) then:
+    // ie === undefined
+    // If you're in IE (>=5) then you can determine which version:
+    // ie === 7; // IE7
+    // Thus, to detect IE:
+    // if (ie) {}
+    // And to detect the version:
+    // ie === 6 // IE6
+    // ie > 7 // IE8, IE9 ...
+    // ie < 9 // Anything less than IE9
+    // ----------------------------------------------------------
+    // UPDATE: Now using Live NodeList idea from @jdalton
     var ie = (function () {
 
-            var undef,
-                v = 3,
-                div = document.createElement('div'),
-                all = div.getElementsByTagName('i');
+        let undef,
+            v = 3,
+            div = document.createElement('div'),
+            all = div.getElementsByTagName('i');
 
-            while (
-                div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
-                    all[0]
-                );
-            return v > 4 ? v : undef;
-        }());
+        while (
+            div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+            all[0]
+        );
+        return v > 4 ? v : undef;
+    }());
 
     // extend target object with second object
     function extend(out) {
         out = out || {};
 
-        for (var i = 1; i < arguments.length; i++) {
+        for (let i = 1; i < arguments.length; i++) {
             if (!arguments[i])
                 continue;
 
-            for (var key in arguments[i]) {
+            for (const key in arguments[i]) {
                 if (arguments[i].hasOwnProperty(key))
                     out[key] = arguments[i][key];
             }
         }
 
         return out;
-    };
+    }
 
-    return JustGage
+    return JustGage;
 }));
 
 
