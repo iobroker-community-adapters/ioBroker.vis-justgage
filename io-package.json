@@ -35,17 +35,17 @@
       }
     },
     "titleLang": {
-      "en": "justGage Widgets\n",
-      "de": "justGage Widgets\n",
-      "ru": "justGage Виджеты\n",
-      "pt": "apenas gerar Widgets\n",
-      "nl": "gage Widgets\n",
-      "fr": "justeGage Widgets\n",
-      "it": "justGage Widgets\n",
-      "es": "justGage Widgets\n",
-      "pl": "gage Widget\n",
-      "uk": "justGage Віджети\n",
-      "zh-cn": "公正的Gage Widget\n"
+      "en": "justGage Widgets",
+      "de": "justGage Widgets",
+      "ru": "justGage Виджеты",
+      "pt": "apenas gerar Widgets",
+      "nl": "gage Widgets",
+      "fr": "justeGage Widgets",
+      "it": "justGage Widgets",
+      "es": "justGage Widgets",
+      "pl": "gage Widget",
+      "uk": "justGage Віджети",
+      "zh-cn": "公正的Gage Widget"
     },
     "desc": {
       "en": "justGage Widgets for ioBroker.vis",
