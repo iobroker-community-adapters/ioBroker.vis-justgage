@@ -5,6 +5,8 @@ gulpfile.js
 !/admin/*
 !/lib/**/*
 !/lib/*
+!/widgets/**/*
+!/widgets/*
 !/io-package.json
 !/package.json
 !/LICENSE
