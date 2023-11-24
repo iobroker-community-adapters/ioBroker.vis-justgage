@@ -45,7 +45,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 2.0.1-alpha.0 (2023-11-24)
+### **WORK IN PROGRESS**
 - (mcm1957) Missing files blocking any functionality have been added to package again
 
 ### 2.0.0 (2023-10-24)
