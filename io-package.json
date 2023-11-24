@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.0.0",
+    "version": "2.0.1-alpha.0",
     "news": {
+      "2.0.1-alpha.0": {
+        "en": "Missing files blocking any functionality have been added to package again",
+        "de": "Fehlende Dateien, die jede Funktionalität blockierten, wurden ewieder zum Paket hinzugefügt",
+        "ru": "Отсутствующие файлы, блокирующие любой функционал, были добавлены в пакет снова",
+        "pt": "Arquivos perdidos bloqueando qualquer funcionalidade foram adicionados ao pacote novamente",
+        "nl": "Vermiste dossiers blokkeren elke functionaliteit is weer toegevoegd",
+        "fr": "Des fichiers manquants qui bloquent toutes les fonctionnalités ont été ajoutés au paquet",
+        "it": "I file mancanti che bloccano qualsiasi funzionalità sono stati aggiunti di nuovo al pacchetto",
+        "es": "Falta de archivos que bloquean cualquier funcionalidad se ha añadido al paquete de nuevo",
+        "pl": "Urządzenia blokujące wszystkie funkcje zostały dodane do pakietu ponownie",
+        "uk": "З'єднання файлів, що блокують будь-яку функціональність, додано в пакет",
+        "zh-cn": "冻结任何功能的档案再次列入一揽子计划。"
+      },
       "2.0.0": {
         "en": "Adapter has been moved to iobroker-community-adapters organization\nDependencies have been updated",
         "de": "Adapter wurde auf iobroker-community-Adapter Organisation verschoben\nAbhängigkeiten wurden aktualisiert",
