@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.0.1-alpha.0",
+    "version": "2.0.1",
     "news": {
-      "2.0.1-alpha.0": {
+      "2.0.1": {
         "en": "Missing files blocking any functionality have been added to package again",
         "de": "Fehlende Dateien, die jede Funktionalität blockierten, wurden ewieder zum Paket hinzugefügt",
         "ru": "Отсутствующие файлы, блокирующие любой функционал, были добавлены в пакет снова",
