@@ -21,12 +21,7 @@
     "type": "git",
     "url": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage"
   },
-  "engines": {
-    "node": ">= 16"
-  },
-  "dependencies": {
-    "@iobroker/adapter-core": "^3.0.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@alcalzone/release-script": "^3.6.0",
     "@alcalzone/release-script-plugin-iobroker": "^3.6.0",
