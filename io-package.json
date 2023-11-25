@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "news": {
+      "2.0.2": {
+        "en": "Mode setting has been adapted\nAdapter-core dependency has been removed",
+        "de": "Moduseinstellung wurde angepasst\nAdapter-core Abhängigkeit wurde entfernt",
+        "ru": "Установка режима была адаптирована\nАдаптер-корневая зависимость была удалена",
+        "pt": "Ajuste de modo foi adaptado\nDependência do adaptador-core foi removida",
+        "nl": "Mode is aangepast\nAdapter-core afhankelijkheid is verwijderd",
+        "fr": "Mode réglage a été adapté\nLa dépendance de l'adaptateur-core a été supprimée",
+        "it": "L'impostazione della modalità è stata adattata\nLa dipendenza dell'adattatore-core è stata rimossa",
+        "es": "Se ha adaptado el modo\nAdapter-core dependency has been removed",
+        "pl": "Zastosowano specjalne ustawienia\nW zależności od Adaptercore został usunięty",
+        "uk": "Налаштування режиму\nВидалено поточну залежність адаптера",
+        "zh-cn": "结构调整\n取消了对核心的依赖"
+      },
       "2.0.1": {
         "en": "Missing files blocking any functionality have been added to package again",
         "de": "Fehlende Dateien, die jede Funktionalität blockierten, wurden ewieder zum Paket hinzugefügt",

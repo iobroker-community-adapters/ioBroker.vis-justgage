@@ -45,7 +45,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.2 (2023-11-25)
 - (mcm1957) Mode setting has been adapted
 - (mcm1957) Adapter-core dependency has been removed
 
