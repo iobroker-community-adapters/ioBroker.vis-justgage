@@ -54,11 +54,13 @@ if (vis.editMode) {
         'valueFontColor':   {'en': 'color',                     'de': 'Farbe',                      'ru': 'Цвет'},
         'valueFontFamily':  {'en': 'font-family',               'de': 'Schriftfamilie',             'ru': 'font-family'},
         'valueOffsetY':     {'en': 'Offset Y',                  'de': 'Versatz Y',                  'ru': 'Сдвиг по Y'},
+/*
         'group_title1':     {'en': 'title',                     'de': 'Titel',                      'ru': 'Название'},
         'titleFontColor':   {'en': 'color',                     'de': 'Farbe',                      'ru': 'Цвет'},
         'titleFontFamily':  {'en': 'font-family',               'de': 'Schriftfamilie',             'ru': 'font-family'},
         'titleBelow':       {'en': 'title below',               'de': 'Titel unten',                'ru': 'Название знизу'},
         'titleOffsetY':     {'en': 'Offset Y',                  'de': 'Versatz Y',                  'ru': 'Сдвиг по Y'},
+*/
         'group_label':      {'en': 'label',                     'de': 'Beschriftung',               'ru': 'Подпись'},
         'label_oid':        {'en': 'label',                     'de': 'Beschriftung',               'ru': 'Подпись'},
         'labelFontColor':   {'en': 'color',                     'de': 'Farbe',                      'ru': 'Цвет'},
@@ -528,13 +530,13 @@ vis.binds.justgage = {
             valueFontFamily:    data.valueFontFamily    || 'Arial',
             valueMinFontSize:   10,
             valueOffsetY:       data.valueOffsetY       || 0,
-
+/*
             title:              data.title              || '',
             titleFontColor:     data.titleFontColor     || '#999999',
             titleFontFamily:    data.titleFontFamily    || 'sans-serif',
             titlePosition:      data.titleBelow         ? 'below' : 'above',
             titleOffsetY:       data.titleOffsetY       || 0,
-
+*/
             label:              vis.binds.justgage.isOID(data.label_oid + '.val') ? vis.states[data.label_oid + '.val'] : data.label_oid || '',
             labelFontColor:     data.labelFontColor     || '#b3b3b3',
             labelFontFamily:    data.labelFontFamily    || 'Arial',
