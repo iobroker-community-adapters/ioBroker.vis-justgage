@@ -120,15 +120,13 @@
     "mode": "once",
     "type": "visualization-widgets",
     "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-    "dependencies": [
-      "vis"
-    ],
     "onlyWWW": true,
     "singleton": true,
     "noConfig": true,
     "materialize": true,
     "restartAdapters": [
-      "vis"
+      "vis",
+      "vis-2"
     ]
   },
   "native": {
