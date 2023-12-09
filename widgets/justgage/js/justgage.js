@@ -109,7 +109,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: '1.0.2',
+    version: '2.1.0',
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
