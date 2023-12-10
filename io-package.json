@@ -1,11 +1,11 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.1.0-alpha.0",
+    "version": "2.1.0",
     "news": {
-      "2.1.0-alpha.0": {
+      "2.1.0": {
         "en": "'Title' has been readded\nCode base has been restored to release 1.0.2 which has not been saved to github\nDependencies have been updated",
-        "de": "Titel wurde wieder hinzugefügt\nCode-Basis wurde auf Stand 1.0.2 gebracht, welcher nicht auf github gesichert wurde.\nAbhängigkeiten wurden aktualisiert",
+        "de": "Titel wurde wieder hinugefügt\nCode-Basis wurde basierend auf 1.0.2, die nicht in github gespeichert wurde, wieder hergestellt.\nAbhängigkeiten wurden aktualisiert",
         "ru": "Название было прочитано\nБаза кода была восстановлена для выхода 1.0.2 который не был сохранен в github\nВ зависимости были обновлены",
         "pt": "Título foi acolhido\nBase de código foi restaurado para liberar 1.0.2 que não foi salvo para github\nAs dependências foram atualizadas",
         "nl": "Titel is gelezen\nCodebasis is hersteld om 1.0.2 vrij te laten die niet gered is om github\nAfhankelijkheid",
