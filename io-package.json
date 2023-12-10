@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.0.2",
+    "version": "2.1.0-alpha.0",
     "news": {
+      "2.1.0-alpha.0": {
+        "en": "'Title' has been readded\nCode base has been restored to release 1.0.2 which has not been saved to github\nDependencies have been updated",
+        "de": "Titel wurde wieder hinzugefügt\nCode-Basis wurde auf Stand 1.0.2 gebracht, welcher nicht auf github gesichert wurde.\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Название было прочитано\nБаза кода была восстановлена для выхода 1.0.2 который не был сохранен в github\nВ зависимости были обновлены",
+        "pt": "Título foi acolhido\nBase de código foi restaurado para liberar 1.0.2 que não foi salvo para github\nAs dependências foram atualizadas",
+        "nl": "Titel is gelezen\nCodebasis is hersteld om 1.0.2 vrij te laten die niet gered is om github\nAfhankelijkheid",
+        "fr": "Le titre a été lu\nLa base de code a été restaurée pour libérer 1.0.2 qui n'a pas été sauvegardée pour github\nLes dépendances ont été mises à jour",
+        "it": "Il titolo è stato letto\nCodice base è stato ripristinato per rilasciare 1.0.2 che non è stato salvato a github\nLe dipendenze sono state aggiornate",
+        "es": "Título ha sido leído\nLa base de código ha sido restaurada para la versión 1.0.2 que no ha sido salvada para github\nSe han actualizado las dependencias",
+        "pl": "Tytuł został odczytany\nBaza kodowa została przywrócona do wydania 1.0.2, który nie został uratowany\nZależności zostały zaktualizowane",
+        "uk": "Назва було прочитано\nCode base було відновлено для релізу 1.0.2 який не був збережений в github\nОновлено залежність",
+        "zh-cn": "标题改为:\n已经恢复了第1.0.2号法令基础,因为该准则没有被排除在廷布。\n已更新了属地"
+      },
       "2.0.2": {
         "en": "Mode setting has been adapted\nAdapter-core dependency has been removed",
         "de": "Moduseinstellung wurde angepasst\nAdapter-core Abhängigkeit wurde entfernt",
@@ -107,15 +120,13 @@
     "mode": "once",
     "type": "visualization-widgets",
     "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
-    "dependencies": [
-      "vis"
-    ],
     "onlyWWW": true,
     "singleton": true,
     "noConfig": true,
     "materialize": true,
     "restartAdapters": [
-      "vis"
+      "vis",
+      "vis-2"
     ]
   },
   "native": {

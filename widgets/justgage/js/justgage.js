@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "1.0.1"
+    version: "1.0.2"
 
     Copyright 10.2015-2019 Pmant<patrickmo@gmx.de>
 
@@ -55,6 +55,7 @@ if (vis.editMode) {
         'valueFontFamily':  {'en': 'font-family',               'de': 'Schriftfamilie',             'ru': 'font-family'},
         'valueOffsetY':     {'en': 'Offset Y',                  'de': 'Versatz Y',                  'ru': 'Сдвиг по Y'},
         'group_title1':     {'en': 'title',                     'de': 'Titel',                      'ru': 'Название'},
+        'title':            {'en': 'title',                     'de': 'Titel',                      'ru': 'Название'},
         'titleFontColor':   {'en': 'color',                     'de': 'Farbe',                      'ru': 'Цвет'},
         'titleFontFamily':  {'en': 'font-family',               'de': 'Schriftfamilie',             'ru': 'font-family'},
         'titleBelow':       {'en': 'title below',               'de': 'Titel unten',                'ru': 'Название знизу'},
@@ -108,7 +109,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: '1.0.1',
+    version: '2.1.0',
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
