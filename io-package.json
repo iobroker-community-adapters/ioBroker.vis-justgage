@@ -119,7 +119,6 @@
     "loglevel": "info",
     "mode": "once",
     "type": "visualization-widgets",
-    "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
     "onlyWWW": true,
     "singleton": true,
     "noConfig": true,
@@ -127,7 +126,12 @@
     "restartAdapters": [
       "vis",
       "vis-2"
-    ]
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "link": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/LICENSE"
+    },
+    "tier": 3
   },
   "native": {
     "dependencies": []

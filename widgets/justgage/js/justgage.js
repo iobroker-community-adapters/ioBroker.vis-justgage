@@ -3,7 +3,8 @@
 
     version: "1.0.2"
 
-    Copyright 10.2015-2019 Pmant<patrickmo@gmx.de>
+    Copyright (c) 2023-2024 iobroker-community-adapters
+    Copyright (c) 10.2015-2019 Pmant<patrickmo@gmx.de>
 
 */
 'use strict';
@@ -122,8 +123,10 @@ vis.binds.justgage = {
             decimals = 2;
             _format = decimals;
         }
-        const format = (_format === undefined) ? '.,' : _format;
-        if (typeof value !== 'number') value = parseFloat(value);
+        const format = _format === undefined ? '.,' : _format;
+        if (typeof value !== 'number') {
+            value = parseFloat(value);
+        }
         return isNaN(value) ? '' : value.toFixed(decimals || 0).replace(format[0], format[1]).replace(/\B(?=(\d{3})+(?!\d))/g, format[0]);
     },
 
@@ -649,10 +652,10 @@ vis.binds.justgage = {
         }
     },
 
-    changedId: function (widgetID, view, newId, fields) {
+    changedId: function (widgetID, view, newId /*, fields */) {
         const obj = vis.objects[newId];
         const changed = [];
-        // If it is real object and state
+        // If it is a real object and state
         if (obj && obj.common && obj.type === 'state') {
             if (obj.common.min !== undefined && !vis.views[view].widgets[widgetID].data.min_oid) {
                 changed.push('min_oid');
@@ -678,14 +681,27 @@ vis.binds.justgage.showVersion();
 
 /** Get color for value */
 function getColorGrad(pct, col, maxBri) {
-    let no, inc, colors, percentage, rval, gval, bval, lower, upper, range, rangePct, pctLower, pctUpper, color, pow;
+    let percentage;
+    let rval;
+    let gval;
+    let bval;
+    let lower;
+    let upper;
+    let range;
+    let rangePct;
+    let pctLower;
+    let pctUpper;
+    let color;
+    let pow;
 
-    no = col.length;
-    if (no === 1) return col[0];
-    inc = 1 / (no - 1);
-    colors = [];
+    const no = col.length;
+    if (no === 1) {
+        return col[0];
+    }
+    const inc = 1 / (no - 1);
+    const colors = [];
     for (let i = 0; i < col.length; i++) {
-        var colr;
+        let colr;
         if (typeof col[i] === 'object') {
             percentage = col[i].pct ? col[i].pct : inc * i;
             pow = col[i].pow || 1;

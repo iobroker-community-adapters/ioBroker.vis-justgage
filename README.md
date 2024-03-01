@@ -4,18 +4,22 @@ ioBroker.vis-justgage
 [![GitHub license](https://img.shields.io/github/license/iobroker-community-adapters/ioBroker.vis-justgage)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/LICENSE)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.vis-justgage.svg)](https://www.npmjs.com/package/iobroker.vis-justgage)
 ![GitHub repo size](https://img.shields.io/github/repo-size/iobroker-community-adapters/ioBroker.vis-justgage)
-[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/vis-justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)</br>
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/vis-justgage/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
+
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/iobroker-community-adapters/ioBroker.vis-justgage)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/iobroker-community-adapters/ioBroker.vis-justgage/latest)
 ![GitHub last commit](https://img.shields.io/github/last-commit/iobroker-community-adapters/ioBroker.vis-justgage)
 ![GitHub issues](https://img.shields.io/github/issues/iobroker-community-adapters/ioBroker.vis-justgage)
-</br>
-**Version:** </br>
+
+**Version:**
+
 [![NPM version](http://img.shields.io/npm/v/iobroker.vis-justgage.svg)](https://www.npmjs.com/package/iobroker.vis-justgage)
 ![Current version in stable repository](https://iobroker.live/badges/vis-justgage-stable.svg)
 ![Number of Installations](https://iobroker.live/badges/vis-justgage-installed.svg)
-</br>
-**Tests:** </br>
+
+
+**Tests:**
+
 [![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/test-and-release.yml)
 [![CodeQL](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/codeql.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/actions/workflows/codeql.yml)
 
@@ -37,7 +41,7 @@ There is a possibility to define the pointer options:
   "color": "#000000"
 }
 ```
-It must be valid JSON object. Single quotas are not allowed!
+It must be a valid JSON object. Single quotas are not allowed!
 More about pointer options could be found here: https://github.com/toorshia/justgage#pointer-options
 
 ## Changelog
@@ -46,8 +50,8 @@ More about pointer options could be found here: https://github.com/toorshia/just
     ### **WORK IN PROGRESS**
 -->
 ### 2.1.0 (2023-12-10)
-- (mcm1957) 'Title' has been readded
-- (mcm1957) Code base has been restored to release 1.0.2 which has not been saved to github
+- (mcm1957) 'Title' has been read
+- (mcm1957) Code base has been restored to release 1.0.2 which has not been saved to GitHub
 - (mcm1957) Dependencies have been updated
 
 ### 2.0.2 (2023-11-25)
@@ -75,20 +79,20 @@ More about pointer options could be found here: https://github.com/toorshia/just
 - (bluefox) Update justgage.js
 
 ### 0.6.0 (2016-07-31)
-- (Pmant) add no-gradient-option to Justgage widget
-- (Pmant) add full brightness option to Justgage widget
+- (Pmant) added no-gradient-option to Justgage widget
+- (Pmant) added a full brightness option to Justgage widget
 - (jens-maus) add missing unit fields
 
 ### 0.5.1 (2016-07-21)
 - (jens-maus) fix auto fill max, min, unit
 
 ### 0.5.0 (2016-07-01)
-- (Pmant) fix default indicator
-- (Pmant) add option to change background-color instead of text-color
-- (Pmant) add option to always set full brightness colors
+- (Pmant) fixed default indicator
+- (Pmant) added option to change background-color instead of text-color
+- (Pmant) added option to always set full brightness colors
 
 ### 0.4.2 (2016-06-05)
-- (PArns) fix mid default vaule if max != 100 & min != 0
+- (PArns) fix mid default value if max != 100 & min != 0
 
 ### 0.4.1 (2016-03-20)
 - (bluefox) remove config
@@ -120,7 +124,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
 
 The MIT License (MIT)
 
-Copyright (c) 2023 iobroker-community-adapters 
+Copyright (c) 2023-2024 iobroker-community-adapters 
 Copyright (c) 2015-2019 Pmant <patrickmo@gmx.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
