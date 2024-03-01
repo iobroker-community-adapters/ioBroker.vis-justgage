@@ -258,25 +258,20 @@ vis.binds.justgage = {
             }
         }
 
-        refresh(true, 0);
-
         function onChange(e, newVal, oldVal) {
             if (e.type === data.oid + '.val') {
                 val = parseFloat(newVal) || 0;
                 refresh(true, newVal - oldVal);
-            } else
-                if (e.type === data.mid_oid + '.val') {
-                    mid = parseFloat(newVal) || 0;
-                    refresh(false);
-                } else
-                    if (e.type === data.max_oid + '.val') {
-                        max = parseFloat(newVal) || 0;
-                        refresh(false);
-                    } else
-                        if (e.type === data.min_oid + '.val') {
-                            min = parseFloat(newVal) || 0;
-                            refresh(false);
-                        }
+            } else if (e.type === data.mid_oid + '.val') {
+                mid = parseFloat(newVal) || 0;
+                refresh(false);
+            } else if (e.type === data.max_oid + '.val') {
+                max = parseFloat(newVal) || 0;
+                refresh(false);
+            } else if (e.type === data.min_oid + '.val') {
+                min = parseFloat(newVal) || 0;
+                refresh(false);
+            }
         }
 
         const bound = [];
@@ -312,6 +307,14 @@ vis.binds.justgage = {
             $div.hasClass('ui-resizable') && $div.resizable('destroy');
             vis.resizable($div);
         }
+
+        setTimeout(function () {
+            val = vis.binds.justgage.getVal(data.oid, 0);
+            min = vis.binds.justgage.getVal(data.min_oid, 0);
+            max = vis.binds.justgage.getVal(data.max_oid, 100);
+            mid = vis.binds.justgage.getVal(data.mid_oid, (min + max) / 2);
+            refresh(true, 0);
+        }, 100);
     },
 
     createIndicatorColored: function (widgetID, view, data, style) {
@@ -398,25 +401,20 @@ vis.binds.justgage = {
             }
         }
 
-        refresh(true, 0);
-
         function onChange(e, newVal, oldVal) {
             if (e.type === data.oid + '.val') {
                 val = parseFloat(newVal) || 0;
                 refresh(true, newVal - oldVal);
-            } else
-                if (e.type === data.mid_oid + '.val') {
-                    mid = parseFloat(newVal) || 0;
-                    refresh(false);
-                } else
-                    if (e.type === data.max_oid + '.val') {
-                        max = parseFloat(newVal) || 0;
-                        refresh(false);
-                    } else
-                        if (e.type === data.min_oid + '.val') {
-                            min = parseFloat(newVal) || 0;
-                            refresh(false);
-                        }
+            } else if (e.type === data.mid_oid + '.val') {
+                mid = parseFloat(newVal) || 0;
+                refresh(false);
+            } else if (e.type === data.max_oid + '.val') {
+                max = parseFloat(newVal) || 0;
+                refresh(false);
+            } else if (e.type === data.min_oid + '.val') {
+                min = parseFloat(newVal) || 0;
+                refresh(false);
+            }
         }
 
         const bound = [];
@@ -452,6 +450,14 @@ vis.binds.justgage = {
             $div.hasClass('ui-resizable') && $div.resizable('destroy');
             vis.resizable($div);
         }
+
+        setTimeout(function () {
+            val = vis.binds.justgage.getVal(data.oid, 0);
+            min = vis.binds.justgage.getVal(data.min_oid, 0);
+            max = vis.binds.justgage.getVal(data.max_oid, 100);
+            mid = vis.binds.justgage.getVal(data.mid_oid, (min + max) / 2);
+            refresh(true, 0);
+        }, 100);
     },
 
     createJustGage: function (widgetID, view, data, style) {
@@ -586,19 +592,15 @@ vis.binds.justgage = {
         function onChange(e, newVal) {
             if (e.type === data.oid + '.val') {
                 val = parseFloat(newVal) || 0;
-            } else
-                if (e.type === data.mid_oid + '.val') {
-                    mid = parseFloat(newVal) || 0;
-                } else
-                    if (e.type === data.max_oid + '.val') {
-                        max = parseFloat(newVal) || 0;
-                    } else
-                        if (e.type === data.min_oid + '.val') {
-                            min = parseFloat(newVal) || 0;
-                        } else
-                            if (e.type === data.label_oid + '.val') {
-                                g.config.label = newVal;
-                            }
+            } else if (e.type === data.mid_oid + '.val') {
+                mid = parseFloat(newVal) || 0;
+            } else if (e.type === data.max_oid + '.val') {
+                max = parseFloat(newVal) || 0;
+            } else if (e.type === data.min_oid + '.val') {
+                min = parseFloat(newVal) || 0;
+            } else if (e.type === data.label_oid + '.val') {
+                g.config.label = newVal;
+            }
 
             g.config.value = val;
             g.config.min = min;
