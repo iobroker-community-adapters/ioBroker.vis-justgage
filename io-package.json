@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "news": {
+      "2.1.2": {
+        "en": "tried to fix the problem in vis-2",
+        "de": "versucht, das problem in vis-2 zu beheben",
+        "ru": "попытался решить проблему в vis-2",
+        "pt": "tentou corrigir o problema em vis-2",
+        "nl": "probeerde het probleem op te lossen in vis-2",
+        "fr": "essayé de résoudre le problème en vis-2",
+        "it": "ha cercato di risolvere il problema in vis-2",
+        "es": "trató de solucionar el problema en vis-2",
+        "pl": "próbował naprawić problem w vis-2",
+        "uk": "намагався виправити проблему в vis-2",
+        "zh-cn": "试图在2中解决问题"
+      },
       "2.1.0": {
         "en": "'Title' has been readded\nCode base has been restored to release 1.0.2 which has not been saved to github\nDependencies have been updated",
         "de": "Titel wurde wieder hinugefügt\nCode-Basis wurde basierend auf 1.0.2, die nicht in github gespeichert wurde, wieder hergestellt.\nAbhängigkeiten wurden aktualisiert",
@@ -123,6 +136,9 @@
     "singleton": true,
     "noConfig": true,
     "materialize": true,
+    "adminUI": {
+      "config": "none"
+    },
     "restartAdapters": [
       "vis",
       "vis-2"
