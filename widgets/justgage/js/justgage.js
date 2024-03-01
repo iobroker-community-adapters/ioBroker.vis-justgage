@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "1.0.2"
+    version: "2.1.4"
 
     Copyright (c) 2023-2024 iobroker-community-adapters
     Copyright (c) 10.2015-2019 Pmant<patrickmo@gmx.de>
@@ -110,7 +110,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: '2.1.0',
+    version: '2.1.4',
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
