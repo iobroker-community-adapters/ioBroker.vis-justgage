@@ -141,12 +141,7 @@ vis.binds.justgage = {
     },
 
     isOID: function (oid) {
-        return oid !== '' &&
-               oid !== null &&
-               oid !== undefined &&
-               vis.states[oid + '.val'] !== undefined &&
-               vis.states[oid + '.val'] !== null &&
-               vis.states[oid + '.val'] !== 'null';
+        return oid && typeof oid === 'string' && oid.match(/^[a-z0-9-]+\.\d+\.[-\w]+/);
     },
 
     createValueColored: function (widgetID, view, data, style, withIndicator) {
