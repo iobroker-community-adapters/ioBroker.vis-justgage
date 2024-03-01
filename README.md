@@ -49,7 +49,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.3 (2024-03-01)
 - (bluefox) tried to fix the problem in vis-2
 
 ### 2.1.0 (2023-12-10)
@@ -72,22 +72,22 @@ More about pointer options could be found here: https://github.com/toorshia/just
 - (bluefox) fixed min max
 
 ### 0.7.1 (2016-12-14)
-- (Pmant) change max brightness to max brightness of initial color
+- (Pmant) changed max brightness to max brightness of initial color
 
 ### 0.7.0 (2016-12-14)
-- (jens-maus) add value formatting
-- (jens-maus) add value multiplier
+- (jens-maus) added value formatting
+- (jens-maus) added value multiplier
 
 ### 0.6.1 (2016-11-25)
-- (bluefox) Update justgage.js
+- (bluefox) Updated justgage.js
 
 ### 0.6.0 (2016-07-31)
 - (Pmant) added no-gradient-option to Justgage widget
 - (Pmant) added a full brightness option to Justgage widget
-- (jens-maus) add missing unit fields
+- (jens-maus) added missing unit fields
 
 ### 0.5.1 (2016-07-21)
-- (jens-maus) fix auto fill max, min, unit
+- (jens-maus) fixed auto fill max, min, unit
 
 ### 0.5.0 (2016-07-01)
 - (Pmant) fixed default indicator
@@ -95,30 +95,30 @@ More about pointer options could be found here: https://github.com/toorshia/just
 - (Pmant) added option to always set full brightness colors
 
 ### 0.4.2 (2016-06-05)
-- (PArns) fix mid default value if max != 100 & min != 0
+- (PArns) fixed mid default value if max != 100 & min != 0
 
 ### 0.4.1 (2016-03-20)
-- (bluefox) remove config
+- (bluefox) removed config
 
 ### 0.4.0 (2016-02-19)
-- (Pmant) replace pow with sliders
-- (bluefox) fix resize
+- (Pmant) replaced pow with sliders
+- (bluefox) fixed resize
 
 ### 0.3.0 (2016-02-16)
-- (bluefox) fix error with two gauges at creation
-- (bluefox) fix small errors
-- (bluefox) add new widget: value & indication
-- (bluefox) fill automatically max, min, unit
+- (bluefox) fixed error with two gauges at creation
+- (bluefox) fixed small errors
+- (bluefox) added new widget: value & indication
+- (bluefox) filled automatically max, min, unit
 
 ### 0.2.5 (2016-02-13)
-- (Pmant) fix indicator
-- (bluefox) add russian translations
+- (Pmant) fixed indicator
+- (bluefox) added russian translations
 
 ### 0.2.2 (2016-02-12)
 - (Pmant) possible donut fix
 
 ### 0.2.0 (2016-02-11)
-- (Pmant) add indicator widget
+- (Pmant) added indicator widget
 
 ### 0.1.1 (2016-02-10)
 - (Pmant) initial checkin
