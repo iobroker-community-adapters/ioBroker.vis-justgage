@@ -141,7 +141,7 @@ vis.binds.justgage = {
     },
 
     isOID: function (oid) {
-        return oid && typeof oid === 'string' && oid.match(/^[a-z0-9-]+\.\d+\.[-\w]+/);
+        return oid && typeof oid === 'string' && oid.match(/^[_a-z0-9-]+\.\d+\.[-\w]+/);
     },
 
     createValueColored: function (widgetID, view, data, style, withIndicator) {

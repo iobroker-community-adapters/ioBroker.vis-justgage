@@ -3,19 +3,6 @@
     "name": "vis-justgage",
     "version": "2.1.4",
     "news": {
-      "2.1.4": {
-        "en": "fixed the problem in vis-2",
-        "de": "das problem in vis-2 behoben",
-        "ru": "исправить проблему в vis-2",
-        "pt": "corrigiu o problema em vis-2",
-        "nl": "het probleem opgelost in vis-2",
-        "fr": "corrigé le problème en vis-2",
-        "it": "fissa il problema in vis-2",
-        "es": "solucionó el problema en vis-2",
-        "pl": "naprawiono problem w vis-2",
-        "uk": "виправлено проблему в vis-2",
-        "zh-cn": "将问题固定在2中"
-      },
       "2.1.0": {
         "en": "'Title' has been readded\nCode base has been restored to release 1.0.2 which has not been saved to github\nDependencies have been updated",
         "de": "Titel wurde wieder hinugefügt\nCode-Basis wurde basierend auf 1.0.2, die nicht in github gespeichert wurde, wieder hergestellt.\nAbhängigkeiten wurden aktualisiert",
