@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-justgage",
-    "version": "2.1.5",
+    "version": "2.1.6",
     "news": {
+      "2.1.6": {
+        "en": "Added the possibility to invert the value by gauge\ndo not load scripts if the widget is not used",
+        "de": "Hinzufügen der Möglichkeit, den Wert per Messgerät invertieren\nnicht laden skripte, wenn das widget nicht verwendet wird",
+        "ru": "Добавлена возможность перевернуть значение с помощью манометра\nне загружать скрипты, если виджет не используется",
+        "pt": "Adicionado a possibilidade de inverter o valor por calibre\nnão carregar scripts se o widget não for usado",
+        "nl": "Toegevoegd de mogelijkheid om de waarde om te keren per meter\nscripts niet laden als het widget niet wordt gebruikt",
+        "fr": "Ajout de la possibilité d'inverser la valeur par jauge\nne chargez pas les scripts si le widget n'est pas utilisé",
+        "it": "Aggiunto la possibilità di invertire il valore per manometro\nnon caricare gli script se il widget non viene utilizzato",
+        "es": "Se agregó la posibilidad de invertir el valor por calibre\nno cargar scripts si el widget no se utiliza",
+        "pl": "Dodano możliwość odwrócenia wartości według skrajni\nnie wczytywać skryptów, jeśli widget nie jest używany",
+        "uk": "Додана можливість інвертувати значення за допомогою датчика\nне завантажує сценарії, якщо віджет не використовується",
+        "zh-cn": "增加了通过计数器反转值的可能性\n如果不使用部件则不装入脚本"
+      },
       "2.1.5": {
         "en": "fixed the problem in vis-2",
         "de": "das problem in vis-2 behoben",
@@ -79,11 +92,6 @@
         "es": "Min / Max valores fueron fijos",
         "pl": "Wartości min / maks zostały ustalone",
         "zh-cn": "最小/最大值是固定的"
-      },
-      "0.7.0": {
-        "en": "value formatting",
-        "de": "Wertformatierung",
-        "ru": "value formatting"
       }
     },
     "titleLang": {
