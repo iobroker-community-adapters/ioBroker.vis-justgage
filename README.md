@@ -49,6 +49,10 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (bluefox) Added the possibility to invert the value by gauge
+- (bluefox) do not load scripts if the widget is not used
+
 ### 2.1.5 (2024-03-03)
 - (bluefox) fixed the problem in vis-2
 

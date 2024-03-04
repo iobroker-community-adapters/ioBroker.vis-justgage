@@ -64,6 +64,7 @@
     "test": "npm run test:js && npm run test:package",
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint .",
+    "build": "node build.js",
     "translate": "translate-adapter",
     "release": "release-script",
     "release-patch": "release-script patch --yes --no-update-lockfile",

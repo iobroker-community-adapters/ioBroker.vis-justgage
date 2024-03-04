@@ -1,7 +1,7 @@
 /*
     ioBroker.vis justgage Widget-Set
 
-    version: "2.1.4"
+    version: "2.1.5"
 
     Copyright (c) 2023-2024 iobroker-community-adapters
     Copyright (c) 10.2015-2019 Pmant<patrickmo@gmx.de>
@@ -99,22 +99,50 @@ if (vis.editMode) {
         'equal':            {'en': 'equal',                     'de': 'gleich',                     'ru': 'равно'},
         'changeBgColor':    {'en': 'change background',         'de': 'ändere Hintergrund',         'ru': 'change background'},
         'fullBri':          {'en': 'max brightness',            'de': 'maximale Helligkeit',        'ru': 'max brightness'},
-        'down':             {'en': 'down',                      'de': 'runter',                     'ru': 'вниз'}
+        'down':             {'en': 'down',                      'de': 'runter',                     'ru': 'вниз'},
+        'invert_value':     {'en': 'Invert value',              'de': 'Invertiere Wert',            'ru': 'Инвертировать значение'},
     });
 }
 
-// add translations for non-edit mode
-$.extend(true, systemDictionary, {
-    'Instance':  {'en': 'Instance', 'de': 'Instanz', 'ru': 'Инстанция'}
-});
-
 // this code can be placed directly in justgage.html
 vis.binds.justgage = {
-    version: '2.1.4',
+    version: '2.1.5',
     showVersion: function () {
         if (vis.binds.justgage.version) {
             console.log('Version justgage: ' + vis.binds.justgage.version);
             vis.binds.justgage.version = null;
+        }
+    },
+
+    getScript(source, callback) {
+        let script = window.document.createElement('script');
+        const prior = window.document.getElementsByTagName('script')[0];
+        script.async = true;
+
+        script.onload = script.onreadystatechange = function( _, isAbort ) {
+            if(isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
+                script.onload = script.onreadystatechange = null;
+                script = undefined;
+
+                if (!isAbort && callback) {
+                    setTimeout(callback, 0);
+                }
+            }
+        };
+
+        script.src = source;
+        prior.parentNode.insertBefore(script, prior);
+    },
+
+    loadLibs: function (callback) {
+        if (typeof JustGage !== 'undefined') {
+            callback();
+        } else {
+            vis.binds.justgage.getScript('widgets/justgage/lib/js/raphael-2.1.4.min.js', function () {
+                vis.binds.justgage.getScript('widgets/justgage/lib/js/justgage.js', function () {
+                    callback();
+                });
+            });
         }
     },
 
@@ -196,11 +224,15 @@ vis.binds.justgage = {
             }
         ];
 
-        let color, text, ts, eqA, timeout, oldIndicator = '';
+        let color;
+        let text;
+        let ts;
+        let timeout;
+        let oldIndicator = '';
         $div.html('<div class="justgage-valueColored" data-oid="' + data.oid + '"></div>');
         const $content = $('#' + widgetID + ' .justgage-valueColored');
 
-        eqA = parseFloat(data.equalAfter || 0) * 1000;
+        const eqA = parseFloat(data.equalAfter || 0) * 1000;
 
         oldIndicator = data.equal || '→';
 
@@ -345,11 +377,15 @@ vis.binds.justgage = {
             }
         ];
 
-        let color, text, ts, eqA, timeout, oldIndicator = '';
+        let color;
+        let text;
+        let ts;
+        let timeout;
+        let oldIndicator = '';
         $div.html('<div class="justgage-indicatorColored" data-oid="' + data.oid + '"></div>');
         const $content = $('#' + widgetID + ' .justgage-indicatorColored');
         ts = Date.now();
-        eqA = parseFloat(data.equalAfter || 0) * 1000;
+        const eqA = parseFloat(data.equalAfter || 0) * 1000;
 
         oldIndicator = data.equal || '→';
 
@@ -457,196 +493,199 @@ vis.binds.justgage = {
 
     createJustGage: function (widgetID, view, data, style) {
         const $div = $('#' + widgetID);
-        // if nothing found => wait
-        if (!$div.length) {
-            return setTimeout(function () {
-                vis.binds.justgage.createJustGage(widgetID, view, data, style);
-            }, 100);
-        }
-
-        function textRenderer(value) {
-            let val = parseFloat(value);
-            if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
-            if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
-            if (data.attr('is_tdp')) {
-                val = vis.binds.justgage.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? '.,' : ',.');
-            } else if (data.attr('is_comma')) {
-                val = '' + val;
-                val = val.replace('.', ',');
+        vis.binds.justgage.loadLibs(function () {
+            // if nothing found => wait
+            if (!$div.length) {
+                return setTimeout(function () {
+                    vis.binds.justgage.createJustGage(widgetID, view, data, style);
+                }, 100);
             }
-            val += data.unit || '';
-            return val;
-        }
 
-        let val = vis.binds.justgage.getVal(data.oid, 0);
-        let min = vis.binds.justgage.getVal(data.min_oid, 0);
-        let max = vis.binds.justgage.getVal(data.max_oid, 100);
-        let mid = vis.binds.justgage.getVal(data.mid_oid, (min + max) / 2);
-        const balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
-        const balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
-        const colors  = [
-            {
-                pct:    0,
-                color:  data.color1 || '#0000aa',
-                pow:    Math.log(balance1 / 100) / Math.log(0.5)
-            },
-            {
-                pct:    (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
-                color:  data.color2 || '#00aa00',
-                pow:    1.0
-            },
-            {
-                pct:    1.0,
-                color:  data.color3 || '#aa0000',
-                pow:    Math.log(0.5) / Math.log(balance2 / 100)
-            }
-        ];
-
-        // justGage
-        let pointerOptions;
-        try {
-            pointerOptions = JSON.parse(data.pointerOptions);
-        } catch (e) {
-            pointerOptions = {
-                toplength:      -15,
-                bottomlength:   10,
-                bottomwidth:    12,
-                color:          data.pointerColor   || '#8e8e93',
-                stroke:         data.gaugeColor     || '#edebeb',
-                stroke_width:   3,
-                stroke_linecap: 'round'
-            };
-        }
-        // delete old object
-        $div.find('svg').length && $div.html('');
-
-        const g = new JustGage({
-            id: widgetID,
-            textRenderer: textRenderer,
-            value: val,
-            min: min,
-            max: Math.max(min + 1, max),
-            mid: clamp(mid, min, Math.max(min + 1, max)),
-
-            hideValue:          data.hideValue          || false,
-            valueFontColor:     data.valueFontColor     || '#010101',
-            valueFontFamily:    data.valueFontFamily    || 'Arial',
-            valueMinFontSize:   10,
-            valueOffsetY:       data.valueOffsetY       || 0,
-
-            title:              data.title              || '',
-            titleFontColor:     data.titleFontColor     || '#999999',
-            titleFontFamily:    data.titleFontFamily    || 'sans-serif',
-            titlePosition:      data.titleBelow         ? 'below' : 'above',
-            titleOffsetY:       data.titleOffsetY       || 0,
-
-            label:              vis.binds.justgage.isOID(data.label_oid + '.val') ? vis.states[data.label_oid + '.val'] : data.label_oid || '',
-            labelFontColor:     data.labelFontColor     || '#b3b3b3',
-            labelFontFamily:    data.labelFontFamily    || 'Arial',
-            labelOffsetY:       data.labelOffsetY       || 0,
-
-            hideMinMax:         data.hideMinMax         || false,
-            donut:              data.donut              || false,
-            pointer:            data.pointer            || false,
-            pointerMid:         data.pointerMid         || false,
-            pointerOptions:     pointerOptions,
-
-            startAnimationTime: 0,
-            refreshAnimationTime: 700,
-            counter:            false,
-
-            gaugeColor:         data.gaugeColor         || '#ebebeb',
-            fullBrightness:     !!data.fullBri,
-            customSectors:      data.noGradient ? [
-                {
-                    color: colors[0].color,
-                    lo: min,
-                    hi: data.sector1 || mid
-                },
-                {
-                    color: colors[1].color,
-                    lo: data.sector1 || mid,
-                    hi: data.sector2 || mid
-                },
-                {
-                    color: colors[2].color,
-                    lo: data.sector2 || mid,
-                    hi: max
+            function textRenderer(value) {
+                let val = parseFloat(value);
+                if (data.factor !== undefined && data.factor !== '') val = val * parseFloat(data.factor);
+                if (data.digits !== undefined && data.digits !== '') val = val.toFixed(parseFloat(data.digits, 10));
+                if (data.attr('is_tdp')) {
+                    val = vis.binds.justgage.formatValue(val, data.digits ? parseInt(data.digits) : 2, data.attr('is_comma') ? '.,' : ',.');
+                } else if (data.attr('is_comma')) {
+                    val = '' + val;
+                    val = val.replace('.', ',');
                 }
-            ] : [],
-            levelColors: colors,
-            gaugeWidthScale:    data.gaugeWidthScale ? data.gaugeWidthScale / 100 : 1.0,
-            donutStartAngle:    data.donutStartAngle || 90,
-
-            shadowOpacity:      parseFloat(data.shadowOpacity) || 0.2,
-            shadowSize:         parseInt(data.shadowSize) || 5,
-            shadowVerticalOffset: parseInt(data.shadowVerticalOffset) || 3,
-            hideInnerShadow:    data.hideInnerShadow || false
-        });
-
-        function onChange(e, newVal) {
-            if (e.type === data.oid + '.val') {
-                val = parseFloat(newVal) || 0;
-            } else if (e.type === data.mid_oid + '.val') {
-                mid = parseFloat(newVal) || 0;
-            } else if (e.type === data.max_oid + '.val') {
-                max = parseFloat(newVal) || 0;
-            } else if (e.type === data.min_oid + '.val') {
-                min = parseFloat(newVal) || 0;
-            } else if (e.type === data.label_oid + '.val') {
-                g.config.label = newVal;
+                val += data.unit || '';
+                return val;
             }
 
-            g.config.value = val;
-            g.config.min = min;
-            g.config.max = Math.max(min + 1, max);
-            g.config.mid = clamp(mid, min, Math.max(min + 1, max));
-            colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
-            g.config.levelColors = colors;
-            g.refresh(val);
-        }
+            let val = vis.binds.justgage.getVal(data.oid, 0);
+            let min = vis.binds.justgage.getVal(data.min_oid, 0);
+            let max = vis.binds.justgage.getVal(data.max_oid, 100);
+            let mid = vis.binds.justgage.getVal(data.mid_oid, (min + max) / 2);
+            const inverted = data.invert_value === 'true' || data.invert_value === true;
+            const balance1 = clamp(parseFloat(data.balance1) || 50, 0.01, 99.99);
+            const balance2 = clamp(parseFloat(data.balance2) || 50, 0.01, 99.99);
+            const colors  = [
+                {
+                    pct:    0,
+                    color:  data.color1 || '#0000aa',
+                    pow:    Math.log(balance1 / 100) / Math.log(0.5),
+                },
+                {
+                    pct:    (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min),
+                    color:  data.color2 || '#00aa00',
+                    pow:    1.0,
+                },
+                {
+                    pct:    1.0,
+                    color:  data.color3 || '#aa0000',
+                    pow:    Math.log(0.5) / Math.log(balance2 / 100),
+                },
+            ];
 
-        const bound = [];
-        // subscribe on updates of value
-        if (vis.binds.justgage.isOID(data.oid)) {
-            bound.push(data.oid + '.val');
-            vis.states.bind(data.oid + '.val', onChange);
-        }
-        // subscribe on updates of mid
-        if (vis.binds.justgage.isOID(data.mid_oid)) {
-            bound.push(data.mid_oid + '.val');
-            vis.states.bind(data.mid_oid + '.val', onChange);
-        }
-        // subscribe on updates of min
-        if (vis.binds.justgage.isOID(data.min_oid)) {
-            bound.push(data.min_oid + '.val');
-            vis.states.bind(data.min_oid + '.val', onChange);
-        }
-        // subscribe on updates of max
-        if (vis.binds.justgage.isOID(data.max_oid)) {
-            bound.push(data.max_oid + '.val');
-            vis.states.bind(data.max_oid + '.val', onChange);
-        }
-        // subscribe on updates of label
-        if (vis.binds.justgage.isOID(data.label_oid)) {
-            bound.push(data.label_oid + '.val');
-            vis.states.bind(data.label_oid + '.val', onChange);
-        }
+            // justGage
+            let pointerOptions;
+            try {
+                pointerOptions = JSON.parse(data.pointerOptions);
+            } catch (e) {
+                pointerOptions = {
+                    toplength:      -15,
+                    bottomlength:   10,
+                    bottomwidth:    12,
+                    color:          data.pointerColor   || '#8e8e93',
+                    stroke:         data.gaugeColor     || '#edebeb',
+                    stroke_width:   3,
+                    stroke_linecap: 'round',
+                };
+            }
+            // delete old object
+            $div.find('svg').length && $div.html('');
 
-        $div.data('destroy', function () {
-            g.destroy && g.destroy();
+            const g = new JustGage({
+                id: widgetID,
+                textRenderer: textRenderer,
+                value: inverted ? max - val + min : val,
+                min: min,
+                max: Math.max(min + 1, max),
+                mid: clamp(mid, min, Math.max(min + 1, max)),
+
+                hideValue:          data.hideValue          || false,
+                valueFontColor:     data.valueFontColor     || '#010101',
+                valueFontFamily:    data.valueFontFamily    || 'Arial',
+                valueMinFontSize:   10,
+                valueOffsetY:       data.valueOffsetY       || 0,
+
+                title:              data.title              || '',
+                titleFontColor:     data.titleFontColor     || '#999999',
+                titleFontFamily:    data.titleFontFamily    || 'sans-serif',
+                titlePosition:      data.titleBelow         ? 'below' : 'above',
+                titleOffsetY:       data.titleOffsetY       || 0,
+
+                label:              vis.binds.justgage.isOID(data.label_oid + '.val') ? vis.states[data.label_oid + '.val'] : data.label_oid || '',
+                labelFontColor:     data.labelFontColor     || '#b3b3b3',
+                labelFontFamily:    data.labelFontFamily    || 'Arial',
+                labelOffsetY:       data.labelOffsetY       || 0,
+
+                hideMinMax:         data.hideMinMax         || false,
+                donut:              data.donut              || false,
+                pointer:            data.pointer            || false,
+                pointerMid:         data.pointerMid         || false,
+                pointerOptions:     pointerOptions,
+
+                startAnimationTime: 0,
+                refreshAnimationTime: 700,
+                counter:            false,
+
+                gaugeColor:         data.gaugeColor         || '#ebebeb',
+                fullBrightness:     !!data.fullBri,
+                customSectors:      data.noGradient ? {ranges: [
+                    {
+                        color: colors[0].color,
+                        lo: min,
+                        hi: data.sector1 || mid
+                    },
+                    {
+                        color: colors[1].color,
+                        lo: data.sector1 || mid,
+                        hi: data.sector2 || mid
+                    },
+                    {
+                        color: colors[2].color,
+                        lo: data.sector2 || mid,
+                        hi: max
+                    }
+                ]} : {ranges: []},
+                levelColors: colors,
+                gaugeWidthScale:    data.gaugeWidthScale ? data.gaugeWidthScale / 100 : 1.0,
+                donutStartAngle:    data.donutStartAngle || 90,
+
+                shadowOpacity:      parseFloat(data.shadowOpacity) || 0.2,
+                shadowSize:         parseInt(data.shadowSize) || 5,
+                shadowVerticalOffset: parseInt(data.shadowVerticalOffset) || 3,
+                hideInnerShadow:    data.hideInnerShadow || false
+            });
+
+            function onChange(e, newVal) {
+                if (e.type === data.oid + '.val') {
+                    val = parseFloat(newVal) || 0;
+                } else if (e.type === data.mid_oid + '.val') {
+                    mid = parseFloat(newVal) || 0;
+                } else if (e.type === data.max_oid + '.val') {
+                    max = parseFloat(newVal) || 0;
+                } else if (e.type === data.min_oid + '.val') {
+                    min = parseFloat(newVal) || 0;
+                } else if (e.type === data.label_oid + '.val') {
+                    g.config.label = newVal;
+                }
+
+                g.config.value = inverted ? max - val + min : val;
+                g.config.min = min;
+                g.config.max = Math.max(min + 1, max);
+                g.config.mid = clamp(mid, min, Math.max(min + 1, max));
+                colors[1].pct = (clamp(mid, min, Math.max(min + 1, max)) - min) / (Math.max(min + 1, max) - min);
+                g.config.levelColors = colors;
+                g.refresh(val);
+            }
+
+            const bound = [];
+            // subscribe on updates of value
+            if (vis.binds.justgage.isOID(data.oid)) {
+                bound.push(data.oid + '.val');
+                vis.states.bind(data.oid + '.val', onChange);
+            }
+            // subscribe on updates of mid
+            if (vis.binds.justgage.isOID(data.mid_oid)) {
+                bound.push(data.mid_oid + '.val');
+                vis.states.bind(data.mid_oid + '.val', onChange);
+            }
+            // subscribe on updates of min
+            if (vis.binds.justgage.isOID(data.min_oid)) {
+                bound.push(data.min_oid + '.val');
+                vis.states.bind(data.min_oid + '.val', onChange);
+            }
+            // subscribe on updates of max
+            if (vis.binds.justgage.isOID(data.max_oid)) {
+                bound.push(data.max_oid + '.val');
+                vis.states.bind(data.max_oid + '.val', onChange);
+            }
+            // subscribe on updates of label
+            if (vis.binds.justgage.isOID(data.label_oid)) {
+                bound.push(data.label_oid + '.val');
+                vis.states.bind(data.label_oid + '.val', onChange);
+            }
+
+            $div.data('destroy', function () {
+                g.destroy && g.destroy();
+            });
+
+            if (bound.length) {
+                $div.data('bound', bound);
+                // remember bind handler
+                $div.data('bindHandler', onChange);
+            }
+
+            if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
+                $div.hasClass('ui-resizable') && $div.resizable('destroy');
+                vis.resizable($div);
+            }
         });
-
-        if (bound.length) {
-            $div.data('bound', bound);
-            // remember bind handler
-            $div.data('bindHandler', onChange);
-        }
-
-        if (vis.editMode && vis.activeWidgets.indexOf(widgetID) !== -1) {
-            $div.hasClass('ui-resizable') && $div.resizable('destroy');
-            vis.resizable($div);
-        }
     },
 
     changedId: function (widgetID, view, newId /*, fields */) {
