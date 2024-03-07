@@ -49,6 +49,9 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (bluefox) Added message by installation or update if vis is not installed
+
 ### 2.1.6 (2024-03-04)
 - (bluefox) Added the possibility to invert the value by gauge
 - (bluefox) do not load scripts if the widget is not used
