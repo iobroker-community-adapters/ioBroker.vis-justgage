@@ -49,7 +49,7 @@ More about pointer options could be found here: https://github.com/toorshia/just
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.7 (2024-03-07)
 - (bluefox) Added message by installation or update if vis is not installed
 
 ### 2.1.6 (2024-03-04)
