@@ -2,15 +2,12 @@
   "name": "iobroker.vis-justgage",
   "version": "2.1.7",
   "description": "justGage Widgets",
-  "author": {
-    "name": "Pmant",
-    "email": "patrickmo@gmx.de"
-  },
-  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage",
+  "author": "Pmant <patrickmo@gmx.de>",
   "contributors": [
     "Pmant <patrickmo@gmx.de>",
     "iobroker-community-adapters <mcm57@gmx.at>"
   ],
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage",
   "license": "MIT",
   "keywords": [
     "ioBroker",
