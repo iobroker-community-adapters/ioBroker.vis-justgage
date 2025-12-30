@@ -198,6 +198,16 @@
           "cancel"
         ]
       }
+    ],
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.17"
+      }
     ]
   },
   "native": {},
