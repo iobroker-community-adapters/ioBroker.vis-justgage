@@ -142,7 +142,6 @@
     "type": "visualization-widgets",
     "onlyWWW": true,
     "singleton": true,
-    "noConfig": true,
     "materialize": true,
     "adminUI": {
       "config": "none"
