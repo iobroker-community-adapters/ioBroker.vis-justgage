@@ -152,7 +152,7 @@
     "licenseInformation": {
       "type": "free",
       "license": "MIT",
-      "link": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage/blob/master/LICENSE"
+      "link": "https://opensource.org/licenses/MIT"
     },
     "tier": 3,
     "messages": [
