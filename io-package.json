@@ -121,6 +121,9 @@
       "uk": "justGage Віджети для ioBroker.vis\n",
       "zh-cn": "ioBroker.vis的justGage小部件"
     },
+    "docs": {
+      "en": "https://github.com/iobroker-community-adapters/ioBroker.vis-justgage#readme"
+    },
     "authors": [
       "Pmant <patrickmo@gmx.de>",
       "iobroker-community-adapters <mcm57@gmx.at>"
